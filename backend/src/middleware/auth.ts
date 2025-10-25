@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { logger } from '../utils/logger';
+import { getSecrets } from '../config/secrets';
 
 export interface AuthRequest extends Request {
   user?: {
@@ -13,7 +14,7 @@ export interface AuthRequest extends Request {
 /**
  * Middleware to verify JWT token
  */
-export const authenticateToken = (
+export const authenticateToken = async (
   req: any,
   res: Response,
   next: NextFunction
@@ -26,7 +27,8 @@ export const authenticateToken = (
   }
 
   try {
-    const secret = process.env.JWT_SECRET;
+    const secrets = await getSecrets();
+    const secret = secrets.JWT_SECRET;
     if (!secret) {
       logger.error('JWT_SECRET not configured');
       return res.status(500).json({ error: 'Server configuration error' });
@@ -66,12 +68,13 @@ export const requireRole = (roles: string[]) => {
 /**
  * Generate JWT token for user
  */
-export const generateToken = (user: {
+export const generateToken = async (user: {
   id: string;
   email: string;
   role: string;
-}): string => {
-  const secret = process.env.JWT_SECRET;
+}): Promise<string> => {
+  const secrets = await getSecrets();
+  const secret = secrets.JWT_SECRET;
   if (!secret) {
     throw new Error('JWT_SECRET not configured');
   }

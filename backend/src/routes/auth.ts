@@ -99,7 +99,7 @@ router.post('/magic-link', async (req, res) => {
     }
 
     // Generate magic link token
-    const magicToken = generateToken({ 
+    const magicToken = await generateToken({ 
       email, 
       id: 'temp', 
       role: 'JOB_SEEKER' 
@@ -202,7 +202,7 @@ router.post('/verify-magic-link', async (req, res) => {
     }
 
     // Generate auth token
-    const authToken = generateToken({
+    const authToken = await generateToken({
       id: user.id,
       email: user.email,
       role: user.role
@@ -260,7 +260,7 @@ router.post('/check-magic-link', async (req, res) => {
       });
 
       if (user) {
-        const authToken = generateToken({
+        const authToken = await generateToken({
           id: user.id,
           email: user.email,
           role: user.role

@@ -27,8 +27,8 @@ export class AuthService {
   /**
    * Create authentication token for user
    */
-  createAuthToken(user: { id: string; email: string; role: string }): string {
-    return generateToken(user);
+  async createAuthToken(user: { id: string; email: string; role: string }): Promise<string> {
+    return await generateToken(user);
   }
 
   /**
