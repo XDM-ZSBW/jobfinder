@@ -148,16 +148,25 @@ class LinkedInJobScraper {
       descriptionLength: jobData.description?.length
     });
     
+    // Check if chrome.runtime is available
+    if (!chrome.runtime) {
+      console.error('❌ [JobMatch] chrome.runtime is not available');
+      this.displayError('Extension not loaded properly. Please reload the extension.');
+      return;
+    }
+    
+    console.log('🔍 [JobMatch] chrome.runtime is available, sending message...');
+    
     try {
       chrome.runtime.sendMessage({
         type: 'JOB_DATA_SCRAPED',
         data: jobData
       }, (response) => {
         if (chrome.runtime.lastError) {
-          console.error('❌ [JobMatch] Error sending job data to background:', chrome.runtime.lastError);
+          console.error('❌ [JobMatch] Error sending job data to background:', chrome.runtime.lastError.message);
           // Retry after a short delay if context was invalidated
           if (chrome.runtime.lastError.message.includes('Extension context invalidated')) {
-            console.log('🔄 [JobMatch] Retrying in 2 seconds...');
+            console.log('🔄 [JobMatch] Context invalidated, retrying in 2 seconds...');
             setTimeout(() => {
               this.sendToBackground(jobData);
             }, 2000);
