@@ -156,3 +156,17 @@ model Message {
 
   @@index([senderId, receiverId, createdAt])
 }
+
+model MagicLink {
+  id        String   @id @default(cuid())
+  email     String
+  token     String   @unique
+  used      Boolean  @default(false)
+  expiresAt DateTime
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([email, used])
+  @@index([expiresAt])
+}

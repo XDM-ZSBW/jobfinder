@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JobMatch AI</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <!-- Login View -->
+    <div id="login-view" class="view">
+      <div class="popup-header">
+        <h1>🎯 JobMatch AI</h1>
+        <p class="subtitle">AI-powered job matching</p>
+      </div>
+      
+      <form id="login-form" class="form">
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" placeholder="your@email.com" required>
+        </div>
+        
+        <button type="submit" class="btn btn-primary" id="login-btn">
+          <span class="btn-text">Send Magic Link</span>
+          <span class="btn-loader" style="display: none;">
+            <div class="spinner"></div>
+          </span>
+        </button>
+        
+        <div id="login-error" class="error-message" style="display: none;"></div>
+        <div id="login-success" class="success-message" style="display: none;"></div>
+      </form>
+      
+      <div class="footer-links">
+        <p class="magic-link-info">We'll send you a secure login link via email</p>
+      </div>
+    </div>
+
+    <!-- Main View -->
+    <div id="main-view" class="view" style="display: none;">
+      <div class="popup-header">
+        <h1>🎯 JobMatch AI</h1>
+        <button id="logout-btn" class="btn-icon" title="Logout">
+          <span>🚪</span>
+        </button>
+      </div>
+
+      <!-- No Job Selected State -->
+      <div id="no-job-state" class="empty-state">
+        <div class="empty-icon">📋</div>
+        <h3>No job selected</h3>
+        <p>Navigate to a LinkedIn job posting to see match analysis</p>
+      </div>
+
+      <!-- Job Analysis State -->
+      <div id="job-analysis-state" style="display: none;">
+        <div class="job-info">
+          <h2 id="job-title" class="job-title"></h2>
+          <p id="job-company" class="job-company"></p>
+        </div>
+
+        <div class="match-score-large">
+          <div id="score-circle" class="score-circle-large">
+            <span id="score-value" class="score-value-large">0</span>
+            <span class="score-label">Match Score</span>
+          </div>
+        </div>
+
+        <div class="analysis-sections">
+          <div class="section">
+            <h3 class="section-title">✅ Matching Skills</h3>
+            <div id="matching-skills" class="skills-list">
+              <p class="loading-text">Loading...</p>
+            </div>
+          </div>
+
+          <div class="section">
+            <h3 class="section-title">📚 Skills to Develop</h3>
+            <div id="missing-skills" class="skills-list">
+              <p class="loading-text">Loading...</p>
+            </div>
+          </div>
+
+          <div class="section">
+            <h3 class="section-title">💡 Recommendations</h3>
+            <div id="recommendations" class="recommendations-list">
+              <p class="loading-text">Loading...</p>
+            </div>
+          </div>
+        </div>
+
+        <button id="view-full-btn" class="btn btn-secondary">
+          View on Dashboard
+        </button>
+      </div>
+
+      <!-- Settings Section -->
+      <div class="settings-section">
+        <h3 class="settings-title">⚙️ Settings</h3>
+        <div class="setting-item">
+          <label class="setting-label">
+            <input type="checkbox" id="notifications-toggle" checked>
+            <span class="checkmark"></span>
+            Browser notifications for high-match jobs
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

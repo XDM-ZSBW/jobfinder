@@ -1,0 +1,285 @@
+/* JobMatch AI Widget Styles */
+
+.jobmatch-widget {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  width: 360px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  z-index: 10000;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  overflow: hidden;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(400px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.jobmatch-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+}
+
+.jobmatch-logo {
+  font-weight: 600;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.jobmatch-close {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 0;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.jobmatch-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.jobmatch-content {
+  padding: 24px 20px;
+}
+
+.jobmatch-loading {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.jobmatch-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f4f6;
+  border-top-color: #667eea;
+  border-radius: 50%;
+  margin: 0 auto 16px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.jobmatch-loading p {
+  color: #6b7280;
+  font-size: 14px;
+  margin: 0;
+}
+
+.jobmatch-score {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.score-circle {
+  width: 120px;
+  height: 120px;
+  border: 8px solid;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #f9fafb;
+}
+
+.score-value {
+  font-size: 36px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.score-label {
+  font-size: 14px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.jobmatch-insights {
+  margin-bottom: 20px;
+}
+
+.jobmatch-insights h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 12px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.jobmatch-insights ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.jobmatch-insights li {
+  padding: 10px 12px;
+  background: #f9fafb;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  font-size: 13px;
+  color: #374151;
+  line-height: 1.5;
+  border-left: 3px solid #667eea;
+}
+
+.jobmatch-insights li:last-child {
+  margin-bottom: 0;
+}
+
+.jobmatch-details-btn,
+.jobmatch-retry-btn {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.jobmatch-details-btn:hover,
+.jobmatch-retry-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.jobmatch-details-btn:active,
+.jobmatch-retry-btn:active {
+  transform: translateY(0);
+}
+
+.jobmatch-error {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.jobmatch-error p {
+  color: #6b7280;
+  font-size: 14px;
+  margin: 0 0 12px 0;
+}
+
+.jobmatch-error .error-hint {
+  font-size: 12px;
+  color: #9ca3af;
+  margin-bottom: 20px;
+}
+
+/* Cache warning styles */
+.jobmatch-cache-warning {
+  background: #fef3c7;
+  border: 1px solid #f59e0b;
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.cache-icon {
+  font-size: 14px;
+}
+
+.cache-text {
+  color: #92400e;
+  font-weight: 500;
+}
+
+/* Enhanced error styles */
+.jobmatch-error {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.jobmatch-error .error-icon {
+  font-size: 32px;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.jobmatch-error .error-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 8px;
+}
+
+.jobmatch-error .error-message {
+  color: #6b7280;
+  font-size: 14px;
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.jobmatch-error .error-hint {
+  font-size: 12px;
+  color: #9ca3af;
+  margin-bottom: 20px;
+  font-style: italic;
+}
+
+/* Loading animation improvements */
+.jobmatch-loading {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.jobmatch-loading .loading-steps {
+  margin-top: 16px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.loading-step {
+  margin-bottom: 4px;
+  opacity: 0.7;
+}
+
+.loading-step.active {
+  opacity: 1;
+  font-weight: 500;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .jobmatch-widget {
+    width: calc(100vw - 40px);
+    right: 20px;
+  }
+}

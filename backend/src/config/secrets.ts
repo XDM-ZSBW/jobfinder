@@ -7,6 +7,8 @@ interface Secrets {
   JWT_SECRET: string;
   DATABASE_URL: string;
   GEMINI_API_KEY: string;
+  AWS_ACCESS_KEY_ID: string;
+  AWS_SECRET_ACCESS_KEY: string;
 }
 
 /**
@@ -22,22 +24,28 @@ export async function loadSecrets(): Promise<Secrets> {
       JWT_SECRET: process.env.JWT_SECRET || '',
       DATABASE_URL: process.env.DATABASE_URL || '',
       GEMINI_API_KEY: process.env.GEMINI_API_KEY || '',
+      AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID || '',
+      AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY || '',
     };
   }
 
   console.log('🔐 Production mode: Loading secrets from Google Secret Manager');
 
   try {
-    const [jwtSecret, databaseUrl, geminiKey] = await Promise.all([
+    const [jwtSecret, databaseUrl, geminiKey, awsAccessKey, awsSecretKey] = await Promise.all([
       accessSecret('jobmatch-jwt-secret'),
       accessSecret('jobmatch-database-url'),
       accessSecret('jobmatch-gemini-key'),
+      accessSecret('jobmatch-aws-access-key-id'),
+      accessSecret('jobmatch-aws-secret-access-key'),
     ]);
 
     return {
       JWT_SECRET: jwtSecret,
       DATABASE_URL: databaseUrl,
       GEMINI_API_KEY: geminiKey,
+      AWS_ACCESS_KEY_ID: awsAccessKey,
+      AWS_SECRET_ACCESS_KEY: awsSecretKey,
     };
   } catch (error) {
     console.error('❌ Failed to load secrets from Secret Manager:', error);
@@ -75,6 +83,8 @@ export function validateSecrets(secrets: Secrets): void {
   if (!secrets.JWT_SECRET) missing.push('JWT_SECRET');
   if (!secrets.DATABASE_URL) missing.push('DATABASE_URL');
   if (!secrets.GEMINI_API_KEY) missing.push('GEMINI_API_KEY');
+  if (!secrets.AWS_ACCESS_KEY_ID) missing.push('AWS_ACCESS_KEY_ID');
+  if (!secrets.AWS_SECRET_ACCESS_KEY) missing.push('AWS_SECRET_ACCESS_KEY');
 
   if (missing.length > 0) {
     throw new Error(

@@ -19,6 +19,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@aws-sdk/client-ses": "^3.917.0",
     "@google-cloud/secret-manager": "^6.1.1",
     "@google/generative-ai": "^0.24.1",
     "@prisma/client": "^5.7.1",

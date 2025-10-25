@@ -5,6 +5,11 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 import { logger } from './utils/logger';
 
+// Import routes
+import authRoutes from './routes/auth';
+import usersRoutes from './routes/users';
+import jobsRoutes from './routes/jobs';
+
 // Load environment variables
 dotenv.config();
 
@@ -32,16 +37,21 @@ app.get('/health', (req: Request, res: Response) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-// API routes
+// Mount API routes
+app.use('/api/auth', authRoutes);
+app.use('/api/users', usersRoutes);
+app.use('/api/jobs', jobsRoutes);
+
+// API routes info
 app.get('/api/v1', (req: Request, res: Response) => {
   res.json({ 
     message: 'JobMatch AI API', 
     version: '1.0.0',
     endpoints: {
       health: '/health',
-      auth: '/api/v1/auth',
-      users: '/api/v1/users',
-      jobs: '/api/v1/jobs',
+      auth: '/api/auth',
+      users: '/api/users',
+      jobs: '/api/jobs',
       applications: '/api/v1/applications',
       matches: '/api/v1/matches',
       messages: '/api/v1/messages',
