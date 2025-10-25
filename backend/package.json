@@ -10,6 +10,7 @@
     "test": "jest",
     "lint": "eslint . --ext .ts",
     "typecheck": "tsc --noEmit",
+    "generate": "prisma generate",
     "migrate": "prisma migrate dev",
     "db:push": "prisma db push",
     "db:studio": "prisma studio"
