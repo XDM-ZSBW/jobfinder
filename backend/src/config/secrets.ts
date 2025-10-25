@@ -6,7 +6,7 @@ const PROJECT_ID = 'futurelink-private-112912460';
 interface Secrets {
   JWT_SECRET: string;
   DATABASE_URL: string;
-  OPENAI_API_KEY: string;
+  GEMINI_API_KEY: string;
 }
 
 /**
@@ -21,23 +21,23 @@ export async function loadSecrets(): Promise<Secrets> {
     return {
       JWT_SECRET: process.env.JWT_SECRET || '',
       DATABASE_URL: process.env.DATABASE_URL || '',
-      OPENAI_API_KEY: process.env.OPENAI_API_KEY || '',
+      GEMINI_API_KEY: process.env.GEMINI_API_KEY || '',
     };
   }
 
   console.log('🔐 Production mode: Loading secrets from Google Secret Manager');
 
   try {
-    const [jwtSecret, databaseUrl, openaiKey] = await Promise.all([
+    const [jwtSecret, databaseUrl, geminiKey] = await Promise.all([
       accessSecret('jobmatch-jwt-secret'),
       accessSecret('jobmatch-database-url'),
-      accessSecret('jobmatch-openai-key'),
+      accessSecret('jobmatch-gemini-key'),
     ]);
 
     return {
       JWT_SECRET: jwtSecret,
       DATABASE_URL: databaseUrl,
-      OPENAI_API_KEY: openaiKey,
+      GEMINI_API_KEY: geminiKey,
     };
   } catch (error) {
     console.error('❌ Failed to load secrets from Secret Manager:', error);
@@ -74,7 +74,7 @@ export function validateSecrets(secrets: Secrets): void {
 
   if (!secrets.JWT_SECRET) missing.push('JWT_SECRET');
   if (!secrets.DATABASE_URL) missing.push('DATABASE_URL');
-  if (!secrets.OPENAI_API_KEY) missing.push('OPENAI_API_KEY');
+  if (!secrets.GEMINI_API_KEY) missing.push('GEMINI_API_KEY');
 
   if (missing.length > 0) {
     throw new Error(

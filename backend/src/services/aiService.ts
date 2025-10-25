@@ -1,12 +1,30 @@
-import OpenAI from 'openai';
+import { GoogleGenerativeAI } from '@google/generative-ai';
+import { getSecrets } from '../config/secrets';
 import { logger } from '../utils/logger';
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+let genAI: GoogleGenerativeAI;
 
 /**
- * AI Service for resume parsing, job matching, and scoring
+ * Initialize Gemini AI client with API key from Secret Manager
+ */
+async function getGeminiClient() {
+  if (!genAI) {
+    const secrets = await getSecrets();
+    genAI = new GoogleGenerativeAI(secrets.GEMINI_API_KEY);
+  }
+  return genAI;
+}
+
+/**
+ * Helper to parse JSON from Gemini response (handles markdown wrapping)
+ */
+function parseGeminiJSON(text: string): any {
+  const cleaned = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+  return JSON.parse(cleaned);
+}
+
+/**
+ * AI Service for resume parsing, job matching, and scoring using Google Gemini Pro
  */
 export class AIService {
   /**
@@ -14,30 +32,30 @@ export class AIService {
    */
   async parseResume(resumeText: string) {
     try {
-      const completion = await openai.chat.completions.create({
-        model: 'gpt-4',
-        messages: [
-          {
-            role: 'system',
-            content: `You are a resume parsing assistant. Extract key information from resumes and return a structured JSON object with the following fields:
-            - name: candidate's full name
-            - email: email address
-            - phone: phone number
-            - skills: array of technical and soft skills
-            - experience: array of work experiences with {company, title, duration, description}
-            - education: array of education with {institution, degree, field, year}
-            - summary: brief professional summary`,
-          },
-          {
-            role: 'user',
-            content: resumeText,
-          },
-        ],
-        response_format: { type: 'json_object' },
-      });
+      const ai = await getGeminiClient();
+      const model = ai.getGenerativeModel({ model: 'gemini-pro' });
 
-      const parsed = JSON.parse(completion.choices[0].message.content || '{}');
-      logger.info('Resume parsed successfully');
+      const prompt = `You are a resume parsing assistant. Extract key information from this resume and return ONLY a valid JSON object (no markdown, no explanation) with these fields:
+- name: candidate's full name
+- email: email address  
+- phone: phone number
+- skills: array of technical and soft skills
+- experience: array of work experiences with {company, title, duration, description}
+- education: array of education with {institution, degree, field, year}
+- summary: brief professional summary
+
+Resume:
+${resumeText}
+
+JSON output:`;
+
+      const result = await model.generateContent(prompt);
+      const response = await result.response;
+      const text = response.text();
+      
+      const parsed = parseGeminiJSON(text);
+      
+      logger.info('Resume parsed successfully with Gemini Pro');
       return parsed;
     } catch (error) {
       logger.error('Error parsing resume:', error);
@@ -58,31 +76,30 @@ export class AIService {
     reasoning: string;
   }> {
     try {
-      const completion = await openai.chat.completions.create({
-        model: 'gpt-4',
-        messages: [
-          {
-            role: 'system',
-            content: `You are a job matching AI. Analyze the candidate's profile against the job requirements and return a JSON object with:
-            - score: number from 0-100 representing match quality
-            - strengths: array of matching qualifications
-            - gaps: array of missing qualifications
-            - reasoning: brief explanation of the score`,
-          },
-          {
-            role: 'user',
-            content: JSON.stringify({
-              candidate: candidateProfile,
-              job: jobDescription,
-            }),
-          },
-        ],
-        response_format: { type: 'json_object' },
-      });
+      const ai = await getGeminiClient();
+      const model = ai.getGenerativeModel({ model: 'gemini-pro' });
 
-      const result = JSON.parse(completion.choices[0].message.content || '{}');
-      logger.info(`Match score calculated: ${result.score}`);
-      return result;
+      const prompt = `You are a job matching AI. Analyze the candidate's profile against the job requirements and return ONLY a valid JSON object with:
+- score: number from 0-100 representing match quality
+- strengths: array of matching qualifications
+- gaps: array of missing qualifications
+- reasoning: brief explanation of the score
+
+Candidate Profile:
+${JSON.stringify(candidateProfile, null, 2)}
+
+Job Description:
+${JSON.stringify(jobDescription, null, 2)}
+
+JSON output:`;
+
+      const result = await model.generateContent(prompt);
+      const response = await result.response;
+      const text = response.text();
+      
+      const matchResult = parseGeminiJSON(text);
+      logger.info(`Match score calculated with Gemini Pro: ${matchResult.score}`);
+      return matchResult;
     } catch (error) {
       logger.error('Error calculating match score:', error);
       throw new Error('Failed to calculate match score');
@@ -97,26 +114,25 @@ export class AIService {
     candidateProfile: any
   ): Promise<string[]> {
     try {
-      const completion = await openai.chat.completions.create({
-        model: 'gpt-4',
-        messages: [
-          {
-            role: 'system',
-            content: `Generate 5-7 relevant interview questions based on the job requirements and candidate's background. Return as a JSON array of strings.`,
-          },
-          {
-            role: 'user',
-            content: JSON.stringify({
-              job: jobDescription,
-              candidate: candidateProfile,
-            }),
-          },
-        ],
-        response_format: { type: 'json_object' },
-      });
+      const ai = await getGeminiClient();
+      const model = ai.getGenerativeModel({ model: 'gemini-pro' });
 
-      const result = JSON.parse(completion.choices[0].message.content || '{}');
-      return result.questions || [];
+      const prompt = `Generate 5-7 relevant interview questions based on the job requirements and candidate's background. Return ONLY a valid JSON object with a "questions" array of strings.
+
+Job Description:
+${jobDescription}
+
+Candidate Profile:
+${JSON.stringify(candidateProfile, null, 2)}
+
+JSON output (format: {"questions": ["question 1", "question 2", ...]}):`;
+
+      const result = await model.generateContent(prompt);
+      const response = await result.response;
+      const text = response.text();
+      
+      const parsed = parseGeminiJSON(text);
+      return parsed.questions || [];
     } catch (error) {
       logger.error('Error generating interview questions:', error);
       throw new Error('Failed to generate interview questions');
@@ -132,25 +148,26 @@ export class AIService {
     suggestions: string[];
   }> {
     try {
-      const completion = await openai.chat.completions.create({
-        model: 'gpt-4',
-        messages: [
-          {
-            role: 'system',
-            content: `Analyze this job posting for legitimacy. Return JSON with:
-            - isLegitimate: boolean
-            - redFlags: array of concerning elements
-            - suggestions: array of improvements`,
-          },
-          {
-            role: 'user',
-            content: jobDescription,
-          },
-        ],
-        response_format: { type: 'json_object' },
-      });
+      const ai = await getGeminiClient();
+      const model = ai.getGenerativeModel({ model: 'gemini-pro' });
 
-      return JSON.parse(completion.choices[0].message.content || '{}');
+      const prompt = `Analyze this job posting for legitimacy. Look for scam indicators like vague descriptions, unrealistic salary, non-corporate emails, urgency language, or requests for personal info upfront.
+
+Return ONLY a valid JSON object with:
+- isLegitimate: boolean
+- redFlags: array of concerning elements (empty if legitimate)
+- suggestions: array of improvements
+
+Job Posting:
+${jobDescription}
+
+JSON output:`;
+
+      const result = await model.generateContent(prompt);
+      const response = await result.response;
+      const text = response.text();
+      
+      return parseGeminiJSON(text);
     } catch (error) {
       logger.error('Error analyzing job posting:', error);
       throw new Error('Failed to analyze job posting');

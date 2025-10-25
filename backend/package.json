@@ -20,6 +20,7 @@
   "license": "MIT",
   "dependencies": {
     "@google-cloud/secret-manager": "^6.1.1",
+    "@google/generative-ai": "^0.24.1",
     "@prisma/client": "^5.7.1",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
@@ -27,7 +28,6 @@
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",
     "langchain": "^0.1.1",
-    "openai": "^4.24.1",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
