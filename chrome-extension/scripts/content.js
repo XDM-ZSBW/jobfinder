@@ -3,6 +3,8 @@
 class LinkedInJobScraper {
   constructor() {
     this.jobData = null;
+    this.retryCount = 0;
+    this.maxRetries = 3;
     this.init();
   }
 
@@ -142,6 +144,13 @@ class LinkedInJobScraper {
   }
 
   async sendToBackground(jobData) {
+    // Check retry count
+    if (this.retryCount >= this.maxRetries) {
+      console.error('❌ [JobMatch] Max retries reached, showing error to user');
+      this.displayError('Extension reloaded. Please refresh this page to continue.');
+      return;
+    }
+    
     console.log('📤 [JobMatch] Sending job data to background script:', {
       title: jobData.title,
       company: jobData.company,
@@ -163,27 +172,34 @@ class LinkedInJobScraper {
         data: jobData
       }, (response) => {
         if (chrome.runtime.lastError) {
-          console.error('❌ [JobMatch] Error sending job data to background:', chrome.runtime.lastError.message);
-          // Retry after a short delay if context was invalidated
-          if (chrome.runtime.lastError.message.includes('Extension context invalidated')) {
-            console.log('🔄 [JobMatch] Context invalidated, retrying in 2 seconds...');
+          const errorMsg = chrome.runtime.lastError.message;
+          console.error('❌ [JobMatch] Error sending job data to background:', errorMsg);
+          
+          // Retry after a short delay if context was invalidated and we haven't exceeded max retries
+          if (errorMsg.includes('Extension context invalidated')) {
+            this.retryCount++;
+            console.log(`🔄 [JobMatch] Context invalidated, retrying in 2 seconds... (${this.retryCount}/${this.maxRetries})`);
             setTimeout(() => {
               this.sendToBackground(jobData);
             }, 2000);
           }
         } else {
           console.log('✅ [JobMatch] Successfully sent job data to background');
+          this.retryCount = 0; // Reset retry count on success
         }
       });
     } catch (error) {
       console.error('❌ [JobMatch] Error sending to background:', error);
       
-      // Retry if context was invalidated
+      // Retry if context was invalidated and we haven't exceeded max retries
       if (error.message && error.message.includes('Extension context invalidated')) {
-        console.log('🔄 [JobMatch] Retrying after context invalidation...');
-        setTimeout(() => {
-          this.sendToBackground(jobData);
-        }, 2000);
+        this.retryCount++;
+        if (this.retryCount < this.maxRetries) {
+          console.log(`🔄 [JobMatch] Retrying after context invalidation... (${this.retryCount}/${this.maxRetries})`);
+          setTimeout(() => {
+            this.sendToBackground(jobData);
+          }, 2000);
+        }
       }
     }
   }
