@@ -1,15 +1,20 @@
 import { SESClient, SendEmailCommand } from '@aws-sdk/client-ses';
 import { logger } from '../utils/logger';
+import { getSecrets } from '../config/secrets';
 
 export class EmailService {
-  private sesClient: SESClient;
+  private sesClient: SESClient | null = null;
 
-  constructor() {
+  private async initializeSESClient(): Promise<void> {
+    if (this.sesClient) return; // Already initialized
+    
+    const secrets = await getSecrets();
+    
     this.sesClient = new SESClient({
       region: process.env.SES_REGION || 'us-west-2',
       credentials: {
-        accessKeyId: process.env.AWS_ACCESS_KEY_ID || '',
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || '',
+        accessKeyId: secrets.AWS_ACCESS_KEY_ID,
+        secretAccessKey: secrets.AWS_SECRET_ACCESS_KEY,
       },
     });
   }
@@ -19,6 +24,8 @@ export class EmailService {
    */
   async sendMagicLink(email: string, magicLink: string): Promise<void> {
     try {
+      await this.initializeSESClient();
+      
       const fromEmail = process.env.SES_FROM_EMAIL || 'admin@futurelink.zip';
       
       const params = {
@@ -45,6 +52,9 @@ export class EmailService {
       };
 
       const command = new SendEmailCommand(params);
+      if (!this.sesClient) {
+        throw new Error('SES client not initialized');
+      }
       await this.sesClient.send(command);
       
       logger.info(`Magic link email sent successfully to ${email}`);
@@ -198,6 +208,8 @@ JobMatch AI Team
    */
   async testConfiguration(): Promise<boolean> {
     try {
+      await this.initializeSESClient();
+      
       const fromEmail = process.env.SES_FROM_EMAIL || 'admin@futurelink.zip';
       
       const params = {
@@ -220,6 +232,9 @@ JobMatch AI Team
       };
 
       const command = new SendEmailCommand(params);
+      if (!this.sesClient) {
+        throw new Error('SES client not initialized');
+      }
       await this.sesClient.send(command);
       
       logger.info('SES configuration test successful');
