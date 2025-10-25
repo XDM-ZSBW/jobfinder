@@ -76,6 +76,8 @@ export const generateToken = (user: {
     throw new Error('JWT_SECRET not configured');
   }
 
+  const expiresIn: string | number = process.env.JWT_EXPIRES_IN || '7d';
+  
   return jwt.sign(
     {
       id: user.id,
@@ -84,7 +86,7 @@ export const generateToken = (user: {
     },
     secret,
     {
-      expiresIn: process.env.JWT_EXPIRES_IN || '7d',
+      expiresIn,
     }
   );
 };
