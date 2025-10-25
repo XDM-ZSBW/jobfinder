@@ -129,10 +129,18 @@ class LinkedInJobScraper {
   }
 
   sendToBackground(jobData) {
-    chrome.runtime.sendMessage({
-      type: 'JOB_DATA_SCRAPED',
-      data: jobData
-    });
+    try {
+      chrome.runtime.sendMessage({
+        type: 'JOB_DATA_SCRAPED',
+        data: jobData
+      }, (response) => {
+        if (chrome.runtime.lastError) {
+          console.error('Error sending job data to background:', chrome.runtime.lastError);
+        }
+      });
+    } catch (error) {
+      console.error('Error sending to background:', error);
+    }
   }
 
   injectMatchWidget() {
@@ -209,7 +217,15 @@ class LinkedInJobScraper {
     `;
 
     document.getElementById('jobmatch-details')?.addEventListener('click', () => {
-      chrome.runtime.sendMessage({ type: 'OPEN_POPUP' });
+      try {
+        chrome.runtime.sendMessage({ type: 'OPEN_POPUP' }, (response) => {
+          if (chrome.runtime.lastError) {
+            console.error('Error sending message to background:', chrome.runtime.lastError);
+          }
+        });
+      } catch (error) {
+        console.error('Error opening popup:', error);
+      }
     });
   }
 
