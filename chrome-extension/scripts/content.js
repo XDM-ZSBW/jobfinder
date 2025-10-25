@@ -59,39 +59,61 @@ class LinkedInJobScraper {
   }
 
   isJobPage() {
-    return window.location.href.includes('/jobs/view/') || 
-           window.location.href.includes('/jobs/collections/');
+    // Check if we're on any LinkedIn jobs page
+    const url = window.location.href;
+    const isJobPage = url.includes('/jobs/') && 
+                     (url.includes('/view/') || 
+                      url.includes('/collections/') ||
+                      url.includes('/search/') ||
+                      document.querySelector('.jobs-details') ||
+                      document.querySelector('.jobs-unified-top-card') ||
+                      document.querySelector('[data-job-id]'));
+    
+    console.log('🔍 [JobMatch] isJobPage check:', { url, isJobPage });
+    return isJobPage;
   }
 
   extractJobData() {
     try {
-      // Extract job title
+      console.log('🔍 [JobMatch] Extracting job data...');
+      
+      // Extract job title - try multiple selectors
       const title = this.getTextContent([
         '.job-details-jobs-unified-top-card__job-title',
         '.jobs-unified-top-card__job-title',
+        'h1.jobs-details-top-card__job-title-text',
+        'h1.job-details-jobs-unified-top-card__job-title-link',
         'h1.t-24'
       ]);
+      console.log('📋 [JobMatch] Title:', title);
 
       // Extract company name
       const company = this.getTextContent([
         '.job-details-jobs-unified-top-card__company-name',
         '.jobs-unified-top-card__company-name',
-        '.jobs-unified-top-card__subtitle-primary-grouping a'
+        '.jobs-unified-top-card__subtitle-primary-grouping a',
+        '.jobs-details-top-card__company-name'
       ]);
+      console.log('🏢 [JobMatch] Company:', company);
 
       // Extract location
       const location = this.getTextContent([
         '.job-details-jobs-unified-top-card__bullet',
         '.jobs-unified-top-card__bullet',
-        '.jobs-unified-top-card__subtitle-primary-grouping span'
+        '.jobs-unified-top-card__subtitle-primary-grouping span',
+        '.jobs-details-top-card__location'
       ]);
+      console.log('📍 [JobMatch] Location:', location);
 
-      // Extract job description
+      // Extract job description - try multiple selectors
       const description = this.getTextContent([
         '.jobs-description-content__text',
         '.jobs-box__html-content',
-        '#job-details'
+        '#job-details',
+        'div.jobs-box__html-content',
+        'div.jobs-description-content__text'
       ]);
+      console.log('📄 [JobMatch] Description length:', description?.length || 0);
 
       // Extract job type (full-time, part-time, etc.)
       const jobType = this.extractJobType();
@@ -144,7 +166,14 @@ class LinkedInJobScraper {
   }
 
   hasRequiredFields(jobData) {
-    return jobData.title && jobData.company && jobData.description;
+    const hasFields = jobData.title && jobData.description;
+    console.log('✅ [JobMatch] Required fields check:', {
+      title: !!jobData.title,
+      description: !!jobData.description,
+      company: !!jobData.company,
+      hasFields
+    });
+    return hasFields;
   }
 
   async sendToBackground(jobData) {
@@ -253,7 +282,7 @@ class LinkedInJobScraper {
     const content = widget.querySelector('.jobmatch-content');
     if (!content) return;
 
-    const score = data.matchScore || 0;
+    const score = data.qualityScore || data.matchScore || 0;
     const scoreColor = score >= 80 ? '#10b981' : score >= 60 ? '#f59e0b' : '#ef4444';
     
     // Show cache warning if using cached data
@@ -264,20 +293,44 @@ class LinkedInJobScraper {
       </div>
     ` : '';
 
+    // Show red flags if any
+    const redFlagsHtml = data.redFlags && data.redFlags.length > 0 ? `
+      <div class="jobmatch-warning">
+        <h4>⚠️ Red Flags</h4>
+        <ul>
+          ${data.redFlags.map(flag => `<li>${flag}</li>`).join('')}
+        </ul>
+      </div>
+    ` : '';
+
+    // Show suggestions if any
+    const suggestionsHtml = data.suggestions && data.suggestions.length > 0 ? `
+      <div class="jobmatch-suggestions">
+        <h4>💡 Suggestions</h4>
+        <ul>
+          ${data.suggestions.map(s => `<li>${s}</li>`).join('')}
+        </ul>
+      </div>
+    ` : '';
+
     content.innerHTML = `
       ${cacheWarning}
       <div class="jobmatch-score">
         <div class="score-circle" style="border-color: ${scoreColor}">
           <span class="score-value">${score}</span>
-          <span class="score-label">Match</span>
+          <span class="score-label">Quality</span>
         </div>
       </div>
-      <div class="jobmatch-insights">
-        <h3>Key Insights</h3>
-        <ul>
-          ${data.insights?.map(insight => `<li>${insight}</li>`).join('') || '<li>No insights available</li>'}
-        </ul>
-      </div>
+      ${redFlagsHtml}
+      ${suggestionsHtml}
+      ${data.requiredSkills && data.requiredSkills.length > 0 ? `
+        <div class="jobmatch-skills">
+          <h4>Required Skills</h4>
+          <div class="skill-tags">
+            ${data.requiredSkills.map(skill => `<span class="skill-tag">${skill}</span>`).join('')}
+          </div>
+        </div>
+      ` : ''}
       <button class="jobmatch-details-btn" id="jobmatch-details">View Full Analysis</button>
     `;
 
@@ -350,3 +403,4 @@ class LinkedInJobScraper {
 
 // Initialize scraper
 const scraper = new LinkedInJobScraper();
+
