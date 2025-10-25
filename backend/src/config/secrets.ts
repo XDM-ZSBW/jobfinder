@@ -40,6 +40,11 @@ export async function loadSecrets(): Promise<Secrets> {
       accessSecret('jobmatch-aws-secret-access-key'),
     ]);
 
+    console.log('🔍 Secrets loaded - AWS_ACCESS_KEY_ID length:', awsAccessKey?.length);
+    console.log('🔍 Secrets loaded - AWS_SECRET_ACCESS_KEY length:', awsSecretKey?.length);
+    console.log('🔍 Secrets loaded - AWS_ACCESS_KEY_ID first 10:', awsAccessKey?.substring(0, 10));
+    console.log('🔍 Secrets loaded - AWS_SECRET_ACCESS_KEY first 10:', awsSecretKey?.substring(0, 10));
+
     return {
       JWT_SECRET: jwtSecret,
       DATABASE_URL: databaseUrl,

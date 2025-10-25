@@ -10,6 +10,13 @@ export class EmailService {
     
     const secrets = await getSecrets();
     
+    // Debug logging
+    logger.info('EmailService: Loading AWS credentials from secrets');
+    logger.info('EmailService: AWS_ACCESS_KEY_ID length:', secrets.AWS_ACCESS_KEY_ID?.length);
+    logger.info('EmailService: AWS_SECRET_ACCESS_KEY length:', secrets.AWS_SECRET_ACCESS_KEY?.length);
+    logger.info('EmailService: AWS_ACCESS_KEY_ID first 10 chars:', secrets.AWS_ACCESS_KEY_ID?.substring(0, 10));
+    logger.info('EmailService: AWS_SECRET_ACCESS_KEY first 10 chars:', secrets.AWS_SECRET_ACCESS_KEY?.substring(0, 10));
+    
     this.sesClient = new SESClient({
       region: process.env.SES_REGION || 'us-west-2',
       credentials: {

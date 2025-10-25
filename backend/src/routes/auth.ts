@@ -105,6 +105,14 @@ router.post('/magic-link', async (req, res) => {
       role: 'JOB_SEEKER' 
     });
 
+    // Clean up any existing unused magic links for this email
+    await prisma.magicLink.deleteMany({
+      where: {
+        email,
+        used: false
+      }
+    });
+
     // Store magic link token with expiration (15 minutes)
     await prisma.magicLink.create({
       data: {
