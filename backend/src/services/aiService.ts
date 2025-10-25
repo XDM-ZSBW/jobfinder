@@ -151,12 +151,21 @@ JSON output (format: {"questions": ["question 1", "question 2", ...]}):`;
       const ai = await getGeminiClient();
       const model = ai.getGenerativeModel({ model: 'gemini-2.5-pro' });
 
-      const prompt = `Analyze this job posting for legitimacy. Look for scam indicators like vague descriptions, unrealistic salary, non-corporate emails, urgency language, or requests for personal info upfront.
+      const prompt = `Analyze this job posting for legitimacy and quality. Look for:
+
+LEGITIMACY INDICATORS:
+- Vague or missing job descriptions
+- Unrealistic salary ranges
+- Non-corporate email domains (Gmail, Yahoo for businesses)
+- Urgency language ("immediate need", "start today")
+- Requests for personal info upfront (SSN, bank info)
+- Poor grammar or unprofessional language
+- Missing company details
 
 Return ONLY a valid JSON object with:
-- isLegitimate: boolean
-- redFlags: array of concerning elements (empty if legitimate)
-- suggestions: array of improvements
+- isLegitimate: true if this appears to be a legitimate job posting
+- redFlags: array of specific concerning elements found (empty if legitimate)
+- suggestions: array of improvement suggestions for the posting
 
 Job Posting:
 ${jobDescription}
@@ -170,7 +179,13 @@ JSON output:`;
       return parseGeminiJSON(text);
     } catch (error) {
       logger.error('Error analyzing job posting:', error);
-      throw new Error('Failed to analyze job posting');
+      
+      // Return safe defaults on error to prevent zero scores
+      return {
+        isLegitimate: true,
+        redFlags: [],
+        suggestions: ['Unable to analyze job posting automatically']
+      };
     }
   }
 

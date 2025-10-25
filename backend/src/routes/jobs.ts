@@ -19,10 +19,46 @@ router.post('/analyze', authenticateToken, async (req: any, res: Response) => {
     // Use AI service to analyze the job posting
     const analysis = await aiService.analyzeJobPosting(description);
 
+    // Calculate quality score (0-100) based on job posting legitimacy and completeness
+    let qualityScore = 50; // Start with neutral score
+    
+    // Factor 1: Legitimacy (30 points)
+    if (analysis.isLegitimate) {
+      qualityScore += 30; // Legitimate job is worth 30 points
+    } else {
+      qualityScore -= 20; // Illegitimate jobs lose points
+    }
+    
+    // Factor 2: Red flags (-5 per flag, max -25)
+    const redFlagPenalty = Math.min(analysis.redFlags.length * 5, 25);
+    qualityScore -= redFlagPenalty;
+    
+    // Factor 3: Description detail (+10 for medium detail, +20 for high detail)
+    if (description.length > 1000) {
+      qualityScore += 20; // Detailed descriptions score high
+    } else if (description.length > 500) {
+      qualityScore += 10; // Medium detail gets some points
+    }
+    
+    // Factor 4: Company info (+10 if present)
+    if (company && company !== 'Unknown Company') qualityScore += 10;
+    
+    // Factor 5: Title presence (+10 if present)
+    if (title && title !== 'Unknown Title') qualityScore += 10;
+    
+    // Factor 6: Minimum quality boost for legitimate, detailed jobs
+    if (analysis.isLegitimate && description.length > 1000 && company && company !== 'Unknown Company') {
+      qualityScore += 10; // Bonus for high-quality postings
+    }
+    
+    // Ensure score is between 0 and 100
+    qualityScore = Math.max(0, Math.min(100, qualityScore));
+
     res.json({
       title: title || 'Unknown Title',
       company: company || 'Unknown Company',
       isLegitimate: analysis.isLegitimate,
+      qualityScore: Math.round(qualityScore),
       redFlags: analysis.redFlags,
       suggestions: analysis.suggestions,
       requiredSkills: extractSkillsFromDescription(description),
