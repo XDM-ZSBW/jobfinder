@@ -149,13 +149,23 @@ logoutBtn.addEventListener('click', async () => {
 
 // Load current job data from background script
 async function loadCurrentJobData() {
-  chrome.runtime.sendMessage({ type: 'GET_CURRENT_DATA' }, (response) => {
-    if (response && response.jobData && response.analysis) {
-      displayJobAnalysis(response.jobData, response.analysis);
-    } else {
-      showNoJobState();
-    }
-  });
+  try {
+    chrome.runtime.sendMessage({ type: 'GET_CURRENT_DATA' }, (response) => {
+      if (chrome.runtime.lastError) {
+        console.error('Error sending message to background:', chrome.runtime.lastError);
+        showNoJobState();
+        return;
+      }
+      if (response && response.jobData && response.analysis) {
+        displayJobAnalysis(response.jobData, response.analysis);
+      } else {
+        showNoJobState();
+      }
+    });
+  } catch (error) {
+    console.error('Error loading current job data:', error);
+    showNoJobState();
+  }
 }
 
 // Show no job state
@@ -264,10 +274,18 @@ async function refreshAnalysis() {
   }
   
   // Clear cache for current job
-  chrome.runtime.sendMessage({ type: 'CLEAR_CACHE' }, () => {
-    // Reload current job data
+  try {
+    chrome.runtime.sendMessage({ type: 'CLEAR_CACHE' }, (response) => {
+      if (chrome.runtime.lastError) {
+        console.error('Error clearing cache:', chrome.runtime.lastError);
+      }
+      // Reload current job data
+      loadCurrentJobData();
+    });
+  } catch (error) {
+    console.error('Error refreshing analysis:', error);
     loadCurrentJobData();
-  });
+  }
 }
 
 // View full analysis on dashboard
