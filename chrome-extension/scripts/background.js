@@ -27,6 +27,15 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     });
   } else if (message.type === 'CLEAR_CACHE') {
     clearCurrentJobCache();
+    // Also clear all cached analyses
+    chrome.storage.local.get(null, (allData) => {
+      const keysToRemove = Object.keys(allData).filter(key => key.startsWith('job_analysis_'));
+      if (keysToRemove.length > 0) {
+        chrome.storage.local.remove(keysToRemove, () => {
+          console.log('🗑️ [JobMatch] Cleared', keysToRemove.length, 'cached analyses');
+        });
+      }
+    });
     sendResponse({ success: true });
   }
   return true;
@@ -82,8 +91,15 @@ async function analyzeJob(jobData, authToken) {
     const cachedAnalysis = await getCachedAnalysis(cacheKey);
     
     if (cachedAnalysis && !isCacheExpired(cachedAnalysis.timestamp)) {
-      console.log('Using cached job analysis');
-      return cachedAnalysis.data;
+      console.log('✅ [JobMatch] Using cached job analysis');
+      console.log('📊 [JobMatch] Cached score:', cachedAnalysis.data?.qualityScore || cachedAnalysis.data?.matchScore);
+      
+      // Validate cached data has a valid score
+      if (cachedAnalysis.data && (cachedAnalysis.data.qualityScore !== undefined || cachedAnalysis.data.matchScore !== undefined)) {
+        return cachedAnalysis.data;
+      } else {
+        console.log('⚠️ [JobMatch] Cached data invalid, re-analyzing...');
+      }
     }
 
     // First, analyze the job posting
