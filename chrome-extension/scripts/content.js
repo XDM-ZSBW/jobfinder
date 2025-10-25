@@ -1,7 +1,10 @@
 // JobMatch AI - LinkedIn Job Scraper Content Script
 
+console.log('✅ [JobMatch] Content script loaded');
+
 class LinkedInJobScraper {
   constructor() {
+    console.log('✅ [JobMatch] LinkedInJobScraper initialized');
     this.jobData = null;
     this.retryCount = 0;
     this.maxRetries = 3;
@@ -9,6 +12,7 @@ class LinkedInJobScraper {
   }
 
   init() {
+    console.log('✅ [JobMatch] Initializing scraper on URL:', window.location.href);
     // Wait for page to load completely
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', () => this.scrapeJob());
