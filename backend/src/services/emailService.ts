@@ -106,7 +106,7 @@ export class EmailService {
       logger.info(`✅ Magic link email sent successfully to ${email}`);
       logger.info(`📧 Message ID: ${result.MessageId}`);
       
-    } catch (error) {
+    } catch (error: any) {
       logger.error(`❌ Failed to send magic link email to ${email}:`, error);
       throw new Error(`Failed to send magic link email: ${error.message}`);
     }

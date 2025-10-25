@@ -81,7 +81,7 @@ router.post('/magic-link', async (req: Request, res: Response) => {
         ...(process.env.NODE_ENV === 'development' && { magicLink })
       });
       
-    } catch (emailError) {
+    } catch (emailError: any) {
       logger.error(`❌ Failed to send magic link email to ${email}:`, emailError);
       
       // Clean up the stored token since email failed
@@ -99,7 +99,7 @@ router.post('/magic-link', async (req: Request, res: Response) => {
       });
     }
     
-  } catch (error) {
+  } catch (error: any) {
     logger.error('❌ Magic link request failed:', error);
     res.status(500).json({
       error: 'Internal server error',
@@ -201,7 +201,7 @@ router.post('/verify-magic-link', async (req: Request, res: Response) => {
       }
     });
 
-  } catch (error) {
+  } catch (error: any) {
     logger.error('❌ Magic link verification failed:', error);
     res.status(500).json({
       error: 'Internal server error',
@@ -268,7 +268,7 @@ router.post('/check-magic-link', async (req: Request, res: Response) => {
 
     res.json({ authenticated: false });
 
-  } catch (error) {
+  } catch (error: any) {
     logger.error('❌ Magic link check failed:', error);
     res.status(500).json({
       error: 'Internal server error',
@@ -296,7 +296,7 @@ router.get('/email-health', async (req: Request, res: Response) => {
         message: 'Email service configuration is invalid'
       });
     }
-  } catch (error) {
+  } catch (error: any) {
     logger.error('❌ Email health check failed:', error);
     res.status(500).json({
       status: 'unhealthy',
