@@ -143,6 +143,17 @@ async function analyzeJob(jobData, authToken) {
     }
 
     const profile = await profileResponse.json();
+    console.log('✅ [JobMatch] User profile loaded:', {
+      hasResume: !!profile.resume,
+      resumeLength: profile.resume?.length || 0,
+      role: profile.role
+    });
+
+    // Check if user has a resume
+    if (!profile.resume || profile.resume.trim() === '') {
+      console.warn('⚠️ [JobMatch] User has no resume uploaded');
+      throw new Error('Please upload your resume in your JobMatch AI profile to enable job matching.');
+    }
 
     // Calculate match score
     console.log('🎯 [JobMatch] Calling Gemini API for match score calculation...');
@@ -154,7 +165,7 @@ async function analyzeJob(jobData, authToken) {
       },
       body: JSON.stringify({
         jobDescription: jobData.description,
-        resumeText: profile.resume || ''
+        resumeText: profile.resume
       })
     });
     
