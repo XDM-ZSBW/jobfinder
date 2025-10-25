@@ -33,7 +33,7 @@ export class AIService {
   async parseResume(resumeText: string) {
     try {
       const ai = await getGeminiClient();
-      const model = ai.getGenerativeModel({ model: 'gemini-1.5-flash' });
+      const model = ai.getGenerativeModel({ model: 'gemini-2.5-pro' });
 
       const prompt = `You are a resume parsing assistant. Extract key information from this resume and return ONLY a valid JSON object (no markdown, no explanation) with these fields:
 - name: candidate's full name
@@ -77,7 +77,7 @@ JSON output:`;
   }> {
     try {
       const ai = await getGeminiClient();
-      const model = ai.getGenerativeModel({ model: 'gemini-1.5-flash' });
+      const model = ai.getGenerativeModel({ model: 'gemini-2.5-pro' });
 
       const prompt = `You are a job matching AI. Analyze the candidate's profile against the job requirements and return ONLY a valid JSON object with:
 - score: number from 0-100 representing match quality
@@ -115,7 +115,7 @@ JSON output:`;
   ): Promise<string[]> {
     try {
       const ai = await getGeminiClient();
-      const model = ai.getGenerativeModel({ model: 'gemini-1.5-flash' });
+      const model = ai.getGenerativeModel({ model: 'gemini-2.5-pro' });
 
       const prompt = `Generate 5-7 relevant interview questions based on the job requirements and candidate's background. Return ONLY a valid JSON object with a "questions" array of strings.
 
@@ -149,7 +149,7 @@ JSON output (format: {"questions": ["question 1", "question 2", ...]}):`;
   }> {
     try {
       const ai = await getGeminiClient();
-      const model = ai.getGenerativeModel({ model: 'gemini-1.5-flash' });
+      const model = ai.getGenerativeModel({ model: 'gemini-2.5-pro' });
 
       const prompt = `Analyze this job posting for legitimacy. Look for scam indicators like vague descriptions, unrealistic salary, non-corporate emails, urgency language, or requests for personal info upfront.
 
