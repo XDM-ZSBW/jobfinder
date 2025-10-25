@@ -1,0 +1,158 @@
+// This is your Prisma schema file
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  JOB_SEEKER
+  HIRING_MANAGER
+  ADMIN
+}
+
+enum ApplicationStatus {
+  SUBMITTED
+  UNDER_REVIEW
+  INTERVIEW_SCHEDULED
+  REJECTED
+  ACCEPTED
+}
+
+model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  passwordHash  String
+  role          UserRole
+  firstName     String
+  lastName      String
+  verified      Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  jobSeekerProfile   JobSeekerProfile?
+  hiringManagerProfile HiringManagerProfile?
+  sentMessages       Message[] @relation("MessageSender")
+  receivedMessages   Message[] @relation("MessageReceiver")
+
+  @@index([email])
+}
+
+model JobSeekerProfile {
+  id           String   @id @default(cuid())
+  userId       String   @unique
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  resumeUrl    String?
+  phone        String?
+  location     String?
+  skills       String[] // Array of skills
+  experience   Json?    // Structured work experience
+  education    Json?    // Structured education
+  summary      String?  @db.Text
+  
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relations
+  applications Application[]
+  matches      Match[]
+}
+
+model HiringManagerProfile {
+  id           String   @id @default(cuid())
+  userId       String   @unique
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  company      String
+  title        String
+  phone        String?
+  verified     Boolean  @default(false)
+  
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relations
+  jobs         Job[]
+}
+
+model Job {
+  id              String   @id @default(cuid())
+  hiringManagerId String
+  hiringManager   HiringManagerProfile @relation(fields: [hiringManagerId], references: [id], onDelete: Cascade)
+  
+  title           String
+  description     String   @db.Text
+  requirements    String[] // Array of requirements
+  location        String
+  salaryMin       Int?
+  salaryMax       Int?
+  remoteOk        Boolean  @default(false)
+  employmentType  String   // Full-time, Part-time, Contract
+  
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  applications    Application[]
+  matches         Match[]
+
+  @@index([isActive, createdAt])
+}
+
+model Application {
+  id            String   @id @default(cuid())
+  jobId         String
+  job           Job      @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  candidateId   String
+  candidate     JobSeekerProfile @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  
+  status        ApplicationStatus @default(SUBMITTED)
+  coverLetter   String?  @db.Text
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@unique([jobId, candidateId])
+  @@index([status, createdAt])
+}
+
+model Match {
+  id          String   @id @default(cuid())
+  jobId       String
+  job         Job      @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  candidateId String
+  candidate   JobSeekerProfile @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  
+  score       Float    // 0-100 match score
+  strengths   String[] // Array of matching strengths
+  gaps        String[] // Array of skill gaps
+  reasoning   String   @db.Text
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([jobId, candidateId])
+  @@index([score])
+}
+
+model Message {
+  id         String   @id @default(cuid())
+  senderId   String
+  sender     User     @relation("MessageSender", fields: [senderId], references: [id], onDelete: Cascade)
+  receiverId String
+  receiver   User     @relation("MessageReceiver", fields: [receiverId], references: [id], onDelete: Cascade)
+  
+  content    String   @db.Text
+  read       Boolean  @default(false)
+  
+  createdAt  DateTime @default(now())
+
+  @@index([senderId, receiverId, createdAt])
+}
