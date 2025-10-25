@@ -121,80 +121,21 @@ async function analyzeJob(jobData, authToken) {
     }
 
     const jobAnalysis = await jobAnalysisResponse.json();
-    console.log('✅ [JobMatch] Gemini job analysis complete:', {
-      hasSkills: !!jobAnalysis.requiredSkills,
-      skillCount: jobAnalysis.requiredSkills?.length || 0,
-      hasExperienceLevel: !!jobAnalysis.experienceLevel
-    });
+    console.log('✅ [JobMatch] Job analysis complete:', jobAnalysis);
+    console.log('📊 [JobMatch] Quality score:', jobAnalysis.qualityScore);
+    console.log('✅ [JobMatch] Is legitimate:', jobAnalysis.isLegitimate);
+    console.log('🚩 [JobMatch] Red flags:', jobAnalysis.redFlags?.length || 0);
 
-    // Get user's resume/profile
-    console.log('👤 [JobMatch] Fetching user profile from backend...');
-    const profileResponse = await fetch(`${API_BASE_URL}/api/users/me`, {
-      headers: {
-        'Authorization': `Bearer ${authToken}`
-      }
-    });
-
-    if (!profileResponse.ok) {
-      if (profileResponse.status === 401) {
-        throw new Error('Authentication failed. Please log in again.');
-      }
-      throw new Error('Failed to fetch user profile');
-    }
-
-    const profile = await profileResponse.json();
-    console.log('✅ [JobMatch] User profile loaded:', {
-      hasResume: !!profile.resume,
-      resumeLength: profile.resume?.length || 0,
-      role: profile.role
-    });
-
-    // Check if user has a resume
-    if (!profile.resume || profile.resume.trim() === '') {
-      console.warn('⚠️ [JobMatch] User has no resume uploaded');
-      throw new Error('Please upload your resume in your JobMatch AI profile to enable job matching.');
-    }
-
-    // Calculate match score
-    console.log('🎯 [JobMatch] Calling Gemini API for match score calculation...');
-    const matchResponse = await fetch(`${API_BASE_URL}/api/jobs/match`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${authToken}`
-      },
-      body: JSON.stringify({
-        jobDescription: jobData.description,
-        resumeText: profile.resume
-      })
-    });
-    
-    console.log('📊 [JobMatch] Match score API response status:', matchResponse.status);
-
-    if (!matchResponse.ok) {
-      const errorBody = await matchResponse.json().catch(() => ({ message: 'Unknown error' }));
-      console.error('❌ [JobMatch] Match score error response:', errorBody);
-      
-      if (matchResponse.status === 401) {
-        throw new Error('Authentication failed. Please log in again.');
-      } else if (matchResponse.status === 429) {
-        throw new Error('Too many requests. Please try again later.');
-      } else if (matchResponse.status >= 500) {
-        throw new Error('Server error. Please try again later.');
-      }
-      throw new Error(errorBody.message || errorBody.error || 'Failed to calculate match score');
-    }
-
-    const matchResult = await matchResponse.json();
-    console.log('✅ [JobMatch] Match score calculation complete:', {
-      matchScore: matchResult.matchScore,
-      hasInsights: !!matchResult.insights,
-      insightCount: matchResult.insights?.length || 0
-    });
-
+    // Use quality score as match score for now
     const analysisResult = {
-      ...jobAnalysis,
-      ...matchResult,
+      matchScore: jobAnalysis.qualityScore || 0,
+      qualityScore: jobAnalysis.qualityScore || 0,
+      isLegitimate: jobAnalysis.isLegitimate,
+      redFlags: jobAnalysis.redFlags || [],
+      suggestions: jobAnalysis.suggestions || [],
+      requiredSkills: jobAnalysis.requiredSkills || [],
+      experienceLevel: jobAnalysis.experienceLevel,
+      jobType: jobAnalysis.jobType,
       jobData,
       timestamp: Date.now()
     };
