@@ -22,7 +22,11 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://www.linkedin.com/jobs/*"],
+      "matches": [
+        "https://www.linkedin.com/jobs/*",
+        "https://linkedin.com/jobs/*",
+        "https://*.linkedin.com/jobs/*"
+      ],
       "js": ["scripts/content.js"],
       "css": ["scripts/content.css"],
       "run_at": "document_idle"
