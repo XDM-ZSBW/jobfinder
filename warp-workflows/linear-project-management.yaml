@@ -1,0 +1,217 @@
+---
+# Linear Project Management - Warp MCP Integration for JobMatch.zip
+# Created: 2025-11-24
+
+name: "Linear Project Management - JobMatch AI"
+description: "Manage JobMatch.zip project tasks using Linear via Warp MCP"
+version: "1.0.0"
+
+# Prerequisites
+# 1. Linear account created at https://linear.app
+# 2. Linear API key from https://linear.app/settings/api
+# 3. Set environment variable: LINEAR_API_KEY
+
+workflows:
+  # ===== ISSUE MANAGEMENT =====
+  
+  - name: "Create Feature Issue"
+    command: |
+      # Create new feature issue in Linear
+      curl -X POST https://api.linear.app/graphql \
+        -H "Content-Type: application/json" \
+        -H "Authorization: $env:LINEAR_API_KEY" \
+        -d '{
+          "query": "mutation { issueCreate(input: { title: \"{{TITLE}}\", description: \"{{DESCRIPTION}}\", teamId: \"{{TEAM_ID}}\", priority: 2, labelIds: [\"feature\"] }) { success issue { id identifier title } } }"
+        }'
+    tags: ["linear", "issue", "feature"]
+    
+  - name: "Create Bug Issue"
+    command: |
+      curl -X POST https://api.linear.app/graphql \
+        -H "Content-Type: application/json" \
+        -H "Authorization: $env:LINEAR_API_KEY" \
+        -d '{
+          "query": "mutation { issueCreate(input: { title: \"{{TITLE}}\", description: \"{{DESCRIPTION}}\", teamId: \"{{TEAM_ID}}\", priority: 1, labelIds: [\"bug\"] }) { success issue { id identifier title } } }"
+        }'
+    tags: ["linear", "issue", "bug"]
+  
+  - name: "List Open Issues"
+    command: |
+      curl -X POST https://api.linear.app/graphql \
+        -H "Content-Type: application/json" \
+        -H "Authorization: $env:LINEAR_API_KEY" \
+        -d '{
+          "query": "{ issues(filter: { state: { type: { in: [\"started\", \"unstarted\"] } } }) { nodes { id identifier title state { name } assignee { name } priority } } }"
+        }' | ConvertFrom-Json | ConvertTo-Json -Depth 10
+    tags: ["linear", "list", "issues"]
+  
+  - name: "Update Issue Status"
+    command: |
+      curl -X POST https://api.linear.app/graphql \
+        -H "Content-Type: application/json" \
+        -H "Authorization: $env:LINEAR_API_KEY" \
+        -d '{
+          "query": "mutation { issueUpdate(id: \"{{ISSUE_ID}}\", input: { stateId: \"{{STATE_ID}}\" }) { success issue { id identifier title state { name } } } }"
+        }'
+    tags: ["linear", "update", "status"]
+  
+  # ===== PROJECT TRACKING =====
+  
+  - name: "View Project Roadmap"
+    command: |
+      curl -X POST https://api.linear.app/graphql \
+        -H "Content-Type: application/json" \
+        -H "Authorization: $env:LINEAR_API_KEY" \
+        -d '{
+          "query": "{ projects { nodes { id name description state progress targetDate issues { nodes { id identifier title } } } } }"
+        }' | ConvertFrom-Json | ConvertTo-Json -Depth 10
+    tags: ["linear", "project", "roadmap"]
+  
+  - name: "Create Sprint/Cycle"
+    command: |
+      curl -X POST https://api.linear.app/graphql \
+        -H "Content-Type: application/json" \
+        -H "Authorization: $env:LINEAR_API_KEY" \
+        -d '{
+          "query": "mutation { cycleCreate(input: { teamId: \"{{TEAM_ID}}\", name: \"{{SPRINT_NAME}}\", startsAt: \"{{START_DATE}}\", endsAt: \"{{END_DATE}}\" }) { success cycle { id name } } }"
+        }'
+    tags: ["linear", "sprint", "cycle"]
+  
+  - name: "View Current Sprint"
+    command: |
+      curl -X POST https://api.linear.app/graphql \
+        -H "Content-Type: application/json" \
+        -H "Authorization: $env:LINEAR_API_KEY" \
+        -d '{
+          "query": "{ cycles(filter: { isActive: { eq: true } }) { nodes { id name startsAt endsAt progress issues { nodes { id identifier title state { name } } } } } }"
+        }' | ConvertFrom-Json | ConvertTo-Json -Depth 10
+    tags: ["linear", "sprint", "current"]
+  
+  # ===== GITHUB INTEGRATION =====
+  
+  - name: "Link Issue to GitHub PR"
+    command: |
+      # Links Linear issue to GitHub PR
+      curl -X POST https://api.linear.app/graphql \
+        -H "Content-Type: application/json" \
+        -H "Authorization: $env:LINEAR_API_KEY" \
+        -d '{
+          "query": "mutation { attachmentCreate(input: { issueId: \"{{ISSUE_ID}}\", title: \"PR #{{PR_NUMBER}}\", url: \"https://github.com/{{ORG}}/{{REPO}}/pull/{{PR_NUMBER}}\" }) { success attachment { id } } }"
+        }'
+    tags: ["linear", "github", "pr"]
+  
+  - name: "Create Issue from GitHub Issue"
+    command: |
+      # Sync GitHub issue to Linear
+      curl -X POST https://api.linear.app/graphql \
+        -H "Content-Type: application/json" \
+        -H "Authorization: $env:LINEAR_API_KEY" \
+        -d '{
+          "query": "mutation { issueCreate(input: { title: \"{{GH_ISSUE_TITLE}}\", description: \"GitHub Issue #{{GH_ISSUE_NUMBER}}\\n\\n{{GH_ISSUE_BODY}}\", teamId: \"{{TEAM_ID}}\", labelIds: [\"github-sync\"] }) { success issue { id identifier } } }"
+        }'
+    tags: ["linear", "github", "sync"]
+  
+  # ===== TEAM & ASSIGNMENT =====
+  
+  - name: "Assign Issue to User"
+    command: |
+      curl -X POST https://api.linear.app/graphql \
+        -H "Content-Type: application/json" \
+        -H "Authorization: $env:LINEAR_API_KEY" \
+        -d '{
+          "query": "mutation { issueUpdate(id: \"{{ISSUE_ID}}\", input: { assigneeId: \"{{USER_ID}}\" }) { success issue { id assignee { name email } } } }"
+        }'
+    tags: ["linear", "assign", "user"]
+  
+  - name: "List Team Members"
+    command: |
+      curl -X POST https://api.linear.app/graphql \
+        -H "Content-Type: application/json" \
+        -H "Authorization: $env:LINEAR_API_KEY" \
+        -d '{
+          "query": "{ users { nodes { id name email active } } }"
+        }' | ConvertFrom-Json | ConvertTo-Json -Depth 10
+    tags: ["linear", "team", "users"]
+  
+  # ===== REPORTS & ANALYTICS =====
+  
+  - name: "Sprint Velocity Report"
+    command: |
+      curl -X POST https://api.linear.app/graphql \
+        -H "Content-Type: application/json" \
+        -H "Authorization: $env:LINEAR_API_KEY" \
+        -d '{
+          "query": "{ cycles(last: 5) { nodes { id name progress completedIssueCountHistory inProgressIssueCountHistory } } }"
+        }' | ConvertFrom-Json | ConvertTo-Json -Depth 10
+    tags: ["linear", "report", "velocity"]
+  
+  - name: "Bug Triage Report"
+    command: |
+      curl -X POST https://api.linear.app/graphql \
+        -H "Content-Type: application/json" \
+        -H "Authorization: $env:LINEAR_API_KEY" \
+        -d '{
+          "query": "{ issues(filter: { labels: { name: { eq: \"bug\" } }, state: { type: { in: [\"unstarted\", \"started\"] } } }) { nodes { id identifier title priority createdAt assignee { name } } } }"
+        }' | ConvertFrom-Json | ConvertTo-Json -Depth 10
+    tags: ["linear", "report", "bugs"]
+  
+  # ===== JOBMATCH-SPECIFIC WORKFLOWS =====
+  
+  - name: "Create Frontend Task"
+    command: |
+      curl -X POST https://api.linear.app/graphql \
+        -H "Content-Type: application/json" \
+        -H "Authorization: $env:LINEAR_API_KEY" \
+        -d '{
+          "query": "mutation { issueCreate(input: { title: \"[Frontend] {{TITLE}}\", description: \"{{DESCRIPTION}}\", teamId: \"{{TEAM_ID}}\", labelIds: [\"frontend\"], projectId: \"{{PROJECT_ID}}\" }) { success issue { id identifier url } } }"
+        }'
+    tags: ["linear", "frontend", "jobmatch"]
+  
+  - name: "Create Backend Task"
+    command: |
+      curl -X POST https://api.linear.app/graphql \
+        -H "Content-Type: application/json" \
+        -H "Authorization: $env:LINEAR_API_KEY" \
+        -d '{
+          "query": "mutation { issueCreate(input: { title: \"[Backend] {{TITLE}}\", description: \"{{DESCRIPTION}}\", teamId: \"{{TEAM_ID}}\", labelIds: [\"backend\"], projectId: \"{{PROJECT_ID}}\" }) { success issue { id identifier url } } }"
+        }'
+    tags: ["linear", "backend", "jobmatch"]
+  
+  - name: "Create AI/Matching Task"
+    command: |
+      curl -X POST https://api.linear.app/graphql \
+        -H "Content-Type: application/json" \
+        -H "Authorization: $env:LINEAR_API_KEY" \
+        -d '{
+          "query": "mutation { issueCreate(input: { title: \"[AI/Matching] {{TITLE}}\", description: \"{{DESCRIPTION}}\", teamId: \"{{TEAM_ID}}\", labelIds: [\"ai-matching\"], priority: 2, projectId: \"{{PROJECT_ID}}\" }) { success issue { id identifier url } } }"
+        }'
+    tags: ["linear", "ai", "matching", "jobmatch"]
+  
+  - name: "Create Deployment Task"
+    command: |
+      curl -X POST https://api.linear.app/graphql \
+        -H "Content-Type: application/json" \
+        -H "Authorization: $env:LINEAR_API_KEY" \
+        -d '{
+          "query": "mutation { issueCreate(input: { title: \"[DevOps] {{TITLE}}\", description: \"{{DESCRIPTION}}\", teamId: \"{{TEAM_ID}}\", labelIds: [\"devops\", \"deployment\"], priority: 1, projectId: \"{{PROJECT_ID}}\" }) { success issue { id identifier url } } }"
+        }'
+    tags: ["linear", "devops", "deployment", "jobmatch"]
+
+# Setup Instructions:
+# 1. Create Linear account: https://linear.app
+# 2. Get API key: https://linear.app/settings/api
+# 3. Set environment variable: $env:LINEAR_API_KEY = "lin_api_xxxxx"
+# 4. Get your Team ID: Run "List Team Members" workflow
+# 5. Create labels: feature, bug, frontend, backend, ai-matching, devops
+# 6. Import workflows to Warp Drive
+
+# Integration with GitHub MCP:
+# - Use github MCP tools to create issues
+# - Link Linear issues to GitHub PRs automatically
+# - Sync status between GitHub and Linear
+
+# Best Practices:
+# - Use consistent naming: [Area] Title format
+# - Link issues to PRs for traceability
+# - Update status regularly
+# - Use labels for filtering and reporting
