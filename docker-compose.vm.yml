@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: jobmatch-postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-jobmatch}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-jobmatch}
+      POSTGRES_DB: ${POSTGRES_DB:-jobmatch}
+    ports:
+      - "5432:5432"
+    volumes:
+  postgres_data:
+  redis_data:
+  elasticsearch_data:
+  ollama_data:
+  checkpoints_data:
+  logs:
+
+networks:
+  default:
+    name: jobmatch-network
+    driver: bridge
+
