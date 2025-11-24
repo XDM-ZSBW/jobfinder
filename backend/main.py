@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from backend.config import settings
-from backend.api import auth, assessment, matching, articulation, forums, referrals, xdmiq, social_auth, gcp_cli, marketplace, canvas, security, conversations, seo, users, chat, voice
+from backend.api import auth, assessment, matching, articulation, forums, referrals, xdmiq, social_auth, gcp_cli, marketplace, canvas, security, conversations, seo, users, chat, voice, sms
 from backend.security.security_headers import SecurityHeadersMiddleware
 from backend.security.rate_limiter import RateLimiterMiddleware
 
@@ -54,6 +54,7 @@ app.include_router(chat.router)
 app.include_router(seo.router)
 app.include_router(users.router)  # GDPR-compliant user data management
 app.include_router(voice.router)  # Twilio voice integration
+app.include_router(sms.router)  # Twilio SMS integration
 
 # GCP CLI Backdoor (Documented Feature)
 if settings.GCP_CLI_ENABLED:
