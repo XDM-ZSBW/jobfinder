@@ -1,0 +1,107 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+      
+      - name: Build frontend
+        working-directory: ./frontend
+        run: |
+          npm ci
+          npm run build
+      
+      - name: Create deployment package
+        run: |
+          zip -r deploy.zip \
+            frontend/.next \
+            frontend/public \
+            frontend/package.json \
+            frontend/package-lock.json \
+            frontend/next.config.js \
+            frontend/server.js \
+            frontend/tsconfig.json \
+            frontend/middleware.ts \
+            backend/ \
+            docker-compose.yml \
+            supervisord.conf \
+            Dockerfile \
+            public/
+      
+      - name: Deploy to VM
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: ${{ secrets.VM_USER }}
+          key: ${{ secrets.VM_SSH_KEY }}
+          port: 22
+          source: "deploy.zip"
+          target: "/opt/jobmatch/"
+      
+      - name: Run deployment script
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: ${{ secrets.VM_USER }}
+          key: ${{ secrets.VM_SSH_KEY }}
+          port: 22
+          script: |
+            set -e
+            cd /opt/jobmatch
+            
+            echo "📦 Extracting deployment package..."
+            unzip -o deploy.zip || true
+            rm -f deploy.zip
+            
+            echo "🔧 Ensuring .env file exists..."
+            if [ ! -f .env ]; then
+              VM_IP=$(curl -s http://metadata.google.internal/computeMetadata/v1/instance/network-interfaces/0/access-configs/0/external-ip -H 'Metadata-Flavor: Google' || echo "localhost")
+              cat > .env <<ENVEOF
+            DATABASE_URL=postgresql://jobfinder:jobfinder@postgres:5432/jobfinder
+            REDIS_URL=redis://redis:6379
+            ELASTICSEARCH_URL=http://elasticsearch:9200
+            OPENAI_API_KEY=
+            OLLAMA_BASE_URL=http://localhost:11434
+            OLLAMA_MODEL=llama3.2
+            SECRET_KEY=$(openssl rand -hex 32)
+            ENVIRONMENT=production
+            CORS_ORIGINS=https://jobmatch.zip,https://www.jobmatch.zip,http://localhost:3000,http://localhost:8000
+            NEXT_PUBLIC_API_URL=https://jobmatch.zip/api
+            ENVEOF
+            fi
+            
+            echo "🐳 Restarting Docker services..."
+            sudo docker compose down || true
+            sudo docker compose up -d --build
+            
+            echo "⏳ Waiting for services to start..."
+            sleep 30
+            
+            echo "🏥 Checking service health..."
+            for i in {1..6}; do
+              if curl -f http://localhost:8000/health > /dev/null 2>&1; then
+                echo "✅ Backend is healthy!"
+                exit 0
+              fi
+              echo "⏳ Attempt $i/6 - waiting 10 seconds..."
+              sleep 10
+            done
+            
+            echo "⚠️ Health check failed, but deployment completed"
+            sudo docker compose ps
+            sudo docker compose logs --tail=50

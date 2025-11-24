@@ -1,0 +1,54 @@
+name: Infrastructure Agent
+description: Manage localhost environment for pre-production verification
+commands:
+  - name: Start Environment
+    command: .\scripts\infra-agent.ps1 up
+    tags:
+      - infra
+      - start
+    
+  - name: Start Environment (Production Simulation)
+    command: .\scripts\infra-agent.ps1 up -Mode prod-sim
+    tags:
+      - infra
+      - start
+      - production
+    
+  - name: Verify Environment
+    command: .\scripts\infra-agent.ps1 verify
+    tags:
+      - infra
+      - verify
+      - test
+    
+  - name: Check Status
+    command: .\scripts\infra-agent.ps1 status
+    tags:
+      - infra
+      - status
+    
+  - name: Stop Environment
+    command: .\scripts\infra-agent.ps1 down
+    tags:
+      - infra
+      - stop
+    
+  - name: Restart Environment
+    command: .\scripts\infra-agent.ps1 restart
+    tags:
+      - infra
+      - restart
+    
+  - name: View Logs
+    command: .\scripts\infra-agent.ps1 logs
+    tags:
+      - infra
+      - logs
+      - debug
+    
+  - name: Clean Environment
+    command: .\scripts\infra-agent.ps1 clean
+    tags:
+      - infra
+      - clean
+      - reset

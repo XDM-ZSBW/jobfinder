@@ -1,0 +1,303 @@
+# SYSTEM PROMPTING CHAIN - CRITICAL CONFIGURATION
+# This file defines the core system prompting architecture for the AI-Enabled LLC Matching Platform
+# WARP monitors this file for immediate detection of critical changes
+# Last Updated: 2025-01-27
+
+version: "2.0"
+critical: true
+blockchain_enabled: true
+
+# Core Prompting Chain Architecture
+prompting_chain:
+  # Stage 1: Context Assembly
+  context_assembly:
+    priority: 1
+    description: "Assemble all relevant context before prompt generation"
+    sources:
+      - anonymous_identity_context: "Always preserve anonymous identity, never expose real identity"
+      - capability_assessment: "Focus on capabilities, not credentials"
+      - xdmiq_scores: "Include XDMIQ preference-based scores when available"
+      - human_review_history: "Include previous human review decisions for learning"
+      - state_checkpoints: "Reference last known good state for recovery"
+      - blockchain_verification: "Verify integrity via blockchain when enabled"
+    
+    rules:
+      - "Never include personally identifiable information (PII)"
+      - "Always include human-in-the-loop checkpoints"
+      - "Maintain zero-knowledge architecture"
+      - "Verify blockchain state before critical operations"
+
+  # Stage 2: Prompt Construction
+  prompt_construction:
+    priority: 2
+    description: "Build optimized prompts using chain-of-thought reasoning"
+    patterns:
+      - capability_first: "Focus on what users CAN DO, not who they ARE"
+      - example_driven: "Always reference existing codebase patterns"
+      - constraint_aware: "Explicitly state what MUST NOT change"
+      - safety_guardrails: "Enforce privacy and security boundaries"
+      - blockchain_immutability: "Ensure prompts reference immutable blockchain records"
+    
+    templates:
+      matching_engine:
+        system_prompt: |
+          You are an AI matching engine for an anonymous, capability-first job platform.
+          CRITICAL CONSTRAINTS:
+          - Never expose user identity
+          - Focus on capabilities over credentials
+          - All matches require human review
+          - Blockchain verification required for high-value matches
+          - State checkpoints must be created before AI decisions
+          
+          Generate matches based on:
+          1. Capability assessments (XDMIQ preferred)
+          2. Skill alignment
+          3. Preference matching
+          4. Blockchain-verified reputation (when available)
+          
+          Always create state checkpoints for recovery.
+        
+        blockchain_integration:
+          enabled: true
+          verification_required: true
+          on_chain_storage: "high_value_matches"
+          verification_method: "merkle_proof"
+
+      articulation_assistant:
+        system_prompt: |
+          You help users articulate their capabilities anonymously.
+          CRITICAL CONSTRAINTS:
+          - Never suggest revealing identity
+          - Focus on demonstrable skills
+          - Blockchain-verified portfolio items get priority
+          - Human review for all suggestions
+          
+          Use blockchain to verify:
+          - Portfolio authenticity
+          - Skill certifications
+          - Work history (anonymous)
+        
+        blockchain_integration:
+          enabled: true
+          verification_required: false
+          on_chain_storage: "portfolio_items"
+          verification_method: "ipfs_hash"
+
+      moderation_engine:
+        system_prompt: |
+          You moderate content for bias and gatekeeping.
+          CRITICAL CONSTRAINTS:
+          - Flag credentialism (degrees over capabilities)
+          - Detect gatekeeping language
+          - Prevent bias against LLC/independent contractors
+          - Blockchain-verified moderation history for transparency
+          
+          All moderation decisions are:
+          - Logged to blockchain for audit trail
+          - Subject to human review
+          - Reversible via state recovery
+        
+        blockchain_integration:
+          enabled: true
+          verification_required: true
+          on_chain_storage: "moderation_decisions"
+          verification_method: "event_log"
+
+  # Stage 3: AI Execution
+  ai_execution:
+    priority: 3
+    description: "Execute AI operations with human oversight"
+    workflow:
+      - create_checkpoint: "Before any AI operation"
+      - execute_ai: "Run AI with constructed prompt"
+      - blockchain_commit: "Commit decision hash to blockchain"
+      - human_review_queue: "Queue for human validation"
+      - state_recovery: "Support rollback if needed"
+    
+    models:
+      primary: "gpt-4"
+      fallback: "ollama:llama3.2"
+      blockchain_verification: "custom_verification_service"
+    
+    safety_checks:
+      - pii_detection: "Scan for accidental PII exposure"
+      - bias_detection: "Check for credentialism or gatekeeping"
+      - blockchain_verification: "Verify blockchain state consistency"
+      - state_integrity: "Ensure checkpoint integrity"
+
+  # Stage 4: Human Review
+  human_review:
+    priority: 4
+    description: "Human validation of AI decisions"
+    triggers:
+      - high_value_matches: "score >= 80"
+      - blockchain_verification_failed: "blockchain state mismatch"
+      - state_recovery_needed: "checkpoint corruption detected"
+      - user_request: "explicit user request"
+    
+    workflow:
+      - queue_for_review: "Add to human review queue"
+      - blockchain_log: "Log review request to blockchain"
+      - human_decision: "Human makes final decision"
+      - blockchain_commit: "Commit human decision to blockchain"
+      - update_ai_model: "Learn from human feedback"
+
+  # Stage 5: State Management
+  state_management:
+    priority: 5
+    description: "Maintain recoverable state with blockchain backup"
+    checkpoints:
+      - before_ai_operation: "Create checkpoint before AI runs"
+      - after_ai_operation: "Create checkpoint after AI completes"
+      - after_human_review: "Create checkpoint after human validates"
+      - blockchain_sync: "Sync checkpoint hash to blockchain"
+    
+    recovery:
+      - rollback_capability: "Restore from last known good checkpoint"
+      - blockchain_verification: "Verify checkpoint integrity via blockchain"
+      - state_reconstruction: "Rebuild state from blockchain records"
+
+# Blockchain Strategy
+blockchain:
+  enabled: true
+  implementation_phase: "planning"
+  target_deployment: "Q2 2025"
+  
+  architecture:
+    layer_1: "Ethereum (mainnet) or Polygon (L2 scaling)"
+    layer_2: "IPFS for content storage"
+    verification: "Merkle proofs for efficient verification"
+    smart_contracts:
+      - match_verification: "Verify high-value matches"
+      - reputation_system: "Anonymous reputation scores"
+      - moderation_audit: "Immutable moderation log"
+      - capability_credentials: "Blockchain-verified capabilities"
+  
+  use_cases:
+    - high_value_match_verification:
+        description: "Store match hashes on-chain for verification"
+        frequency: "high_value_matches only"
+        cost_optimization: "Batch commits to reduce gas fees"
+      
+    - portfolio_verification:
+        description: "IPFS + blockchain for portfolio authenticity"
+        frequency: "on-demand"
+        cost_optimization: "IPFS pinning, blockchain hash only"
+      
+    - moderation_audit_trail:
+        description: "Immutable log of all moderation decisions"
+        frequency: "all moderation actions"
+        cost_optimization: "Event logs only, not full data"
+      
+    - reputation_system:
+        description: "Anonymous reputation scores on-chain"
+        frequency: "periodic updates"
+        cost_optimization: "Aggregate scores, not individual actions"
+      
+    - capability_credentials:
+        description: "Blockchain-verified capability assessments"
+        frequency: "on assessment completion"
+        cost_optimization: "Hash of assessment, not full data"
+  
+  integration_points:
+    matching_engine:
+      - "Commit match hash to blockchain for high-value matches"
+      - "Verify blockchain state before match delivery"
+      - "Query blockchain for reputation scores"
+    
+    articulation_assistant:
+      - "Store portfolio item hashes on IPFS + blockchain"
+      - "Verify portfolio authenticity via blockchain"
+    
+    moderation_engine:
+      - "Log all moderation decisions to blockchain"
+      - "Enable transparent audit trail"
+      - "Support appeal process via blockchain records"
+    
+    state_management:
+      - "Store checkpoint hashes on blockchain"
+      - "Enable state recovery via blockchain verification"
+      - "Prevent checkpoint tampering"
+  
+  cost_optimization:
+    - batch_commits: "Group multiple operations into single transaction"
+    - layer_2_scaling: "Use Polygon or similar L2 for lower costs"
+    - ipfs_storage: "Store large data on IPFS, hash on blockchain"
+    - event_logs_only: "Store minimal data on-chain, full data off-chain"
+    - periodic_updates: "Update blockchain state periodically, not every operation"
+  
+  security:
+    - private_keys: "Hardware security modules (HSM) for key management"
+    - access_control: "Multi-signature for critical operations"
+    - audit_trail: "All blockchain operations logged and monitored"
+    - key_rotation: "Regular key rotation for security"
+  
+  monitoring:
+    - transaction_status: "Monitor blockchain transaction status"
+    - gas_costs: "Track and optimize gas costs"
+    - ipfs_pinning: "Monitor IPFS pinning status"
+    - verification_failures: "Alert on blockchain verification failures"
+
+# WARP Integration
+warp_monitoring:
+  enabled: true
+  watch_files:
+    - "SYSTEM_PROMPTING_CHAIN.yaml"
+    - ".claude-code/hooks.json"
+    - "backend/ai/*.py"
+    - "warp.config.yaml"
+    - "warp-workflows/universal-ui-build.yaml"
+  
+  alert_triggers:
+    - blockchain_config_changed: "Blockchain configuration modified"
+    - prompting_chain_updated: "Core prompting chain updated"
+    - safety_rules_changed: "Safety rules modified"
+    - integration_points_changed: "Integration points updated"
+    - universal_ui_build_triggered: "Universal UI/UX build started"
+  
+  sync_with_pieces:
+    enabled: true
+    sync_on_change: true
+    include_blockchain_context: true
+  
+  # Universal UI/UX Build Integration
+  universal_ui_build:
+    enabled: true
+    workflow: "warp-workflows/universal-ui-build.yaml"
+    auto_build_on_change: true
+    monitored_paths:
+      - "frontend/app/canvas/**"
+      - "frontend/app/**/*.tsx"
+      - "frontend/components/**"
+      - "public/manifest.json"
+      - "public/sw.js"
+    build_command: "npm run build"
+    build_target: "Universal Canvas - http://localhost:3000/canvas"
+
+# Migration Path
+migration:
+  phase_1_current:
+    - "System prompting chain defined"
+    - "Blockchain strategy documented"
+    - "Integration points identified"
+  
+  phase_2_next:
+    - "Implement blockchain verification service"
+    - "Add blockchain hooks to matching engine"
+    - "Set up IPFS infrastructure"
+    - "Deploy smart contracts (testnet)"
+  
+  phase_3_production:
+    - "Deploy to mainnet/L2"
+    - "Enable blockchain verification for high-value matches"
+    - "Migrate existing data to blockchain"
+    - "Full blockchain integration"
+
+# Critical Notes
+notes:
+  - "This file is monitored by WARP for immediate detection"
+  - "Any changes to prompting chain require human review"
+  - "Blockchain integration must maintain anonymous identity"
+  - "All blockchain operations must be cost-optimized"
+  - "State recovery must work with or without blockchain"
+
