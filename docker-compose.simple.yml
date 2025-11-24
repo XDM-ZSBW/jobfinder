@@ -1,4 +1,4 @@
-version: '3.8'
+# version key deprecated in compose v3+, safe to omit
 
 services:
   postgres:
@@ -23,15 +23,6 @@ services:
       - redis_data:/data
     restart: unless-stopped
 
-  ollama:
-    image: ollama/ollama:latest
-    container_name: jobmatch-ollama
-    ports:
-      - "11434:11434"
-    volumes:
-      - ollama_data:/root/.ollama
-    restart: unless-stopped
-    command: ["serve"]
 
   backend:
     build:
@@ -43,16 +34,12 @@ services:
     environment:
       - DATABASE_URL=postgresql://${POSTGRES_USER:-jobmatch}:${POSTGRES_PASSWORD:-jobmatch}@postgres:5432/${POSTGRES_DB:-jobmatch}
       - REDIS_URL=redis://redis:6379
-      - OLLAMA_BASE_URL=http://ollama:11434
-      - OLLAMA_MODEL=llama3.2
-      - USE_OLLAMA=true
       - SECRET_KEY=${SECRET_KEY:-change-me-in-production}
       - ENVIRONMENT=production
     depends_on:
       - postgres
       - redis
-      - ollama
-    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
+    command: uvicorn main:app --host 0.0.0.0 --port 8000
     restart: unless-stopped
 
   frontend:
@@ -64,7 +51,7 @@ services:
       - "3000:3000"
       - "80:3000"
     environment:
-      - NEXT_PUBLIC_API_URL=http://136.115.106.188:8000
+      - "NEXT_PUBLIC_API_URL=http://jobmatch.zip:8000"
       - NODE_ENV=production
     depends_on:
       - backend
@@ -73,7 +60,6 @@ services:
 volumes:
   postgres_data:
   redis_data:
-  ollama_data:
 
 networks:
   default:
