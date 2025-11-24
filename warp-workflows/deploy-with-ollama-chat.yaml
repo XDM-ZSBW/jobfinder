@@ -1,0 +1,131 @@
+name: Deploy JobMatch with Ollama Chat Backend
+description: Build, deploy, and verify Ollama chat backend is accessible at https://jobmatch.zip
+
+steps:
+  - name: Build Frontend
+    command: |
+      cd frontend
+      npm install
+      npm run build
+    description: Build Next.js frontend for production
+
+  - name: Create Release Package
+    command: |
+      powershell -ExecutionPolicy Bypass -File scripts/create-release.ps1
+    description: Create deployment package (jobmatch.zip)
+
+  - name: Get VM IP
+    command: |
+      $env:VM_IP = gcloud compute instances describe jobmatch-vm --zone=us-central1-a --format="value(networkInterfaces[0].accessConfigs[0].natIP)"
+      echo "VM IP: $env:VM_IP"
+    description: Get VM IP address
+
+  - name: Deploy to VM
+    command: |
+      $env:VM_NAME = "jobmatch-vm"
+      $env:ZONE = "us-central1-a"
+      $env:GCP_PROJECT_ID = gcloud config get-value project
+      
+      Write-Host "📤 Uploading deployment package..."
+      gcloud compute scp jobmatch.zip jobmatch-vm:/opt/jobmatch/ --zone=us-central1-a
+      
+      Write-Host "🔧 Deploying on VM..."
+      gcloud compute ssh jobmatch-vm --zone=us-central1-a --command="
+        cd /opt/jobmatch
+        unzip -o jobmatch.zip
+        rm jobmatch.zip
+        
+        # Ensure Ollama is running
+        if ! systemctl is-active --quiet ollama; then
+          echo '🤖 Starting Ollama service...'
+          sudo systemctl start ollama
+          sudo systemctl enable ollama
+        fi
+        
+        # Pull llama3.2 model if not already available
+        if ! ollama list | grep -q llama3.2; then
+          echo '📥 Pulling llama3.2 model...'
+          ollama pull llama3.2
+        fi
+        
+        # Create/update .env file with Ollama configuration
+        cat > .env <<ENVEOF
+DATABASE_URL=postgresql://jobfinder:jobfinder@postgres:5432/jobfinder
+REDIS_URL=redis://redis:6379
+ELASTICSEARCH_URL=http://elasticsearch:9200
+OPENAI_API_KEY=
+OLLAMA_BASE_URL=http://localhost:11434
+OLLAMA_MODEL=llama3.2
+SECRET_KEY=$(openssl rand -hex 32)
+ENVIRONMENT=production
+CORS_ORIGINS=https://jobmatch.zip,https://www.jobmatch.zip,http://localhost:3000,http://localhost:8000
+NEXT_PUBLIC_API_URL=https://jobmatch.zip/api
+ENVEOF
+        
+        # Build and start Docker services
+        echo '🐳 Building Docker containers...'
+        docker-compose down || true
+        docker-compose build --no-cache
+        docker-compose up -d
+        
+        # Wait for services to be ready
+        echo '⏳ Waiting for services to start...'
+        sleep 45
+        
+        # Verify Ollama is accessible
+        echo '🤖 Verifying Ollama...'
+        curl -f http://localhost:11434/api/tags || echo '⚠️  Ollama not responding yet'
+        
+        # Check health endpoints
+        echo '🏥 Checking health endpoints...'
+        curl -f http://localhost:8000/health || echo '⚠️  Backend health check failed'
+        curl -f http://localhost:3000 || echo '⚠️  Frontend not responding'
+        
+        echo '✅ Deployment complete!'
+      "
+    description: Deploy application to VM and ensure Ollama is running
+
+  - name: Verify Chat Backend
+    command: |
+      Write-Host "🧪 Testing Ollama chat backend..."
+      
+      # Test Ollama directly
+      gcloud compute ssh jobmatch-vm --zone=us-central1-a --command="
+        echo 'Testing Ollama API...'
+        curl -X POST http://localhost:11434/api/generate -d '{\"model\":\"llama3.2\",\"prompt\":\"Hello\",\"stream\":false}' | head -20
+      "
+      
+      # Test backend API health
+      Write-Host "Testing backend API..."
+      curl -k -I https://jobmatch.zip/api/health
+      
+      # Test conversations endpoint
+      Write-Host "Testing conversations endpoint..."
+      curl -k -I https://jobmatch.zip/api/conversations/save
+      
+      Write-Host ""
+      Write-Host "✅ Chat backend verification complete!"
+      Write-Host "🌐 Access your chat at: https://jobmatch.zip"
+    description: Verify Ollama chat backend is accessible
+
+  - name: Display Access Info
+    command: |
+      $vmIp = gcloud compute instances describe jobmatch-vm --zone=us-central1-a --format="value(networkInterfaces[0].accessConfigs[0].natIP)"
+      Write-Host ""
+      Write-Host "✅ Deployment Complete!" -ForegroundColor Green
+      Write-Host ""
+      Write-Host "🌐 Access your application:" -ForegroundColor Cyan
+      Write-Host "   Chat Interface: https://jobmatch.zip" -ForegroundColor White
+      Write-Host "   Backend API: https://jobmatch.zip/api" -ForegroundColor White
+      Write-Host "   API Docs: https://jobmatch.zip/api/docs" -ForegroundColor White
+      Write-Host "   Health: https://jobmatch.zip/health" -ForegroundColor White
+      Write-Host ""
+      Write-Host "🤖 Ollama Chat Backend:" -ForegroundColor Cyan
+      Write-Host "   Model: llama3.2" -ForegroundColor White
+      Write-Host "   Endpoint: http://localhost:11434 (on VM)" -ForegroundColor White
+      Write-Host ""
+      Write-Host "📋 Test Commands:" -ForegroundColor Yellow
+      Write-Host "   curl -k https://jobmatch.zip/api/health" -ForegroundColor White
+      Write-Host "   curl -k https://jobmatch.zip/api/conversations/save" -ForegroundColor White
+    description: Display access information and test commands
+

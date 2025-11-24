@@ -1,0 +1,219 @@
+# Performance Optimizations Workflow
+# Runs overnight to optimize database, cache, and search performance
+
+name: Performance Optimizations
+description: Overnight performance optimizations for database, cache, and search
+
+schedule:
+  # Run daily at 2 AM
+  cron: "0 2 * * *"
+  timezone: "America/Los_Angeles"
+
+steps:
+  - name: Database Index Optimization
+    description: Analyze and optimize database indexes
+    commands:
+      - name: Analyze table statistics
+        run: |
+          docker compose exec -T postgres psql -U jobfinder -d jobfinder -c "
+          ANALYZE anonymous_users;
+          ANALYZE llc_profiles;
+          ANALYZE job_postings;
+          ANALYZE capability_assessments;
+          ANALYZE matches;
+          "
+      
+      - name: Check for missing indexes
+        run: |
+          docker compose exec -T postgres psql -U jobfinder -d jobfinder -c "
+          SELECT
+            schemaname,
+            tablename,
+            attname,
+            n_distinct,
+            correlation
+          FROM pg_stats
+          WHERE schemaname = 'public'
+            AND n_distinct > 100
+            AND correlation < 0.1
+          ORDER BY n_distinct DESC;
+          "
+      
+      - name: Reindex critical tables
+        run: |
+          docker compose exec -T postgres psql -U jobfinder -d jobfinder -c "
+          REINDEX TABLE CONCURRENTLY anonymous_users;
+          REINDEX TABLE CONCURRENTLY llc_profiles;
+          REINDEX TABLE CONCURRENTLY job_postings;
+          REINDEX TABLE CONCURRENTLY capability_assessments;
+          REINDEX TABLE CONCURRENTLY matches;
+          "
+
+  - name: Redis Cache Optimization
+    description: Optimize Redis cache and warm frequently accessed data
+    commands:
+      - name: Check cache statistics
+        run: |
+          docker compose exec -T redis redis-cli INFO stats | grep -E "keyspace|keyspace_hits|keyspace_misses"
+      
+      - name: Clear expired keys
+        run: |
+          docker compose exec -T redis redis-cli --scan --pattern "*" | \
+          xargs -I {} docker compose exec -T redis redis-cli TTL {} | \
+          grep -E "^-1$" | wc -l
+      
+      - name: Optimize memory usage
+        run: |
+          docker compose exec -T redis redis-cli CONFIG SET maxmemory-policy allkeys-lru
+          docker compose exec -T redis redis-cli CONFIG REWRITE
+
+  - name: Elasticsearch Index Optimization
+    description: Optimize Elasticsearch indexes for faster queries
+    commands:
+      - name: Check cluster health
+        run: |
+          curl -s http://localhost:9200/_cluster/health | jq .
+      
+      - name: Force merge indexes (optimize)
+        run: |
+          curl -X POST "http://localhost:9200/_forcemerge?max_num_segments=1&wait_for_completion=true"
+      
+      - name: Refresh all indexes
+        run: |
+          curl -X POST "http://localhost:9200/_refresh"
+      
+      - name: Update index settings for performance
+        run: |
+          curl -X PUT "http://localhost:9200/_settings" -H 'Content-Type: application/json' -d'
+          {
+            "index": {
+              "number_of_replicas": 0,
+              "refresh_interval": "30s"
+            }
+          }'
+
+  - name: Query Performance Analysis
+    description: Analyze slow queries and optimize
+    commands:
+      - name: Enable slow query log
+        run: |
+          docker compose exec -T postgres psql -U jobfinder -d jobfinder -c "
+          ALTER SYSTEM SET log_min_duration_statement = 1000;
+          SELECT pg_reload_conf();
+          "
+      
+      - name: Check for long-running queries
+        run: |
+          docker compose exec -T postgres psql -U jobfinder -d jobfinder -c "
+          SELECT
+            pid,
+            now() - pg_stat_activity.query_start AS duration,
+            query,
+            state
+          FROM pg_stat_activity
+          WHERE (now() - pg_stat_activity.query_start) > interval '5 minutes'
+            AND state = 'active';
+          "
+
+  - name: Frontend Asset Optimization
+    description: Optimize frontend assets and build
+    commands:
+      - name: Build optimized production bundle
+        run: |
+          cd frontend
+          npm run build
+      
+      - name: Analyze bundle size
+        run: |
+          cd frontend
+          npx @next/bundle-analyzer || echo "Bundle analyzer not available"
+      
+      - name: Optimize images (if available)
+        run: |
+          find frontend/public -name "*.jpg" -o -name "*.png" | head -10 | \
+          xargs -I {} echo "Would optimize: {}" || echo "Image optimization skipped"
+
+  - name: API Response Caching
+    description: Warm cache with frequently accessed data
+    commands:
+      - name: Warm cache for popular endpoints
+        run: |
+          # Warm health endpoint
+          curl -s http://localhost:8000/health > /dev/null
+          
+          # Warm API docs
+          curl -s http://localhost:8000/api/docs > /dev/null
+          
+          # Warm common queries (if endpoints exist)
+          curl -s http://localhost:8000/api/matching/popular > /dev/null || true
+          curl -s http://localhost:8000/api/marketplace/featured > /dev/null || true
+
+  - name: Database Vacuum and Analyze
+    description: Clean up database and update statistics
+    commands:
+      - name: Vacuum analyze all tables
+        run: |
+          docker compose exec -T postgres psql -U jobfinder -d jobfinder -c "
+          VACUUM ANALYZE anonymous_users;
+          VACUUM ANALYZE llc_profiles;
+          VACUUM ANALYZE job_postings;
+          VACUUM ANALYZE capability_assessments;
+          VACUUM ANALYZE matches;
+          VACUUM ANALYZE forum_posts;
+          "
+
+  - name: Performance Metrics Collection
+    description: Collect performance metrics for monitoring
+    commands:
+      - name: Database size and stats
+        run: |
+          docker compose exec -T postgres psql -U jobfinder -d jobfinder -c "
+          SELECT
+            pg_size_pretty(pg_database_size('jobfinder')) AS database_size,
+            (SELECT count(*) FROM anonymous_users) AS user_count,
+            (SELECT count(*) FROM job_postings) AS job_count,
+            (SELECT count(*) FROM matches) AS match_count;
+          "
+      
+      - name: Cache hit rate
+        run: |
+          docker compose exec -T redis redis-cli INFO stats | \
+          grep -E "keyspace_hits|keyspace_misses" | \
+          awk -F: '{print $2}' | \
+          awk '{hits+=$1; misses+=$1} END {if (hits+misses > 0) print "Hit rate: " (hits/(hits+misses)*100) "%"}'
+      
+      - name: Elasticsearch index sizes
+        run: |
+          curl -s http://localhost:9200/_cat/indices?v | head -20
+
+  - name: Generate Performance Report
+    description: Create performance optimization report
+    commands:
+      - name: Create report
+        run: |
+          echo "=== Performance Optimization Report ===" > /tmp/performance-report.txt
+          echo "Date: $(date)" >> /tmp/performance-report.txt
+          echo "" >> /tmp/performance-report.txt
+          
+          echo "Database Size:" >> /tmp/performance-report.txt
+          docker compose exec -T postgres psql -U jobfinder -d jobfinder -c \
+            "SELECT pg_size_pretty(pg_database_size('jobfinder'));" >> /tmp/performance-report.txt
+          
+          echo "" >> /tmp/performance-report.txt
+          echo "Cache Statistics:" >> /tmp/performance-report.txt
+          docker compose exec -T redis redis-cli INFO stats | grep -E "keyspace" >> /tmp/performance-report.txt
+          
+          echo "" >> /tmp/performance-report.txt
+          echo "Elasticsearch Health:" >> /tmp/performance-report.txt
+          curl -s http://localhost:9200/_cluster/health >> /tmp/performance-report.txt
+          
+          cat /tmp/performance-report.txt
+
+on_success:
+  - name: Notify completion
+    run: echo "✅ Performance optimizations completed successfully"
+
+on_failure:
+  - name: Alert on failure
+    run: echo "❌ Performance optimizations failed - check logs"
+

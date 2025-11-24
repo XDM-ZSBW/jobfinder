@@ -1,0 +1,28 @@
+# Warp Workflow: Pieces MCP Sync
+# Syncs Warp activities with Pieces MCP for context-aware AI assistance
+
+name: Pieces MCP Sync
+description: Automatically sync Warp terminal activities with Pieces MCP
+
+# Trigger on command execution
+on_command_execution:
+  - name: Sync Command to Pieces
+    command: python .claude-code/pieces-warp-sync.py command "{{command}}"
+    condition: "{{command}} != ''"
+
+# Trigger on file access
+on_file_access:
+  - name: Sync File Access to Pieces
+    command: python .claude-code/pieces-warp-sync.py file "{{file_path}}" "{{operation}}"
+    condition: "{{file_path}} != ''"
+
+# Periodic context sync
+on_interval:
+  interval: 300  # Every 5 minutes
+  command: python .claude-code/pieces-warp-sync.py context
+
+# Environment variables
+env:
+  PIECES_SYNC_ENABLED: "true"
+  PIECES_PROJECT_ROOT: "${PWD}"
+

@@ -1,0 +1,83 @@
+# Warp Workflow: Porkbun SSL Certificate Management
+# Manages SSL certificate retrieval and renewal via Porkbun API
+
+name: Porkbun SSL Management
+description: Automated SSL certificate management using Porkbun API
+
+# Check for credentials before deployment
+pre_deployment:
+  - name: Check Porkbun Credentials
+    command: |
+      if [ ! -f ".porkbun-credentials" ]; then
+        echo "⚠️  Porkbun credentials not found"
+        echo "Run: ./scripts/setup-porkbun-credentials.sh"
+        exit 1
+      else
+        echo "✅ Porkbun credentials found"
+      fi
+    condition: "{{deployment_phase}} == 'pre'"
+
+# SSL certificate retrieval
+on_deployment:
+  - name: Retrieve SSL Certificates
+    command: ./scripts/porkbun-ssl-setup.sh
+    condition: "{{deployment_phase}} == 'ssl_setup'"
+    notify: true
+    message: "Retrieving SSL certificates from Porkbun..."
+
+# Certificate renewal check (run monthly)
+on_interval:
+  interval: 2592000  # 30 days
+  command: |
+    # Check certificate expiration
+    CERT_PATH="/etc/nginx/ssl/jobmatch.zip/fullchain.pem"
+    if [ -f "$CERT_PATH" ]; then
+      EXPIRY=$(openssl x509 -enddate -noout -in "$CERT_PATH" | cut -d= -f2)
+      EXPIRY_EPOCH=$(date -d "$EXPIRY" +%s)
+      CURRENT_EPOCH=$(date +%s)
+      DAYS_UNTIL_EXPIRY=$(( ($EXPIRY_EPOCH - $CURRENT_EPOCH) / 86400 ))
+      
+      if [ $DAYS_UNTIL_EXPIRY -lt 30 ]; then
+        echo "⚠️  Certificate expires in $DAYS_UNTIL_EXPIRY days"
+        echo "Renewing certificate..."
+        ./scripts/porkbun-ssl-setup.sh
+      else
+        echo "✅ Certificate valid for $DAYS_UNTIL_EXPIRY more days"
+      fi
+    else
+      echo "⚠️  Certificate file not found at $CERT_PATH"
+    fi
+
+# Monitor SSL certificate status
+monitoring:
+  - name: Check SSL Certificate Status
+    command: |
+      curl -sI https://jobmatch.zip | grep -i "HTTP" || echo "SSL check failed"
+    interval: 3600  # Every hour
+    alert_on_failure: true
+
+# Environment variables
+env:
+  PORKBUN_CREDENTIALS_FILE: ".porkbun-credentials"
+  DOMAIN: "jobmatch.zip"
+  VM_NAME: "jobmatch-vm"
+  GCP_ZONE: "us-central1-a"
+
+# Notifications
+notifications:
+  on_credential_missing:
+    message: "⚠️  Porkbun credentials not found - run setup-porkbun command"
+    level: "warning"
+  
+  on_ssl_success:
+    message: "✅ SSL certificates retrieved and configured successfully"
+    level: "success"
+  
+  on_ssl_failure:
+    message: "❌ SSL certificate retrieval failed"
+    level: "error"
+  
+  on_cert_expiring:
+    message: "⚠️  SSL certificate expiring soon - renewal needed"
+    level: "warning"
+

@@ -1,0 +1,110 @@
+# Warp Workflow: Universal UI/UX Build
+# Automatically builds Universal Canvas when UI/UX files change
+# Monitors critical system prompting chain changes
+
+name: Universal UI/UX Build
+description: Auto-build Universal Canvas and UI/UX components on file changes
+
+# Trigger on Universal Canvas/UI file changes
+on_file_change:
+  - name: Build Universal Canvas
+    watch:
+      - "frontend/app/canvas/**"
+      - "frontend/app/**/*.tsx"
+      - "frontend/components/**"
+      - "frontend/app/globals.css"
+      - "frontend/app/layout.tsx"
+      - "public/manifest.json"
+      - "public/sw.js"
+    command: npm run build
+    condition: "{{file_path}} matches 'frontend/.*' or {{file_path}} matches 'public/.*'"
+    notify: true
+    message: "Universal Canvas/UI/UX build triggered by {{file_path}}"
+
+# Trigger on critical system prompting chain changes
+on_file_change:
+  - name: Alert on System Prompting Chain Change
+    watch:
+      - "SYSTEM_PROMPTING_CHAIN.yaml"
+      - ".claude-code/hooks.json"
+    command: echo "CRITICAL: System prompting chain changed - {{file_path}}"
+    condition: "{{file_path}} matches 'SYSTEM_PROMPTING_CHAIN.yaml' or {{file_path}} matches '.claude-code/hooks.json'"
+    notify: true
+    alert_level: "critical"
+    message: "System prompting chain configuration changed - review required"
+
+# Periodic Universal UI/UX health check
+on_interval:
+  interval: 600  # Every 10 minutes
+  command: |
+    if [ -f ".next/BUILD_ID" ]; then
+      echo "Universal UI/UX build is up to date"
+    else
+      echo "Building Universal UI/UX..."
+      npm run build
+    fi
+
+# Pre-build checks
+pre_build:
+  - name: Check Node modules
+    command: |
+      if [ ! -d "node_modules" ]; then
+        echo "Installing dependencies..."
+        npm install
+      fi
+  
+  - name: Check TypeScript
+    command: |
+      if ! command -v tsc &> /dev/null; then
+        echo "TypeScript not found, installing..."
+        npm install -g typescript
+      fi
+
+# Build optimization
+build_optimization:
+  - incremental_builds: true
+  - cache_next_build: true
+  - parallel_builds: false  # Sequential to avoid conflicts
+
+# Post-build actions
+post_build:
+  - name: Verify build output
+    command: |
+      if [ -d ".next" ]; then
+        echo "✓ Universal UI/UX build successful"
+        echo "  Build output: .next/"
+        echo "  Universal Canvas: http://localhost:3000/canvas"
+      else
+        echo "✗ Build failed - check errors above"
+        exit 1
+      fi
+  
+  - name: Sync with Pieces
+    command: python .claude-code/pieces-warp-sync.py build "universal-ui-build" "{{build_status}}"
+    condition: "{{build_status}} == 'success'"
+
+# Environment variables
+env:
+  UNIVERSAL_UI_BUILD_ENABLED: "true"
+  NEXT_TELEMETRY_DISABLED: "1"
+  NODE_ENV: "production"
+  BUILD_TARGET: "universal-canvas"
+
+# Notifications
+notifications:
+  on_build_start:
+    message: "Building Universal Canvas/UI/UX..."
+    level: "info"
+  
+  on_build_success:
+    message: "✓ Universal UI/UX build complete - ready at http://localhost:3000/canvas"
+    level: "success"
+  
+  on_build_failure:
+    message: "✗ Universal UI/UX build failed - check errors"
+    level: "error"
+  
+  on_critical_change:
+    message: "⚠ CRITICAL: System prompting chain changed"
+    level: "warning"
+

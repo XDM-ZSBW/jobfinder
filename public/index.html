@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JobMatch.zip - Capability-First Job Matching</title>
+    <meta name="description" content="AI-Enabled job matching platform - Capability-first matching for people with AI skills">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .status {
+            padding: 20px;
+            background: #f0f9ff;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #2196f3;
+        }
+        .status.loading {
+            border-left-color: #ffc107;
+        }
+        .status.error {
+            border-left-color: #f44336;
+            background: #ffebee;
+        }
+        .status.success {
+            border-left-color: #4caf50;
+            background: #e8f5e9;
+        }
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #2196f3;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .links {
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        a {
+            color: #2196f3;
+            text-decoration: none;
+            padding: 12px 24px;
+            border: 2px solid #2196f3;
+            border-radius: 8px;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+        a:hover {
+            background: #2196f3;
+            color: white;
+            transform: translateY(-2px);
+        }
+        .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 0.9em;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 JobMatch.zip</h1>
+        <p style="font-size: 1.2em; margin-bottom: 20px; color: #666;">
+            Capability-First Job Matching Platform
+        </p>
+        
+        <div id="status" class="status loading">
+            <div class="spinner"></div>
+            <p>Checking service status...</p>
+        </div>
+        
+        <div class="links" id="links" style="display: none;">
+            <a href="/" target="_self">Go to Application</a>
+            <a href="/api/health" target="_blank">API Health Check</a>
+            <a href="/api/docs" target="_blank">API Documentation</a>
+        </div>
+        
+        <div class="footer">
+            <p>If you see this page, the application is deploying or services are starting up.</p>
+            <p>This page will automatically redirect when services are ready.</p>
+        </div>
+    </div>
+    
+    <script>
+        let checkCount = 0;
+        const maxChecks = 30; // Check for 5 minutes (10s intervals)
+        
+        async function checkStatus() {
+            checkCount++;
+            
+            try {
+                // Check backend health
+                const healthResponse = await fetch('/api/health', { 
+                    method: 'GET',
+                    headers: { 'Accept': 'application/json' }
+                });
+                
+                if (healthResponse.ok) {
+                    const healthData = await healthResponse.json();
+                    updateStatus('success', '✅ Services are running!');
+                    document.getElementById('links').style.display = 'flex';
+                    
+                    // Redirect to main app after 3 seconds
+                    setTimeout(() => {
+                        window.location.href = '/';
+                    }, 3000);
+                    return;
+                }
+            } catch (error) {
+                // Service not ready yet
+            }
+            
+            if (checkCount < maxChecks) {
+                updateStatus('loading', `Checking service status... (${checkCount}/${maxChecks})`);
+                setTimeout(checkStatus, 10000); // Check every 10 seconds
+            } else {
+                updateStatus('error', '⚠️ Services are taking longer than expected to start. Please check back in a few minutes.');
+                document.getElementById('links').style.display = 'flex';
+            }
+        }
+        
+        function updateStatus(type, message) {
+            const statusDiv = document.getElementById('status');
+            statusDiv.className = `status ${type}`;
+            statusDiv.innerHTML = type === 'loading' 
+                ? `<div class="spinner"></div><p>${message}</p>`
+                : `<p>${message}</p>`;
+        }
+        
+        // Start checking immediately
+        checkStatus();
+    </script>
+</body>
+</html>
+
