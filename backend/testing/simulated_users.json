@@ -1,0 +1,2921 @@
+[
+  {
+    "user_id": "sim_0000",
+    "email": "simusersim_0000@example.com",
+    "auth_hash": "8f7c958f03ed615fe2bcef8811bf6737b45aa65ccaa1a2b9b895f59ca032f092",
+    "encrypted_profile": "ENCRYPTED:5f04381c4fa2085919cec07146f5cd269d226ef03475ee830e3f9bd17d589256:320",
+    "capabilities": {
+      "skills": [
+        "Kubernetes",
+        "Elasticsearch",
+        "Redis",
+        "Flask",
+        "Jest",
+        "FastAPI",
+        "Figma",
+        "Agile"
+      ],
+      "experience_years": 0,
+      "availability": "consulting",
+      "rate_range": "junior",
+      "industries": [
+        "AI/ML"
+      ],
+      "remote_preference": "flexible",
+      "hours_per_week": 10,
+      "currently_available": true,
+      "timezone": "EST"
+    },
+    "created_at": "2025-06-11T23:04:16.331094",
+    "last_active": "2025-11-24T23:04:16.331193"
+  },
+  {
+    "user_id": "sim_0001",
+    "email": "simusersim_0001@example.com",
+    "auth_hash": "a6b4aa3412201d9d4018e43ce1ae96e43f591863e634d3a79a276339feadcdbd",
+    "encrypted_profile": "ENCRYPTED:f834f20e5b26aa523a63e03d5d63a788624ab6f0c520d387d360dc15da454a80:316",
+    "capabilities": {
+      "skills": [
+        "PyTorch",
+        "gRPC",
+        "Kubernetes",
+        "Agile"
+      ],
+      "experience_years": 24,
+      "availability": "full-time",
+      "rate_range": "principal",
+      "industries": [
+        "Enterprise",
+        "Social Media"
+      ],
+      "remote_preference": "onsite",
+      "hours_per_week": 30,
+      "currently_available": true,
+      "timezone": "PST"
+    },
+    "created_at": "2025-08-25T23:04:16.331300",
+    "last_active": "2025-11-24T23:04:16.331308"
+  },
+  {
+    "user_id": "sim_0002",
+    "email": "simusersim_0002@example.com",
+    "auth_hash": "f9488f4fd86918abe02b800e573dedd2e17a03982268b60e86ebe06983476477",
+    "encrypted_profile": "ENCRYPTED:481f9afc73844c7f1f0f525cacecb3628c2ea87d6067c6eccd6ea64f4cfab72b:306",
+    "capabilities": {
+      "skills": [
+        "Agile",
+        "TypeScript",
+        "Testing",
+        "Scikit-learn",
+        "REST APIs"
+      ],
+      "experience_years": 11,
+      "availability": "full-time",
+      "rate_range": "senior",
+      "industries": [
+        "HealthTech",
+        "Cybersecurity",
+        "SaaS",
+        "DevOps"
+      ],
+      "remote_preference": "onsite",
+      "hours_per_week": 50,
+      "currently_available": true,
+      "timezone": "GMT"
+    },
+    "created_at": "2025-09-26T23:04:16.331348",
+    "last_active": "2025-11-24T23:04:16.331353"
+  },
+  {
+    "user_id": "sim_0003",
+    "email": "simusersim_0003@example.com",
+    "auth_hash": "3f3441a17f3b2ee1e5d86fbab19d5f6901858daa82a97f30be5a33265c54ab70",
+    "encrypted_profile": "ENCRYPTED:665837b9e41626a394127da5d84c9e5262d815b2655139e753a586d1385f623e:311",
+    "capabilities": {
+      "skills": [
+        "Scikit-learn",
+        "JWT",
+        "Kanban",
+        "Linux",
+        "Express"
+      ],
+      "experience_years": 3,
+      "availability": "contract",
+      "rate_range": "junior",
+      "industries": [
+        "E-commerce",
+        "DevOps",
+        "SaaS"
+      ],
+      "remote_preference": "remote",
+      "hours_per_week": 50,
+      "currently_available": true,
+      "timezone": "UTC"
+    },
+    "created_at": "2025-06-14T23:04:16.331382",
+    "last_active": "2025-11-24T23:04:16.331385"
+  },
+  {
+    "user_id": "sim_0004",
+    "email": "simusersim_0004@example.com",
+    "auth_hash": "e3c0f97b5df188406cd8f4164454c3432f2e13b29a5c01b168c05a23b1a2e292",
+    "encrypted_profile": "ENCRYPTED:168df76be1c6ead00052344d34b09f0feb0d68ad0b01899a035c876a249ca634:315",
+    "capabilities": {
+      "skills": [
+        "Azure",
+        "Kanban",
+        "Selenium",
+        "Jira",
+        "React",
+        "Redis",
+        "TypeScript",
+        "Confluence"
+      ],
+      "experience_years": 21,
+      "availability": "freelance",
+      "rate_range": "principal",
+      "industries": [
+        "HealthTech",
+        "E-commerce",
+        "AI/ML"
+      ],
+      "remote_preference": "onsite",
+      "hours_per_week": 20,
+      "currently_available": false,
+      "timezone": "MST"
+    },
+    "created_at": "2025-07-04T23:04:16.331417",
+    "last_active": "2025-11-24T23:04:16.331420"
+  },
+  {
+    "user_id": "sim_0005",
+    "email": "simusersim_0005@example.com",
+    "auth_hash": "75798ab711dccfd9e9325a139fa4b2cd084f359f5a8c864a9fdfe07c87faba89",
+    "encrypted_profile": "ENCRYPTED:971700a888d9cd81505fe8af86463b61ef290b229fdde6cb6bc489a3ca9d8b92:318",
+    "capabilities": {
+      "skills": [
+        "gRPC",
+        "TensorFlow",
+        "Confluence",
+        "PowerShell",
+        "Linux",
+        "Redis",
+        "Flask",
+        "NumPy"
+      ],
+      "experience_years": 22,
+      "availability": "freelance",
+      "rate_range": "principal",
+      "industries": [
+        "Startup"
+      ],
+      "remote_preference": "remote",
+      "hours_per_week": 10,
+      "currently_available": true,
+      "timezone": "GMT"
+    },
+    "created_at": "2025-08-19T23:04:16.331452",
+    "last_active": "2025-11-24T23:04:16.331456"
+  },
+  {
+    "user_id": "sim_0006",
+    "email": "simusersim_0006@example.com",
+    "auth_hash": "f05bd136ad3fbc2289cfdcd69d12278d0628e52a8a8435efa354bf977e8b638e",
+    "encrypted_profile": "ENCRYPTED:ac5e449a3d2386704e5a218fc763e244667889420912b30639842b75d61f4712:315",
+    "capabilities": {
+      "skills": [
+        "Docker",
+        "GraphQL",
+        "Python",
+        "Figma",
+        "Testing",
+        "Django",
+        "Scrum"
+      ],
+      "experience_years": 25,
+      "availability": "consulting",
+      "rate_range": "principal",
+      "industries": [
+        "Startup",
+        "DevOps",
+        "Gaming"
+      ],
+      "remote_preference": "remote",
+      "hours_per_week": 30,
+      "currently_available": false,
+      "timezone": "PST"
+    },
+    "created_at": "2025-10-28T23:04:16.331483",
+    "last_active": "2025-11-24T23:04:16.331486"
+  },
+  {
+    "user_id": "sim_0007",
+    "email": "simusersim_0007@example.com",
+    "auth_hash": "c23411aba0369c9ad48d675895b20b0ca6d0f5bf21529a04da81273b6ff2a9a4",
+    "encrypted_profile": "ENCRYPTED:fc34b909e73f95340ec1690dcc78681e47e87939bac37d4d513ee7cbe55f27f7:320",
+    "capabilities": {
+      "skills": [
+        "Security",
+        "PostgreSQL",
+        "Node.js",
+        "Linux",
+        "Pytest",
+        "Express",
+        "REST APIs"
+      ],
+      "experience_years": 12,
+      "availability": "consulting",
+      "rate_range": "senior",
+      "industries": [
+        "AI/ML"
+      ],
+      "remote_preference": "onsite",
+      "hours_per_week": 40,
+      "currently_available": true,
+      "timezone": "EST"
+    },
+    "created_at": "2025-07-02T23:04:16.331510",
+    "last_active": "2025-11-24T23:04:16.331512"
+  },
+  {
+    "user_id": "sim_0008",
+    "email": "simusersim_0008@example.com",
+    "auth_hash": "d3ac1694b64ff5c56601125a0ab9d00903c78653ed62b42bd33d414eea850f02",
+    "encrypted_profile": "ENCRYPTED:f6097333e8c4f44044b984dc97978d1dfa363305607461f62ea16964a3d5deea:309",
+    "capabilities": {
+      "skills": [
+        "Pandas",
+        "Scrum",
+        "Vue",
+        "Pytest",
+        "REST APIs",
+        "Selenium",
+        "Flask",
+        "Cypress"
+      ],
+      "experience_years": 0,
+      "availability": "freelance",
+      "rate_range": "junior",
+      "industries": [
+        "SaaS",
+        "Cybersecurity"
+      ],
+      "remote_preference": "flexible",
+      "hours_per_week": 20,
+      "currently_available": true,
+      "timezone": "GMT"
+    },
+    "created_at": "2025-08-01T23:04:16.331535",
+    "last_active": "2025-11-24T23:04:16.331538"
+  },
+  {
+    "user_id": "sim_0009",
+    "email": "simusersim_0009@example.com",
+    "auth_hash": "3d2eaa91d77dc6513bd64515c7814ff36671c5779641abeb17c794ed5a384d4d",
+    "encrypted_profile": "ENCRYPTED:7aa10d063b464c3c40869c2c528564d04c16b42854f4e7daf233a08bb59ccc5f:301",
+    "capabilities": {
+      "skills": [
+        "Vue",
+        "CI/CD",
+        "JavaScript",
+        "gRPC"
+      ],
+      "experience_years": 1,
+      "availability": "consulting",
+      "rate_range": "junior",
+      "industries": [
+        "AI/ML",
+        "E-commerce"
+      ],
+      "remote_preference": "remote",
+      "hours_per_week": 10,
+      "currently_available": true,
+      "timezone": "PST"
+    },
+    "created_at": "2025-09-25T23:04:16.331558",
+    "last_active": "2025-11-24T23:04:16.331560"
+  },
+  {
+    "user_id": "sim_0010",
+    "email": "simusersim_0010@example.com",
+    "auth_hash": "8270025204da304a089b3feeda9556edfa189a6861b9ce1eb3b5686ab46837ac",
+    "encrypted_profile": "ENCRYPTED:7cfb5167f46eebe7f41e532a76d48ef7f53b4095eee3b988a3882ad0a2aa25b2:316",
+    "capabilities": {
+      "skills": [
+        "MongoDB",
+        "REST APIs",
+        "Flask",
+        "Testing",
+        "WebSockets",
+        "Agile"
+      ],
+      "experience_years": 12,
+      "availability": "freelance",
+      "rate_range": "senior",
+      "industries": [
+        "Startup",
+        "Analytics"
+      ],
+      "remote_preference": "flexible",
+      "hours_per_week": 20,
+      "currently_available": true,
+      "timezone": "EST"
+    },
+    "created_at": "2025-11-11T23:04:16.331587",
+    "last_active": "2025-11-24T23:04:16.331592"
+  },
+  {
+    "user_id": "sim_0011",
+    "email": "simusersim_0011@example.com",
+    "auth_hash": "41dac582d0c24a4c5174b3010ac605f8426a5bb1844200389fbbcab0dbdee369",
+    "encrypted_profile": "ENCRYPTED:ee4b7bec55e6a5e7051a32e2eff1263250f97be3c05150827a6c026d5a74c322:300",
+    "capabilities": {
+      "skills": [
+        "Testing",
+        "CI/CD",
+        "Agile",
+        "FastAPI",
+        "Elasticsearch",
+        "PostgreSQL"
+      ],
+      "experience_years": 0,
+      "availability": "part-time",
+      "rate_range": "junior",
+      "industries": [
+        "EdTech",
+        "Social Media",
+        "Agency",
+        "SaaS"
+      ],
+      "remote_preference": "flexible",
+      "hours_per_week": 20,
+      "currently_available": true,
+      "timezone": "MST"
+    },
+    "created_at": "2025-10-13T23:04:16.331616",
+    "last_active": "2025-11-24T23:04:16.331619"
+  },
+  {
+    "user_id": "sim_0012",
+    "email": "simusersim_0012@example.com",
+    "auth_hash": "994e82801e1635c2b383b63ce4fd29ddba3348746823d2b41f3e82c0906acec4",
+    "encrypted_profile": "ENCRYPTED:b10a15f4692073226050515e2ae719907bd71b9a9577b5516e96a1b90091f060:316",
+    "capabilities": {
+      "skills": [
+        "MongoDB",
+        "PowerShell",
+        "React",
+        "Express",
+        "Bash",
+        "Python"
+      ],
+      "experience_years": 15,
+      "availability": "freelance",
+      "rate_range": "staff",
+      "industries": [
+        "Startup",
+        "Agency",
+        "Analytics"
+      ],
+      "remote_preference": "onsite",
+      "hours_per_week": 40,
+      "currently_available": false,
+      "timezone": "PST"
+    },
+    "created_at": "2025-07-09T23:04:16.331639",
+    "last_active": "2025-11-24T23:04:16.331642"
+  },
+  {
+    "user_id": "sim_0013",
+    "email": "simusersim_0013@example.com",
+    "auth_hash": "cca589719dd07fb590d146b9b758d615f8c4280d6122742e218ac889fdc0d043",
+    "encrypted_profile": "ENCRYPTED:2ae941df74e797af4da9d4589a091c1309d8db0104c857a0ac2259ffbab6e367:313",
+    "capabilities": {
+      "skills": [
+        "React",
+        "gRPC",
+        "Data Analysis"
+      ],
+      "experience_years": 2,
+      "availability": "consulting",
+      "rate_range": "junior",
+      "industries": [
+        "FinTech",
+        "Cybersecurity"
+      ],
+      "remote_preference": "remote",
+      "hours_per_week": 20,
+      "currently_available": true,
+      "timezone": "UTC"
+    },
+    "created_at": "2025-07-02T23:04:16.331661",
+    "last_active": "2025-11-24T23:04:16.331663"
+  },
+  {
+    "user_id": "sim_0014",
+    "email": "simusersim_0014@example.com",
+    "auth_hash": "559e8bffd34699e31685f99a48619ed66ef6fb9654c4cde4a4073eae53038d8e",
+    "encrypted_profile": "ENCRYPTED:8382e9fe6227329ac60abbe15eb995167f924deb05c30ca413b73e1a790f243f:319",
+    "capabilities": {
+      "skills": [
+        "TypeScript",
+        "OAuth",
+        "Angular",
+        "AI/ML",
+        "UI/UX",
+        "gRPC",
+        "WebSockets"
+      ],
+      "experience_years": 7,
+      "availability": "consulting",
+      "rate_range": "mid",
+      "industries": [
+        "SaaS",
+        "E-commerce",
+        "DevOps"
+      ],
+      "remote_preference": "onsite",
+      "hours_per_week": 20,
+      "currently_available": false,
+      "timezone": "MST"
+    },
+    "created_at": "2025-11-06T23:04:16.331685",
+    "last_active": "2025-11-24T23:04:16.331688"
+  },
+  {
+    "user_id": "sim_0015",
+    "email": "simusersim_0015@example.com",
+    "auth_hash": "8b5c2887b9a7c493e89addb247980743c16c746378db73b794468df0a1d895ed",
+    "encrypted_profile": "ENCRYPTED:97658838a6080ac1eaf42a4ee72b7e57d2f4a6693dba67dd98aa299a42691db9:316",
+    "capabilities": {
+      "skills": [
+        "WebSockets",
+        "FastAPI",
+        "Vue",
+        "REST APIs",
+        "MongoDB",
+        "NumPy",
+        "Docker"
+      ],
+      "experience_years": 3,
+      "availability": "part-time",
+      "rate_range": "junior",
+      "industries": [
+        "HealthTech",
+        "E-commerce",
+        "Gaming"
+      ],
+      "remote_preference": "onsite",
+      "hours_per_week": 20,
+      "currently_available": false,
+      "timezone": "UTC"
+    },
+    "created_at": "2025-10-29T23:04:16.331707",
+    "last_active": "2025-11-24T23:04:16.331709"
+  },
+  {
+    "user_id": "sim_0016",
+    "email": "simusersim_0016@example.com",
+    "auth_hash": "c6fab0904144b56474a85a86fe18cb56785d7c9a59f3c8e6133f76b89ae891ee",
+    "encrypted_profile": "ENCRYPTED:38adb59e81bc6edfa4b4aa263d773f2f959b09a9ea4650601203bbd6dafe5fc3:313",
+    "capabilities": {
+      "skills": [
+        "FastAPI",
+        "Jest",
+        "GraphQL"
+      ],
+      "experience_years": 5,
+      "availability": "part-time",
+      "rate_range": "mid",
+      "industries": [
+        "SaaS",
+        "AI/ML",
+        "E-commerce"
+      ],
+      "remote_preference": "onsite",
+      "hours_per_week": 20,
+      "currently_available": false,
+      "timezone": "UTC"
+    },
+    "created_at": "2025-08-08T23:04:16.331727",
+    "last_active": "2025-11-24T23:04:16.331730"
+  },
+  {
+    "user_id": "sim_0017",
+    "email": "simusersim_0017@example.com",
+    "auth_hash": "7719f00209c746b435d0f9c53f53f7c798c10a9849ea0d02eb5b4ecba2071607",
+    "encrypted_profile": "ENCRYPTED:241e6aa10c9ae597f41e2c63dbba3f174ffe404cf71b6d1ad245b62d35d5bb50:306",
+    "capabilities": {
+      "skills": [
+        "CI/CD",
+        "Selenium",
+        "Flask"
+      ],
+      "experience_years": 7,
+      "availability": "contract",
+      "rate_range": "senior",
+      "industries": [
+        "Enterprise",
+        "Analytics"
+      ],
+      "remote_preference": "flexible",
+      "hours_per_week": 50,
+      "currently_available": true,
+      "timezone": "EST"
+    },
+    "created_at": "2025-06-28T23:04:16.331751",
+    "last_active": "2025-11-24T23:04:16.331754"
+  },
+  {
+    "user_id": "sim_0018",
+    "email": "simusersim_0018@example.com",
+    "auth_hash": "edfce0ceb7a374c81ea7417c17e434b069452429713706dd428c5a802ab466c8",
+    "encrypted_profile": "ENCRYPTED:09eb87e2e84094ba8028caf08d8616b9037b837bdfdba08d70710553aa56155d:311",
+    "capabilities": {
+      "skills": [
+        "Flask",
+        "TypeScript",
+        "GCP",
+        "Linux",
+        "Cypress",
+        "Jira"
+      ],
+      "experience_years": 20,
+      "availability": "contract",
+      "rate_range": "principal",
+      "industries": [
+        "DevOps",
+        "E-commerce"
+      ],
+      "remote_preference": "remote",
+      "hours_per_week": 30,
+      "currently_available": false,
+      "timezone": "UTC"
+    },
+    "created_at": "2025-11-18T23:04:16.331777",
+    "last_active": "2025-11-24T23:04:16.331779"
+  },
+  {
+    "user_id": "sim_0019",
+    "email": "simusersim_0019@example.com",
+    "auth_hash": "d1d553ff448d2ef1c11c2bba6c80ee70c4c029a84966b4d397176718491eee9f",
+    "encrypted_profile": "ENCRYPTED:4492ee067fc82e5432b1fa5f1c1424820898debd8fae9800ee2479c57c35e316:310",
+    "capabilities": {
+      "skills": [
+        "Agile",
+        "UI/UX",
+        "Jest",
+        "Confluence",
+        "Elasticsearch",
+        "Kubernetes"
+      ],
+      "experience_years": 5,
+      "availability": "part-time",
+      "rate_range": "mid",
+      "industries": [
+        "Social Media"
+      ],
+      "remote_preference": "remote",
+      "hours_per_week": 40,
+      "currently_available": true,
+      "timezone": "PST"
+    },
+    "created_at": "2025-11-18T23:04:16.331798",
+    "last_active": "2025-11-24T23:04:16.331801"
+  },
+  {
+    "user_id": "sim_0020",
+    "email": "simusersim_0020@example.com",
+    "auth_hash": "ba18200bd75a633077030e3cd7364cda4be285c27eb5bd0450a5eab8e1e78a56",
+    "encrypted_profile": "ENCRYPTED:6f33f9655076ba2c1d0a14576e7a866148b74a46358adfc729ccf949f4ffd004:316",
+    "capabilities": {
+      "skills": [
+        "Kubernetes",
+        "Confluence",
+        "Vue",
+        "Selenium",
+        "Git"
+      ],
+      "experience_years": 6,
+      "availability": "consulting",
+      "rate_range": "mid",
+      "industries": [
+        "DevOps",
+        "Cybersecurity",
+        "Gaming",
+        "FinTech"
+      ],
+      "remote_preference": "remote",
+      "hours_per_week": 30,
+      "currently_available": true,
+      "timezone": "UTC"
+    },
+    "created_at": "2025-09-05T23:04:16.331821",
+    "last_active": "2025-11-24T23:04:16.331823"
+  },
+  {
+    "user_id": "sim_0021",
+    "email": "simusersim_0021@example.com",
+    "auth_hash": "4a0dbe2fe2ba4cfa76293ca7ca02fb1ddd72f9de76032bae14959af8d2933cda",
+    "encrypted_profile": "ENCRYPTED:6484fea8a9bc88605e5f1a6c0315bc8c5947798e65d42ecf8de899851fab11a9:318",
+    "capabilities": {
+      "skills": [
+        "Django",
+        "Bash",
+        "WebSockets",
+        "PostgreSQL",
+        "Docker",
+        "TypeScript",
+        "Adobe XD"
+      ],
+      "experience_years": 16,
+      "availability": "freelance",
+      "rate_range": "staff",
+      "industries": [
+        "Cybersecurity"
+      ],
+      "remote_preference": "hybrid",
+      "hours_per_week": 30,
+      "currently_available": false,
+      "timezone": "EST"
+    },
+    "created_at": "2025-09-09T23:04:16.331844",
+    "last_active": "2025-11-24T23:04:16.331847"
+  },
+  {
+    "user_id": "sim_0022",
+    "email": "simusersim_0022@example.com",
+    "auth_hash": "da9fcad3b14d7ba96eb5d00ed1f20b4e36008bfcd83a64f3a0561564028dd699",
+    "encrypted_profile": "ENCRYPTED:baea7a4257ebf03ec0bc3c92a0cc0d724aab3e71152e0c2c9241e3cad1445716:309",
+    "capabilities": {
+      "skills": [
+        "AI/ML",
+        "Azure",
+        "PowerShell",
+        "Sketch",
+        "AWS",
+        "GraphQL",
+        "Flask",
+        "PostgreSQL"
+      ],
+      "experience_years": 22,
+      "availability": "freelance",
+      "rate_range": "principal",
+      "industries": [
+        "DevOps",
+        "Enterprise",
+        "EdTech",
+        "AI/ML"
+      ],
+      "remote_preference": "onsite",
+      "hours_per_week": 40,
+      "currently_available": true,
+      "timezone": "CST"
+    },
+    "created_at": "2025-08-03T23:04:16.331865",
+    "last_active": "2025-11-24T23:04:16.331868"
+  },
+  {
+    "user_id": "sim_0023",
+    "email": "simusersim_0023@example.com",
+    "auth_hash": "65fc3cf2de549dda4a220ffff5edfd19bed43a00180340953e6fd32f31085b05",
+    "encrypted_profile": "ENCRYPTED:4eaad889e54ffd695d2469ec99af3b08fdc3c08dd5b4bf6555f3d735d8708a7d:320",
+    "capabilities": {
+      "skills": [
+        "NumPy",
+        "Data Analysis",
+        "Cypress",
+        "Jest"
+      ],
+      "experience_years": 17,
+      "availability": "part-time",
+      "rate_range": "staff",
+      "industries": [
+        "SaaS"
+      ],
+      "remote_preference": "onsite",
+      "hours_per_week": 10,
+      "currently_available": true,
+      "timezone": "GMT"
+    },
+    "created_at": "2025-11-13T23:04:16.331886",
+    "last_active": "2025-11-24T23:04:16.331889"
+  },
+  {
+    "user_id": "sim_0024",
+    "email": "simusersim_0024@example.com",
+    "auth_hash": "1f5724b3ff24ce1bcffcadea00da01c9e9723e56d7a4818ba947a4ccbae41b79",
+    "encrypted_profile": "ENCRYPTED:8bc7b7839a0eac55dde89e5ee0f583231e147e11ffb3dd2c649d11857a5aa156:309",
+    "capabilities": {
+      "skills": [
+        "Jira",
+        "Selenium",
+        "Vue",
+        "Scikit-learn",
+        "AI/ML",
+        "JWT",
+        "WebSockets"
+      ],
+      "experience_years": 6,
+      "availability": "part-time",
+      "rate_range": "mid",
+      "industries": [
+        "Analytics",
+        "Social Media",
+        "E-commerce",
+        "EdTech"
+      ],
+      "remote_preference": "remote",
+      "hours_per_week": 10,
+      "currently_available": false,
+      "timezone": "PST"
+    },
+    "created_at": "2025-09-22T23:04:16.331908",
+    "last_active": "2025-11-24T23:04:16.331910"
+  },
+  {
+    "user_id": "sim_0025",
+    "email": "simusersim_0025@example.com",
+    "auth_hash": "7b9e2ba395edee0ace22ce69f398dacc96deff47278142ed003e6d9c5ce3bf9d",
+    "encrypted_profile": "ENCRYPTED:e16d632b3c5c772d3551336a407e9581bf04d832755e18a69d6266965b5f3f8d:318",
+    "capabilities": {
+      "skills": [
+        "Agile",
+        "Scikit-learn",
+        "UI/UX",
+        "Matplotlib"
+      ],
+      "experience_years": 3,
+      "availability": "consulting",
+      "rate_range": "junior",
+      "industries": [
+        "Startup",
+        "Analytics",
+        "AI/ML"
+      ],
+      "remote_preference": "flexible",
+      "hours_per_week": 50,
+      "currently_available": false,
+      "timezone": "PST"
+    },
+    "created_at": "2025-09-15T23:04:16.331929",
+    "last_active": "2025-11-24T23:04:16.331934"
+  },
+  {
+    "user_id": "sim_0026",
+    "email": "simusersim_0026@example.com",
+    "auth_hash": "f133a0049e200ddb264f2b53ece3a786c6ad5d228e109e6450ad8c8cba5ebd52",
+    "encrypted_profile": "ENCRYPTED:6aada9522c3a33b1c4c6c0a9be0b8d1f2109fc2f31f16cb4eea5030af1ee12ac:327",
+    "capabilities": {
+      "skills": [
+        "Elasticsearch",
+        "Kubernetes",
+        "PyTorch",
+        "Vue",
+        "Adobe XD",
+        "AWS",
+        "Confluence",
+        "Jira"
+      ],
+      "experience_years": 25,
+      "availability": "contract",
+      "rate_range": "principal",
+      "industries": [
+        "Cybersecurity",
+        "HealthTech",
+        "EdTech"
+      ],
+      "remote_preference": "hybrid",
+      "hours_per_week": 20,
+      "currently_available": false,
+      "timezone": "GMT"
+    },
+    "created_at": "2025-08-12T23:04:16.331953",
+    "last_active": "2025-11-24T23:04:16.331956"
+  },
+  {
+    "user_id": "sim_0027",
+    "email": "simusersim_0027@example.com",
+    "auth_hash": "efe7738ba93d30711b37f260d6b57a2ebc308e7f775ac84f2e6d3d67ac5d78cb",
+    "encrypted_profile": "ENCRYPTED:fd3c08d81b9afb9483d30e921959a1505d141f1bd36a5f89ed1caf48eff41c54:309",
+    "capabilities": {
+      "skills": [
+        "AI/ML",
+        "React",
+        "MongoDB",
+        "Confluence",
+        "Bash",
+        "Selenium"
+      ],
+      "experience_years": 11,
+      "availability": "consulting",
+      "rate_range": "senior",
+      "industries": [
+        "Agency"
+      ],
+      "remote_preference": "flexible",
+      "hours_per_week": 40,
+      "currently_available": true,
+      "timezone": "CST"
+    },
+    "created_at": "2025-09-29T23:04:16.331974",
+    "last_active": "2025-11-24T23:04:16.331977"
+  },
+  {
+    "user_id": "sim_0028",
+    "email": "simusersim_0028@example.com",
+    "auth_hash": "bcabfc70a768390d95cb62aa13faef08f5a31240e6e44aa6c3c9def0d0988839",
+    "encrypted_profile": "ENCRYPTED:2d66772e27ee5039fbb17720f0bf09a22a548281ec0bfd8c45af5a122077ce0c:313",
+    "capabilities": {
+      "skills": [
+        "JavaScript",
+        "Bash",
+        "CI/CD",
+        "UI/UX",
+        "Figma",
+        "PowerShell"
+      ],
+      "experience_years": 10,
+      "availability": "part-time",
+      "rate_range": "senior",
+      "industries": [
+        "EdTech",
+        "AI/ML",
+        "Cybersecurity",
+        "FinTech"
+      ],
+      "remote_preference": "flexible",
+      "hours_per_week": 50,
+      "currently_available": true,
+      "timezone": "EST"
+    },
+    "created_at": "2025-09-19T23:04:16.331995",
+    "last_active": "2025-11-24T23:04:16.331998"
+  },
+  {
+    "user_id": "sim_0029",
+    "email": "simusersim_0029@example.com",
+    "auth_hash": "d14b4527b2f26d569e1143c3846692449202d931269b7576ad3495124c6490d0",
+    "encrypted_profile": "ENCRYPTED:b6ef51873d6a597fb12b2a4df4aa1245fb85697a5f278c83875acf3c63e10cef:308",
+    "capabilities": {
+      "skills": [
+        "Scikit-learn",
+        "Azure",
+        "CI/CD",
+        "Pytest"
+      ],
+      "experience_years": 14,
+      "availability": "freelance",
+      "rate_range": "staff",
+      "industries": [
+        "Startup",
+        "Social Media",
+        "SaaS"
+      ],
+      "remote_preference": "remote",
+      "hours_per_week": 40,
+      "currently_available": true,
+      "timezone": "GMT"
+    },
+    "created_at": "2025-11-14T23:04:16.332015",
+    "last_active": "2025-11-24T23:04:16.332017"
+  },
+  {
+    "user_id": "sim_0030",
+    "email": "simusersim_0030@example.com",
+    "auth_hash": "39974fb62f2107844ff212cba374418d5efb3b2b8bd60f984b85abf6c50e5923",
+    "encrypted_profile": "ENCRYPTED:f19eeb301088a1f89960910647a98ddb1f300de1a9482dcb9ece083345ebd281:315",
+    "capabilities": {
+      "skills": [
+        "Kanban",
+        "JavaScript",
+        "OAuth",
+        "Node.js"
+      ],
+      "experience_years": 1,
+      "availability": "part-time",
+      "rate_range": "junior",
+      "industries": [
+        "Analytics",
+        "DevOps"
+      ],
+      "remote_preference": "remote",
+      "hours_per_week": 50,
+      "currently_available": true,
+      "timezone": "MST"
+    },
+    "created_at": "2025-09-06T23:04:16.332038",
+    "last_active": "2025-11-24T23:04:16.332040"
+  },
+  {
+    "user_id": "sim_0031",
+    "email": "simusersim_0031@example.com",
+    "auth_hash": "e82d8a0125238fd55a4c6b6326112ac0b8abc7c0d12e6c23d76f2c928e64fb7b",
+    "encrypted_profile": "ENCRYPTED:87dbeae8d8f297bf224145ce3e56f3fdfae804462a3c7f5a479aa95f9b6e283f:306",
+    "capabilities": {
+      "skills": [
+        "WebSockets",
+        "Figma",
+        "Bash",
+        "PowerShell",
+        "Adobe XD"
+      ],
+      "experience_years": 0,
+      "availability": "part-time",
+      "rate_range": "junior",
+      "industries": [
+        "AI/ML"
+      ],
+      "remote_preference": "hybrid",
+      "hours_per_week": 10,
+      "currently_available": false,
+      "timezone": "GMT"
+    },
+    "created_at": "2025-08-07T23:04:16.332061",
+    "last_active": "2025-11-24T23:04:16.332064"
+  },
+  {
+    "user_id": "sim_0032",
+    "email": "simusersim_0032@example.com",
+    "auth_hash": "b3c8c03acdfde6ea49c3b8f6658d919172641c806d447f7026ba877ceca25be3",
+    "encrypted_profile": "ENCRYPTED:b61f95ccb34ea0bee327683f4bb6156852971b843b64265e823454a8b5ce8346:319",
+    "capabilities": {
+      "skills": [
+        "Encryption",
+        "CI/CD",
+        "Python",
+        "AI/ML",
+        "Pandas",
+        "FastAPI",
+        "TensorFlow"
+      ],
+      "experience_years": 7,
+      "availability": "contract",
+      "rate_range": "senior",
+      "industries": [
+        "Enterprise",
+        "EdTech",
+        "Social Media",
+        "Startup"
+      ],
+      "remote_preference": "onsite",
+      "hours_per_week": 50,
+      "currently_available": false,
+      "timezone": "MST"
+    },
+    "created_at": "2025-11-02T23:04:16.332084",
+    "last_active": "2025-11-24T23:04:16.332086"
+  },
+  {
+    "user_id": "sim_0033",
+    "email": "simusersim_0033@example.com",
+    "auth_hash": "602099863d4d99e5ff08b4ca09135e6911e010375de9bc7c3b44bc588ea5582c",
+    "encrypted_profile": "ENCRYPTED:c55e21edf84ae9c51a3fcbf19522159469ac0a782be9d12381551530fd290fd9:321",
+    "capabilities": {
+      "skills": [
+        "Pytest",
+        "Scikit-learn",
+        "WebSockets",
+        "OAuth"
+      ],
+      "experience_years": 10,
+      "availability": "freelance",
+      "rate_range": "senior",
+      "industries": [
+        "FinTech",
+        "Analytics",
+        "Gaming"
+      ],
+      "remote_preference": "hybrid",
+      "hours_per_week": 40,
+      "currently_available": true,
+      "timezone": "CST"
+    },
+    "created_at": "2025-11-22T23:04:16.332105",
+    "last_active": "2025-11-24T23:04:16.332107"
+  },
+  {
+    "user_id": "sim_0034",
+    "email": "simusersim_0034@example.com",
+    "auth_hash": "f5c2ad35d257b0514b287a3255ac625b6a87e532f9595af154640d6fb82cb00e",
+    "encrypted_profile": "ENCRYPTED:b125593d715572554ffbe3f3536d4d1eedc809a2eaa844a9e753796dc8d2f7bf:316",
+    "capabilities": {
+      "skills": [
+        "Elasticsearch",
+        "Testing",
+        "AI/ML"
+      ],
+      "experience_years": 21,
+      "availability": "freelance",
+      "rate_range": "principal",
+      "industries": [
+        "Enterprise",
+        "Analytics"
+      ],
+      "remote_preference": "flexible",
+      "hours_per_week": 40,
+      "currently_available": true,
+      "timezone": "EST"
+    },
+    "created_at": "2025-06-08T23:04:16.332125",
+    "last_active": "2025-11-24T23:04:16.332128"
+  },
+  {
+    "user_id": "sim_0035",
+    "email": "simusersim_0035@example.com",
+    "auth_hash": "76e8308d2df6991188910830e743be98034c0345f88c06fc2ca62d1fb2eecf23",
+    "encrypted_profile": "ENCRYPTED:38268c2cba50b709dc87607ebfba2d4a0eac75eed764afc5041ded3d928b2e9c:314",
+    "capabilities": {
+      "skills": [
+        "GraphQL",
+        "Matplotlib",
+        "Git",
+        "TensorFlow",
+        "Jest",
+        "Confluence"
+      ],
+      "experience_years": 23,
+      "availability": "contract",
+      "rate_range": "principal",
+      "industries": [
+        "Enterprise",
+        "Analytics",
+        "SaaS"
+      ],
+      "remote_preference": "onsite",
+      "hours_per_week": 30,
+      "currently_available": true,
+      "timezone": "EST"
+    },
+    "created_at": "2025-09-30T23:04:16.332147",
+    "last_active": "2025-11-24T23:04:16.332149"
+  },
+  {
+    "user_id": "sim_0036",
+    "email": "simusersim_0036@example.com",
+    "auth_hash": "90ef2eb50814fc87d8111b10114d5da520324b8d58fc9e33cfd136094c16c493",
+    "encrypted_profile": "ENCRYPTED:8c4f20395bcca1a92b8b61cbbb1441d1feeffddfe7ec32ea3ba06014c37e096b:321",
+    "capabilities": {
+      "skills": [
+        "gRPC",
+        "Pytest",
+        "Matplotlib",
+        "Security",
+        "AWS",
+        "FastAPI",
+        "PostgreSQL",
+        "Agile"
+      ],
+      "experience_years": 14,
+      "availability": "part-time",
+      "rate_range": "staff",
+      "industries": [
+        "EdTech",
+        "SaaS",
+        "FinTech"
+      ],
+      "remote_preference": "hybrid",
+      "hours_per_week": 30,
+      "currently_available": true,
+      "timezone": "EST"
+    },
+    "created_at": "2025-11-21T23:04:16.332170",
+    "last_active": "2025-11-24T23:04:16.332172"
+  },
+  {
+    "user_id": "sim_0037",
+    "email": "simusersim_0037@example.com",
+    "auth_hash": "96f080bf1048398559b4592c02a7850fc0dca924a1dcf72645ecac3bb8a5b8af",
+    "encrypted_profile": "ENCRYPTED:f0931334b9f2ab5a749a7cb97976c13f24c067f837ed32d74fdb7bb18ce7510a:309",
+    "capabilities": {
+      "skills": [
+        "Data Analysis",
+        "PyTorch",
+        "CI/CD",
+        "NestJS",
+        "React",
+        "Docker"
+      ],
+      "experience_years": 22,
+      "availability": "freelance",
+      "rate_range": "principal",
+      "industries": [
+        "Agency"
+      ],
+      "remote_preference": "remote",
+      "hours_per_week": 40,
+      "currently_available": false,
+      "timezone": "EST"
+    },
+    "created_at": "2025-09-22T23:04:16.332190",
+    "last_active": "2025-11-24T23:04:16.332193"
+  },
+  {
+    "user_id": "sim_0038",
+    "email": "simusersim_0038@example.com",
+    "auth_hash": "d283f6951505e7b497b7d3c62fa54ccc2cb635eeace006574df4be237955cf4a",
+    "encrypted_profile": "ENCRYPTED:2a05f87929ed8b3f9e76df8f05414cf1043df2f2912d6fef282662dd365bd4ca:313",
+    "capabilities": {
+      "skills": [
+        "Security",
+        "Cypress",
+        "OAuth",
+        "Redis",
+        "Selenium",
+        "Matplotlib",
+        "Bash"
+      ],
+      "experience_years": 3,
+      "availability": "freelance",
+      "rate_range": "junior",
+      "industries": [
+        "SaaS",
+        "AI/ML",
+        "Social Media",
+        "Agency"
+      ],
+      "remote_preference": "remote",
+      "hours_per_week": 50,
+      "currently_available": true,
+      "timezone": "PST"
+    },
+    "created_at": "2025-10-11T23:04:16.332211",
+    "last_active": "2025-11-24T23:04:16.332214"
+  },
+  {
+    "user_id": "sim_0039",
+    "email": "simusersim_0039@example.com",
+    "auth_hash": "ff2b0d70d639b24c8653ac613da4023bc3f8cde9e359e672806d9951485200dd",
+    "encrypted_profile": "ENCRYPTED:c22c550eba52c9f3f2fbd6704c8f539022e62ed218be2264b58a534684146413:314",
+    "capabilities": {
+      "skills": [
+        "Python",
+        "AI/ML",
+        "PyTorch",
+        "Sketch"
+      ],
+      "experience_years": 19,
+      "availability": "consulting",
+      "rate_range": "principal",
+      "industries": [
+        "SaaS",
+        "FinTech",
+        "E-commerce",
+        "Agency"
+      ],
+      "remote_preference": "onsite",
+      "hours_per_week": 40,
+      "currently_available": true,
+      "timezone": "GMT"
+    },
+    "created_at": "2025-07-08T23:04:16.332232",
+    "last_active": "2025-11-24T23:04:16.332234"
+  },
+  {
+    "user_id": "sim_0040",
+    "email": "simusersim_0040@example.com",
+    "auth_hash": "2b40df5cd2c83ffc6e98f09970724b7695e95f8d931bf1f8a04d11de5962ab72",
+    "encrypted_profile": "ENCRYPTED:70a64632adcd35bd3c0cb83dbff967e40b435b67f2299dfb0cdda0e8609df935:309",
+    "capabilities": {
+      "skills": [
+        "Scrum",
+        "Node.js",
+        "Vue",
+        "React",
+        "Express"
+      ],
+      "experience_years": 4,
+      "availability": "contract",
+      "rate_range": "mid",
+      "industries": [
+        "Analytics",
+        "HealthTech",
+        "Agency"
+      ],
+      "remote_preference": "onsite",
+      "hours_per_week": 40,
+      "currently_available": false,
+      "timezone": "UTC"
+    },
+    "created_at": "2025-09-03T23:04:16.332256",
+    "last_active": "2025-11-24T23:04:16.332259"
+  },
+  {
+    "user_id": "sim_0041",
+    "email": "simusersim_0041@example.com",
+    "auth_hash": "981237f2c845c14016fedfe947edc051951deea0b8cdcc2de5a5bfca1a944cf4",
+    "encrypted_profile": "ENCRYPTED:849fe9d534af11e4a65878783ec285c4a110609c645e243349ce40d83b1770ad:314",
+    "capabilities": {
+      "skills": [
+        "Angular",
+        "Redis",
+        "Figma"
+      ],
+      "experience_years": 22,
+      "availability": "consulting",
+      "rate_range": "principal",
+      "industries": [
+        "Startup"
+      ],
+      "remote_preference": "onsite",
+      "hours_per_week": 50,
+      "currently_available": true,
+      "timezone": "PST"
+    },
+    "created_at": "2025-06-28T23:04:16.332281",
+    "last_active": "2025-11-24T23:04:16.332284"
+  },
+  {
+    "user_id": "sim_0042",
+    "email": "simusersim_0042@example.com",
+    "auth_hash": "7c98f81be6cfa8433baf1e1f61b4694c398381d3dc141ea9cdc930955652a48b",
+    "encrypted_profile": "ENCRYPTED:dc2e2025850ef097f1618bfff9f1bf44c37845c68316f8288c9a8d612744c4b6:306",
+    "capabilities": {
+      "skills": [
+        "Angular",
+        "Data Analysis",
+        "Git",
+        "AI/ML",
+        "CI/CD",
+        "Azure"
+      ],
+      "experience_years": 17,
+      "availability": "full-time",
+      "rate_range": "staff",
+      "industries": [
+        "Gaming",
+        "Social Media"
+      ],
+      "remote_preference": "flexible",
+      "hours_per_week": 30,
+      "currently_available": false,
+      "timezone": "UTC"
+    },
+    "created_at": "2025-09-03T23:04:16.332304",
+    "last_active": "2025-11-24T23:04:16.332306"
+  },
+  {
+    "user_id": "sim_0043",
+    "email": "simusersim_0043@example.com",
+    "auth_hash": "f8e6355dddb652094fdaa2d3644af63138b7badcbc24c4022b090b1a90b28f57",
+    "encrypted_profile": "ENCRYPTED:58a3d636204d8871e185d4bf8079914f2b01ad4177d38676635a71eee061a8f4:308",
+    "capabilities": {
+      "skills": [
+        "Scrum",
+        "Python",
+        "UI/UX",
+        "REST APIs",
+        "Scikit-learn",
+        "AI/ML",
+        "React"
+      ],
+      "experience_years": 3,
+      "availability": "part-time",
+      "rate_range": "junior",
+      "industries": [
+        "AI/ML",
+        "Startup",
+        "Analytics"
+      ],
+      "remote_preference": "flexible",
+      "hours_per_week": 10,
+      "currently_available": true,
+      "timezone": "CST"
+    },
+    "created_at": "2025-11-17T23:04:16.332326",
+    "last_active": "2025-11-24T23:04:16.332329"
+  },
+  {
+    "user_id": "sim_0044",
+    "email": "simusersim_0044@example.com",
+    "auth_hash": "3875d310a094e0a7e55f390cf21f4688a27110ef0164a847e3ec862dfb4f5cb6",
+    "encrypted_profile": "ENCRYPTED:a8fba7d4448f9e1da64ac41a0248079fe6ac9222311afba0580ef157c6c852a7:317",
+    "capabilities": {
+      "skills": [
+        "Adobe XD",
+        "Express",
+        "GCP",
+        "GraphQL"
+      ],
+      "experience_years": 30,
+      "availability": "full-time",
+      "rate_range": "principal",
+      "industries": [
+        "HealthTech",
+        "E-commerce",
+        "Agency",
+        "Analytics"
+      ],
+      "remote_preference": "remote",
+      "hours_per_week": 20,
+      "currently_available": false,
+      "timezone": "GMT"
+    },
+    "created_at": "2025-07-27T23:04:16.332363",
+    "last_active": "2025-11-24T23:04:16.332366"
+  },
+  {
+    "user_id": "sim_0045",
+    "email": "simusersim_0045@example.com",
+    "auth_hash": "7b5e198f15318c64afd73e7a40c1a2da38ab1b075a9dd3164f28b3fb8c7440ac",
+    "encrypted_profile": "ENCRYPTED:69d13caf9e15b898c3e36204f628942552d555639303888cbac5119344e01825:320",
+    "capabilities": {
+      "skills": [
+        "Node.js",
+        "Bash",
+        "PostgreSQL",
+        "Security",
+        "NumPy",
+        "Jest",
+        "Flask"
+      ],
+      "experience_years": 6,
+      "availability": "full-time",
+      "rate_range": "mid",
+      "industries": [
+        "Startup",
+        "Agency",
+        "Social Media"
+      ],
+      "remote_preference": "onsite",
+      "hours_per_week": 50,
+      "currently_available": false,
+      "timezone": "EST"
+    },
+    "created_at": "2025-08-02T23:04:16.332388",
+    "last_active": "2025-11-24T23:04:16.332392"
+  },
+  {
+    "user_id": "sim_0046",
+    "email": "simusersim_0046@example.com",
+    "auth_hash": "3659574ad67ccbfcf2826c4c417e15ade61fbb05c40bf022a63a5a22a261b2ff",
+    "encrypted_profile": "ENCRYPTED:f4ef5e714525bd4286c560dc60bdbddcf302bd298b4b8c2fe431ddb8c5ef08c7:315",
+    "capabilities": {
+      "skills": [
+        "CI/CD",
+        "GraphQL",
+        "Pytest",
+        "REST APIs",
+        "Bash"
+      ],
+      "experience_years": 25,
+      "availability": "freelance",
+      "rate_range": "principal",
+      "industries": [
+        "Agency",
+        "E-commerce",
+        "Enterprise"
+      ],
+      "remote_preference": "hybrid",
+      "hours_per_week": 50,
+      "currently_available": false,
+      "timezone": "PST"
+    },
+    "created_at": "2025-08-19T23:04:16.332410",
+    "last_active": "2025-11-24T23:04:16.332412"
+  },
+  {
+    "user_id": "sim_0047",
+    "email": "simusersim_0047@example.com",
+    "auth_hash": "69877a619541d4d7cca8686606b3ad297eefa3c97afdac93b3a491fcaff64ba5",
+    "encrypted_profile": "ENCRYPTED:8191f47baad840de8f1c0e94a886dd9b3ac66da00047a260f8f79f4115a6a787:311",
+    "capabilities": {
+      "skills": [
+        "Node.js",
+        "Pandas",
+        "TypeScript",
+        "Flask",
+        "NumPy",
+        "gRPC",
+        "CI/CD",
+        "FastAPI"
+      ],
+      "experience_years": 17,
+      "availability": "freelance",
+      "rate_range": "staff",
+      "industries": [
+        "Cybersecurity"
+      ],
+      "remote_preference": "flexible",
+      "hours_per_week": 10,
+      "currently_available": true,
+      "timezone": "MST"
+    },
+    "created_at": "2025-06-18T23:04:16.332431",
+    "last_active": "2025-11-24T23:04:16.332433"
+  },
+  {
+    "user_id": "sim_0048",
+    "email": "simusersim_0048@example.com",
+    "auth_hash": "02c263b71a63c72cd1136c038cd2b96a0bed70e9583292db7a9876b72dd1ea74",
+    "encrypted_profile": "ENCRYPTED:8a65b704ef9ba58fa54ec44fb7a5b5ae5378fa9dfd45e9d96f4d0d8cf6b8b849:309",
+    "capabilities": {
+      "skills": [
+        "Jira",
+        "CI/CD",
+        "Figma"
+      ],
+      "experience_years": 17,
+      "availability": "consulting",
+      "rate_range": "staff",
+      "industries": [
+        "Gaming",
+        "DevOps",
+        "Enterprise",
+        "Analytics"
+      ],
+      "remote_preference": "remote",
+      "hours_per_week": 50,
+      "currently_available": true,
+      "timezone": "PST"
+    },
+    "created_at": "2025-06-15T23:04:16.332451",
+    "last_active": "2025-11-24T23:04:16.332454"
+  },
+  {
+    "user_id": "sim_0049",
+    "email": "simusersim_0049@example.com",
+    "auth_hash": "aff9872fa26b1cb741be39951061162bad45cc8a24f351d70cc7300cfff3ad0d",
+    "encrypted_profile": "ENCRYPTED:c36753ff4353575bc16ca2fcdf7926603278496b71abb98f0cfd41d9a2a9921d:314",
+    "capabilities": {
+      "skills": [
+        "Sketch",
+        "GCP",
+        "JavaScript",
+        "TypeScript"
+      ],
+      "experience_years": 3,
+      "availability": "contract",
+      "rate_range": "junior",
+      "industries": [
+        "SaaS"
+      ],
+      "remote_preference": "onsite",
+      "hours_per_week": 30,
+      "currently_available": false,
+      "timezone": "PST"
+    },
+    "created_at": "2025-10-11T23:04:16.332472",
+    "last_active": "2025-11-24T23:04:16.332475"
+  },
+  {
+    "user_id": "sim_0050",
+    "email": "simusersim_0050@example.com",
+    "auth_hash": "90b4534cefd1823c03aee07a67b5a86d858a4af4bcf4eae1321c410dd831722d",
+    "encrypted_profile": "ENCRYPTED:98d7fc63ae723daccfd0085f2425cf4e3cde82f6aa2cc9983a706649bc5752eb:321",
+    "capabilities": {
+      "skills": [
+        "Figma",
+        "Elasticsearch",
+        "Pandas",
+        "gRPC",
+        "Node.js",
+        "Redis",
+        "Scikit-learn"
+      ],
+      "experience_years": 3,
+      "availability": "contract",
+      "rate_range": "junior",
+      "industries": [
+        "SaaS",
+        "DevOps",
+        "FinTech",
+        "Analytics"
+      ],
+      "remote_preference": "onsite",
+      "hours_per_week": 50,
+      "currently_available": true,
+      "timezone": "EST"
+    },
+    "created_at": "2025-09-21T23:04:16.332496",
+    "last_active": "2025-11-24T23:04:16.332498"
+  },
+  {
+    "user_id": "sim_0051",
+    "email": "simusersim_0051@example.com",
+    "auth_hash": "90b65ff43702ed7b246c0011eab43ddf47d1bfc5297487b0645c6f202d6d080f",
+    "encrypted_profile": "ENCRYPTED:e1335d6e8d985fd135a4cd1c9a0fb9cd26698fe63c408a5fa3e95b6e8f897cec:308",
+    "capabilities": {
+      "skills": [
+        "PostgreSQL",
+        "Bash",
+        "Jira",
+        "Data Analysis",
+        "FastAPI"
+      ],
+      "experience_years": 18,
+      "availability": "part-time",
+      "rate_range": "staff",
+      "industries": [
+        "AI/ML",
+        "Gaming",
+        "Agency",
+        "SaaS"
+      ],
+      "remote_preference": "onsite",
+      "hours_per_week": 10,
+      "currently_available": false,
+      "timezone": "CST"
+    },
+    "created_at": "2025-09-27T23:04:16.332518",
+    "last_active": "2025-11-24T23:04:16.332520"
+  },
+  {
+    "user_id": "sim_0052",
+    "email": "simusersim_0052@example.com",
+    "auth_hash": "f78b279985858a771bc374b853b9c839b14af161ad45211eadbdc0adb319acc4",
+    "encrypted_profile": "ENCRYPTED:c98a606666aa55e1118fd2adad2517bca0cffe9dc730fa3aab470637d9ce1fd6:316",
+    "capabilities": {
+      "skills": [
+        "Redis",
+        "JWT",
+        "PostgreSQL",
+        "OAuth",
+        "Docker"
+      ],
+      "experience_years": 30,
+      "availability": "part-time",
+      "rate_range": "principal",
+      "industries": [
+        "DevOps"
+      ],
+      "remote_preference": "remote",
+      "hours_per_week": 30,
+      "currently_available": false,
+      "timezone": "EST"
+    },
+    "created_at": "2025-09-02T23:04:16.332539",
+    "last_active": "2025-11-24T23:04:16.332541"
+  },
+  {
+    "user_id": "sim_0053",
+    "email": "simusersim_0053@example.com",
+    "auth_hash": "ef0d2331d6733febaafed0382143b0cb7e67805aaf9ba4cdc89214baa93fcbd0",
+    "encrypted_profile": "ENCRYPTED:95d06690de9aa7a09143455bbb82d48d2dc28069783a983beb821b447b37eab7:318",
+    "capabilities": {
+      "skills": [
+        "Flask",
+        "Cypress",
+        "REST APIs",
+        "Linux"
+      ],
+      "experience_years": 13,
+      "availability": "consulting",
+      "rate_range": "staff",
+      "industries": [
+        "Agency",
+        "EdTech",
+        "SaaS"
+      ],
+      "remote_preference": "flexible",
+      "hours_per_week": 30,
+      "currently_available": false,
+      "timezone": "EST"
+    },
+    "created_at": "2025-06-05T23:04:16.332561",
+    "last_active": "2025-11-24T23:04:16.332563"
+  },
+  {
+    "user_id": "sim_0054",
+    "email": "simusersim_0054@example.com",
+    "auth_hash": "83907fbcf1bd477079652c4edfcc8225345bb8c47da52fd191022f8724e4747d",
+    "encrypted_profile": "ENCRYPTED:00e0a3806a06b7648f0b3e546b1a5dac274b34b9ad5783463c895cf8b792c686:315",
+    "capabilities": {
+      "skills": [
+        "Linux",
+        "Angular",
+        "Cypress",
+        "PowerShell",
+        "Python",
+        "Docker",
+        "REST APIs"
+      ],
+      "experience_years": 18,
+      "availability": "full-time",
+      "rate_range": "staff",
+      "industries": [
+        "Gaming",
+        "DevOps",
+        "Enterprise",
+        "Startup"
+      ],
+      "remote_preference": "onsite",
+      "hours_per_week": 50,
+      "currently_available": false,
+      "timezone": "GMT"
+    },
+    "created_at": "2025-06-19T23:04:16.332625",
+    "last_active": "2025-11-24T23:04:16.332632"
+  },
+  {
+    "user_id": "sim_0055",
+    "email": "simusersim_0055@example.com",
+    "auth_hash": "7084118877cacde4c9bd97c9a05fc1dcb3aab4dd8d308f11dec43903706e1a0c",
+    "encrypted_profile": "ENCRYPTED:43ab9698d21f88852026ce1bf020bff427b63af2953f7eb2e3559eb77e02ef79:303",
+    "capabilities": {
+      "skills": [
+        "Redis",
+        "Encryption",
+        "Vue",
+        "JWT",
+        "Scikit-learn",
+        "Sketch",
+        "GCP"
+      ],
+      "experience_years": 23,
+      "availability": "freelance",
+      "rate_range": "principal",
+      "industries": [
+        "EdTech"
+      ],
+      "remote_preference": "remote",
+      "hours_per_week": 10,
+      "currently_available": false,
+      "timezone": "MST"
+    },
+    "created_at": "2025-07-31T23:04:16.332673",
+    "last_active": "2025-11-24T23:04:16.332677"
+  },
+  {
+    "user_id": "sim_0056",
+    "email": "simusersim_0056@example.com",
+    "auth_hash": "8bf375cd67b0135b5572e62613ff393c2148eec6eeb8629bab1c584306789dd2",
+    "encrypted_profile": "ENCRYPTED:3b1aaf55c2abd41d88a19abf02fd43d29a33b16b64003bbbaca5f2d33e545329:312",
+    "capabilities": {
+      "skills": [
+        "Sketch",
+        "REST APIs",
+        "AI/ML",
+        "gRPC",
+        "Jest",
+        "Testing",
+        "Node.js",
+        "Kanban"
+      ],
+      "experience_years": 12,
+      "availability": "full-time",
+      "rate_range": "senior",
+      "industries": [
+        "AI/ML",
+        "Social Media",
+        "SaaS",
+        "FinTech"
+      ],
+      "remote_preference": "onsite",
+      "hours_per_week": 20,
+      "currently_available": false,
+      "timezone": "MST"
+    },
+    "created_at": "2025-06-12T23:04:16.332704",
+    "last_active": "2025-11-24T23:04:16.332708"
+  },
+  {
+    "user_id": "sim_0057",
+    "email": "simusersim_0057@example.com",
+    "auth_hash": "775847eb10477c298b84e6faa7a6a173b8f040fb272394e0e83e317aea6dc990",
+    "encrypted_profile": "ENCRYPTED:248fae82468046f5f2ec7729fe085fa07d4a8958b20695d55362bfe9ee9dbdb1:319",
+    "capabilities": {
+      "skills": [
+        "Kubernetes",
+        "PostgreSQL",
+        "Django",
+        "Scrum",
+        "Scikit-learn",
+        "Angular"
+      ],
+      "experience_years": 7,
+      "availability": "part-time",
+      "rate_range": "senior",
+      "industries": [
+        "FinTech"
+      ],
+      "remote_preference": "onsite",
+      "hours_per_week": 20,
+      "currently_available": true,
+      "timezone": "UTC"
+    },
+    "created_at": "2025-09-01T23:04:16.332734",
+    "last_active": "2025-11-24T23:04:16.332737"
+  },
+  {
+    "user_id": "sim_0058",
+    "email": "simusersim_0058@example.com",
+    "auth_hash": "3d8cad312be8c82b0418b86df7d1a9d5d5b44279a5873bbbcded89cc64e070fd",
+    "encrypted_profile": "ENCRYPTED:0c8b6acbb54ec3aac7406370698b8a8c807391077bc5991a087b865988e935d9:317",
+    "capabilities": {
+      "skills": [
+        "Kubernetes",
+        "Jira",
+        "Node.js"
+      ],
+      "experience_years": 7,
+      "availability": "part-time",
+      "rate_range": "mid",
+      "industries": [
+        "Startup",
+        "EdTech",
+        "HealthTech"
+      ],
+      "remote_preference": "remote",
+      "hours_per_week": 20,
+      "currently_available": true,
+      "timezone": "CST"
+    },
+    "created_at": "2025-09-18T23:04:16.332761",
+    "last_active": "2025-11-24T23:04:16.332764"
+  },
+  {
+    "user_id": "sim_0059",
+    "email": "simusersim_0059@example.com",
+    "auth_hash": "d30fcf7dde4243fe5dc9bf4790c10c3f2f2d02ff01aad1bd9e727240e08e1913",
+    "encrypted_profile": "ENCRYPTED:dfc7564f97e0735d629ad64aa60d37359099661153f46b04f2728f6e097d8bd0:313",
+    "capabilities": {
+      "skills": [
+        "AI/ML",
+        "Matplotlib",
+        "Django",
+        "Jest",
+        "Vue",
+        "Data Analysis",
+        "PyTorch",
+        "Linux"
+      ],
+      "experience_years": 1,
+      "availability": "consulting",
+      "rate_range": "junior",
+      "industries": [
+        "Analytics"
+      ],
+      "remote_preference": "hybrid",
+      "hours_per_week": 50,
+      "currently_available": true,
+      "timezone": "GMT"
+    },
+    "created_at": "2025-08-14T23:04:16.332788",
+    "last_active": "2025-11-24T23:04:16.332791"
+  },
+  {
+    "user_id": "sim_0060",
+    "email": "simusersim_0060@example.com",
+    "auth_hash": "9eacade821b7602ce603f6d08fb9491c3ede4dd74a940b3ce68167e5f997cb6c",
+    "encrypted_profile": "ENCRYPTED:54a21694129a68557c12926b5f8c4caa9ab85ee64dc631230d548e33c8c51486:317",
+    "capabilities": {
+      "skills": [
+        "Pandas",
+        "Adobe XD",
+        "PyTorch"
+      ],
+      "experience_years": 17,
+      "availability": "full-time",
+      "rate_range": "staff",
+      "industries": [
+        "Gaming"
+      ],
+      "remote_preference": "hybrid",
+      "hours_per_week": 10,
+      "currently_available": true,
+      "timezone": "CST"
+    },
+    "created_at": "2025-06-23T23:04:16.332815",
+    "last_active": "2025-11-24T23:04:16.332818"
+  },
+  {
+    "user_id": "sim_0061",
+    "email": "simusersim_0061@example.com",
+    "auth_hash": "dee0f18b91aaee37e502744fd3a6e0cf93a94497b37505aa03e59373a3172b00",
+    "encrypted_profile": "ENCRYPTED:b4c681fd7247758aad0f23129c156b1fb2d000e3b552fcac65dea4aa24780061:315",
+    "capabilities": {
+      "skills": [
+        "Django",
+        "Jira",
+        "Encryption",
+        "Kanban",
+        "Selenium",
+        "GraphQL",
+        "Testing",
+        "MongoDB"
+      ],
+      "experience_years": 12,
+      "availability": "freelance",
+      "rate_range": "staff",
+      "industries": [
+        "E-commerce",
+        "Social Media",
+        "Gaming",
+        "Analytics"
+      ],
+      "remote_preference": "flexible",
+      "hours_per_week": 40,
+      "currently_available": true,
+      "timezone": "CST"
+    },
+    "created_at": "2025-06-02T23:04:16.332841",
+    "last_active": "2025-11-24T23:04:16.332844"
+  },
+  {
+    "user_id": "sim_0062",
+    "email": "simusersim_0062@example.com",
+    "auth_hash": "c947f8284b56f9c99b35ec709539f52c524f8eb3ccf5d7dfc4f8e10f8708e148",
+    "encrypted_profile": "ENCRYPTED:d6159fcae6da67f25a1a840453c186b8f4634df5119566bf15c934ab05ef94d5:310",
+    "capabilities": {
+      "skills": [
+        "Kanban",
+        "Angular",
+        "TensorFlow"
+      ],
+      "experience_years": 12,
+      "availability": "full-time",
+      "rate_range": "staff",
+      "industries": [
+        "Startup",
+        "EdTech",
+        "Cybersecurity"
+      ],
+      "remote_preference": "remote",
+      "hours_per_week": 50,
+      "currently_available": false,
+      "timezone": "GMT"
+    },
+    "created_at": "2025-11-11T23:04:16.332865",
+    "last_active": "2025-11-24T23:04:16.332868"
+  },
+  {
+    "user_id": "sim_0063",
+    "email": "simusersim_0063@example.com",
+    "auth_hash": "bfc48b4d32ebacc591430d1a079fab97e1542d7de36d61126fcd203e3f8dc601",
+    "encrypted_profile": "ENCRYPTED:965f090e0fcc7e4795363102b8a616a1e04ca6ee4117702af23bf00d9cc955f0:312",
+    "capabilities": {
+      "skills": [
+        "Git",
+        "FastAPI",
+        "WebSockets",
+        "NumPy",
+        "MongoDB"
+      ],
+      "experience_years": 11,
+      "availability": "part-time",
+      "rate_range": "senior",
+      "industries": [
+        "E-commerce",
+        "HealthTech",
+        "Gaming",
+        "Cybersecurity"
+      ],
+      "remote_preference": "onsite",
+      "hours_per_week": 10,
+      "currently_available": false,
+      "timezone": "UTC"
+    },
+    "created_at": "2025-10-09T23:04:16.332891",
+    "last_active": "2025-11-24T23:04:16.332894"
+  },
+  {
+    "user_id": "sim_0064",
+    "email": "simusersim_0064@example.com",
+    "auth_hash": "15d7cad426f9986d794ad940132071b549f7dabe472a372064be3d66e2ee7e19",
+    "encrypted_profile": "ENCRYPTED:d2dbc4303de3193f6510cd4b589a45787056ef20a9647126c441d1fd919f43b4:310",
+    "capabilities": {
+      "skills": [
+        "CI/CD",
+        "Git",
+        "Python",
+        "NestJS",
+        "Confluence"
+      ],
+      "experience_years": 12,
+      "availability": "part-time",
+      "rate_range": "senior",
+      "industries": [
+        "HealthTech",
+        "EdTech",
+        "Enterprise",
+        "DevOps"
+      ],
+      "remote_preference": "remote",
+      "hours_per_week": 10,
+      "currently_available": true,
+      "timezone": "MST"
+    },
+    "created_at": "2025-09-06T23:04:16.332915",
+    "last_active": "2025-11-24T23:04:16.332918"
+  },
+  {
+    "user_id": "sim_0065",
+    "email": "simusersim_0065@example.com",
+    "auth_hash": "6c3fb08cc8c7c0de7625677e877c01c42eddea151d625f062a0f04be948dd5c4",
+    "encrypted_profile": "ENCRYPTED:5bae54476ecc16a26c4fe025db1a10ef6ea57cc54a40b5e2c3c2b0d487780e4e:310",
+    "capabilities": {
+      "skills": [
+        "Angular",
+        "React",
+        "Node.js",
+        "Express",
+        "Pytest",
+        "OAuth",
+        "Jira"
+      ],
+      "experience_years": 11,
+      "availability": "full-time",
+      "rate_range": "senior",
+      "industries": [
+        "Analytics",
+        "DevOps",
+        "Social Media"
+      ],
+      "remote_preference": "flexible",
+      "hours_per_week": 50,
+      "currently_available": false,
+      "timezone": "MST"
+    },
+    "created_at": "2025-10-27T23:04:16.332940",
+    "last_active": "2025-11-24T23:04:16.332943"
+  },
+  {
+    "user_id": "sim_0066",
+    "email": "simusersim_0066@example.com",
+    "auth_hash": "3a1f222b796e9228ce12435e79ed2b0658813f37ba7f6e6766517a7e83adbb17",
+    "encrypted_profile": "ENCRYPTED:3d200f5e915623d948337a5d3d48788689cb58ce32b707c089331a7a5b86da46:314",
+    "capabilities": {
+      "skills": [
+        "gRPC",
+        "Pandas",
+        "Matplotlib",
+        "UI/UX",
+        "GCP",
+        "TypeScript",
+        "Redis",
+        "PowerShell"
+      ],
+      "experience_years": 12,
+      "availability": "consulting",
+      "rate_range": "senior",
+      "industries": [
+        "FinTech"
+      ],
+      "remote_preference": "hybrid",
+      "hours_per_week": 30,
+      "currently_available": true,
+      "timezone": "PST"
+    },
+    "created_at": "2025-07-20T23:04:16.332965",
+    "last_active": "2025-11-24T23:04:16.332967"
+  },
+  {
+    "user_id": "sim_0067",
+    "email": "simusersim_0067@example.com",
+    "auth_hash": "af5f03aaae29a9ec1ea7d384197996dbc0767448f2c4307f545e01800279e6ec",
+    "encrypted_profile": "ENCRYPTED:e0bc1ce63e4a6aad5864f33931ddc0013cc9ab3a7c217fe8c521fe7721a8e9cc:306",
+    "capabilities": {
+      "skills": [
+        "Bash",
+        "REST APIs",
+        "Adobe XD",
+        "Redis"
+      ],
+      "experience_years": 13,
+      "availability": "consulting",
+      "rate_range": "staff",
+      "industries": [
+        "HealthTech",
+        "Social Media",
+        "Enterprise"
+      ],
+      "remote_preference": "remote",
+      "hours_per_week": 40,
+      "currently_available": true,
+      "timezone": "MST"
+    },
+    "created_at": "2025-06-14T23:04:16.332988",
+    "last_active": "2025-11-24T23:04:16.332990"
+  },
+  {
+    "user_id": "sim_0068",
+    "email": "simusersim_0068@example.com",
+    "auth_hash": "40f4c56ff2d04c6af29ff534fb6bce95b6863387f9d0635f009519c57ceebe8b",
+    "encrypted_profile": "ENCRYPTED:9bc8d557cfa312b1015133ad5840890cba9c3aa7efa81c712e256d40a19f3688:326",
+    "capabilities": {
+      "skills": [
+        "PowerShell",
+        "JavaScript",
+        "Azure"
+      ],
+      "experience_years": 14,
+      "availability": "part-time",
+      "rate_range": "staff",
+      "industries": [
+        "Agency",
+        "Enterprise",
+        "Gaming",
+        "HealthTech"
+      ],
+      "remote_preference": "flexible",
+      "hours_per_week": 10,
+      "currently_available": true,
+      "timezone": "MST"
+    },
+    "created_at": "2025-08-30T23:04:16.333011",
+    "last_active": "2025-11-24T23:04:16.333014"
+  },
+  {
+    "user_id": "sim_0069",
+    "email": "simusersim_0069@example.com",
+    "auth_hash": "fd39b0f6b7ac66e553a8f56315e7b94e8600596eb56f751d5d144f01439c2379",
+    "encrypted_profile": "ENCRYPTED:f2c190633ffc20f4f3d9b52448d8810f10c9e91031440996059777822b4093ac:305",
+    "capabilities": {
+      "skills": [
+        "Vue",
+        "NumPy",
+        "JWT",
+        "Django"
+      ],
+      "experience_years": 5,
+      "availability": "consulting",
+      "rate_range": "mid",
+      "industries": [
+        "Startup",
+        "Gaming"
+      ],
+      "remote_preference": "onsite",
+      "hours_per_week": 20,
+      "currently_available": true,
+      "timezone": "EST"
+    },
+    "created_at": "2025-10-16T23:04:16.333034",
+    "last_active": "2025-11-24T23:04:16.333036"
+  },
+  {
+    "user_id": "sim_0070",
+    "email": "simusersim_0070@example.com",
+    "auth_hash": "63245abfff237e7865ec432442b4ea2e16d81d1888b498abe1a708e899bfdb7c",
+    "encrypted_profile": "ENCRYPTED:7b3ad5e03816256ddd5bf4e344723e774917f2a2364bd0ad364afbc5b71ba6ca:322",
+    "capabilities": {
+      "skills": [
+        "Pandas",
+        "Scikit-learn",
+        "Pytest",
+        "WebSockets",
+        "Kanban",
+        "gRPC",
+        "PyTorch",
+        "Figma"
+      ],
+      "experience_years": 1,
+      "availability": "consulting",
+      "rate_range": "junior",
+      "industries": [
+        "Agency",
+        "DevOps",
+        "Gaming"
+      ],
+      "remote_preference": "hybrid",
+      "hours_per_week": 40,
+      "currently_available": true,
+      "timezone": "MST"
+    },
+    "created_at": "2025-11-10T23:04:16.333059",
+    "last_active": "2025-11-24T23:04:16.333061"
+  },
+  {
+    "user_id": "sim_0071",
+    "email": "simusersim_0071@example.com",
+    "auth_hash": "02b338101b267a8415e78b03b81ba313f9edf5b572b7e083cab1ccd9aaf0b294",
+    "encrypted_profile": "ENCRYPTED:5f8622b9600758841e9dbdbe1a6de25899a08a5f838f0c1be04e0b10cddda598:320",
+    "capabilities": {
+      "skills": [
+        "GCP",
+        "Scikit-learn",
+        "PyTorch"
+      ],
+      "experience_years": 11,
+      "availability": "full-time",
+      "rate_range": "senior",
+      "industries": [
+        "Gaming"
+      ],
+      "remote_preference": "onsite",
+      "hours_per_week": 10,
+      "currently_available": true,
+      "timezone": "UTC"
+    },
+    "created_at": "2025-06-11T23:04:16.333082",
+    "last_active": "2025-11-24T23:04:16.333085"
+  },
+  {
+    "user_id": "sim_0072",
+    "email": "simusersim_0072@example.com",
+    "auth_hash": "a3835776ff6a29162aeab3567705631f12875ed7cb5d8784ec5ccbbad2193710",
+    "encrypted_profile": "ENCRYPTED:d84a737315ce54f0b6c0ed4cb80a25c11c2732a30945e364d71b9bb1316491b8:317",
+    "capabilities": {
+      "skills": [
+        "Data Analysis",
+        "NumPy",
+        "Node.js",
+        "React",
+        "PyTorch",
+        "FastAPI",
+        "CI/CD"
+      ],
+      "experience_years": 5,
+      "availability": "full-time",
+      "rate_range": "mid",
+      "industries": [
+        "FinTech",
+        "E-commerce"
+      ],
+      "remote_preference": "flexible",
+      "hours_per_week": 40,
+      "currently_available": true,
+      "timezone": "CST"
+    },
+    "created_at": "2025-06-04T23:04:16.333106",
+    "last_active": "2025-11-24T23:04:16.333108"
+  },
+  {
+    "user_id": "sim_0073",
+    "email": "simusersim_0073@example.com",
+    "auth_hash": "c7cb69069a5174579617e0cba137d4b6685f566e8709ea71a0c6805a878ed0ec",
+    "encrypted_profile": "ENCRYPTED:a46d2e7a76ee1b473b067bc213ab888d787a98729464b74216a4fe7d63138561:313",
+    "capabilities": {
+      "skills": [
+        "Encryption",
+        "CI/CD",
+        "Vue",
+        "Jira",
+        "FastAPI",
+        "GraphQL",
+        "Figma",
+        "Bash"
+      ],
+      "experience_years": 18,
+      "availability": "contract",
+      "rate_range": "principal",
+      "industries": [
+        "Enterprise",
+        "DevOps",
+        "AI/ML"
+      ],
+      "remote_preference": "hybrid",
+      "hours_per_week": 30,
+      "currently_available": true,
+      "timezone": "UTC"
+    },
+    "created_at": "2025-06-25T23:04:16.333130",
+    "last_active": "2025-11-24T23:04:16.333132"
+  },
+  {
+    "user_id": "sim_0074",
+    "email": "simusersim_0074@example.com",
+    "auth_hash": "a81963211efc5de088348e22feb87ecc61e2873044da25e4d0f308ba0dbb78f3",
+    "encrypted_profile": "ENCRYPTED:b896d65daa1e21a90d1b247060e7392acfe687797c33a193acda8617cda39977:315",
+    "capabilities": {
+      "skills": [
+        "Bash",
+        "Encryption",
+        "Cypress",
+        "CI/CD",
+        "Flask",
+        "UI/UX",
+        "Sketch"
+      ],
+      "experience_years": 2,
+      "availability": "consulting",
+      "rate_range": "junior",
+      "industries": [
+        "DevOps"
+      ],
+      "remote_preference": "flexible",
+      "hours_per_week": 50,
+      "currently_available": false,
+      "timezone": "EST"
+    },
+    "created_at": "2025-07-23T23:04:16.333153",
+    "last_active": "2025-11-24T23:04:16.333155"
+  },
+  {
+    "user_id": "sim_0075",
+    "email": "simusersim_0075@example.com",
+    "auth_hash": "f38899a99639f926c51dc2589635d695b1f3e90a42f6e528e7f6c3effdc1746b",
+    "encrypted_profile": "ENCRYPTED:4ddac475db03aa7819888d73f847b000f3a2ee0f3042d20c9c51a26c0f7492ff:309",
+    "capabilities": {
+      "skills": [
+        "Node.js",
+        "Vue",
+        "AWS",
+        "Jira"
+      ],
+      "experience_years": 4,
+      "availability": "full-time",
+      "rate_range": "mid",
+      "industries": [
+        "DevOps"
+      ],
+      "remote_preference": "onsite",
+      "hours_per_week": 50,
+      "currently_available": true,
+      "timezone": "UTC"
+    },
+    "created_at": "2025-06-18T23:04:16.333176",
+    "last_active": "2025-11-24T23:04:16.333179"
+  },
+  {
+    "user_id": "sim_0076",
+    "email": "simusersim_0076@example.com",
+    "auth_hash": "de60f85801e66f283a3c6c9ec20a04c4e3ce5ada475d02acdf1a8737a35e87b9",
+    "encrypted_profile": "ENCRYPTED:2de885fe193817cb3f1f75097118ca72e564cbf8a5fa323ccee9b6da2c5b89a1:310",
+    "capabilities": {
+      "skills": [
+        "AI/ML",
+        "Linux",
+        "Figma"
+      ],
+      "experience_years": 6,
+      "availability": "part-time",
+      "rate_range": "mid",
+      "industries": [
+        "AI/ML",
+        "SaaS",
+        "Enterprise",
+        "Analytics"
+      ],
+      "remote_preference": "hybrid",
+      "hours_per_week": 50,
+      "currently_available": true,
+      "timezone": "CST"
+    },
+    "created_at": "2025-09-13T23:04:16.333201",
+    "last_active": "2025-11-24T23:04:16.333203"
+  },
+  {
+    "user_id": "sim_0077",
+    "email": "simusersim_0077@example.com",
+    "auth_hash": "66ba784d931aa145a0f286ff93f4e0f20addaa3e0b87ffc7a5e55a40aa9f601d",
+    "encrypted_profile": "ENCRYPTED:088709cbbe37c4ea189f5ffd1c81c59753186ba1b9f95afeb0bd4ec225c97f94:302",
+    "capabilities": {
+      "skills": [
+        "AI/ML",
+        "Express",
+        "Scrum",
+        "PostgreSQL",
+        "Agile",
+        "Security",
+        "Flask"
+      ],
+      "experience_years": 16,
+      "availability": "contract",
+      "rate_range": "staff",
+      "industries": [
+        "DevOps"
+      ],
+      "remote_preference": "flexible",
+      "hours_per_week": 30,
+      "currently_available": true,
+      "timezone": "GMT"
+    },
+    "created_at": "2025-08-01T23:04:16.333226",
+    "last_active": "2025-11-24T23:04:16.333229"
+  },
+  {
+    "user_id": "sim_0078",
+    "email": "simusersim_0078@example.com",
+    "auth_hash": "780c861a160344191b6ef9f639c0c93b84e6d48fbcb5aff871a9485d23e12071",
+    "encrypted_profile": "ENCRYPTED:c4373f4804d6292380b5de07d072d0a9372389b5e15cba21c6d04dc1e6798c4b:309",
+    "capabilities": {
+      "skills": [
+        "Angular",
+        "Redis",
+        "Scrum",
+        "PyTorch",
+        "Git",
+        "JavaScript"
+      ],
+      "experience_years": 20,
+      "availability": "freelance",
+      "rate_range": "principal",
+      "industries": [
+        "Social Media"
+      ],
+      "remote_preference": "onsite",
+      "hours_per_week": 20,
+      "currently_available": false,
+      "timezone": "EST"
+    },
+    "created_at": "2025-06-11T23:04:16.333251",
+    "last_active": "2025-11-24T23:04:16.333253"
+  },
+  {
+    "user_id": "sim_0079",
+    "email": "simusersim_0079@example.com",
+    "auth_hash": "eb046e99d6755522a4fe5be61062c2c3193c13cdda6638073bd70e003b37ae97",
+    "encrypted_profile": "ENCRYPTED:a6595d2eea6003f393d7b1653b7839001ef6d0df0330efebe35559f1cb544795:313",
+    "capabilities": {
+      "skills": [
+        "TypeScript",
+        "AWS",
+        "Kanban",
+        "Data Analysis"
+      ],
+      "experience_years": 8,
+      "availability": "part-time",
+      "rate_range": "senior",
+      "industries": [
+        "Analytics",
+        "AI/ML",
+        "FinTech",
+        "HealthTech"
+      ],
+      "remote_preference": "remote",
+      "hours_per_week": 30,
+      "currently_available": true,
+      "timezone": "PST"
+    },
+    "created_at": "2025-10-24T23:04:16.333274",
+    "last_active": "2025-11-24T23:04:16.333277"
+  },
+  {
+    "user_id": "sim_0080",
+    "email": "simusersim_0080@example.com",
+    "auth_hash": "cb123e919f9d4e94baf998f9757a0fd9c86a25e9af0277e33d40c1a26b49b08b",
+    "encrypted_profile": "ENCRYPTED:5d21a57988e692ca0364be1a46a65f8c0b05e0d1b1fb2e0c849b5b82265b5e27:304",
+    "capabilities": {
+      "skills": [
+        "JWT",
+        "Cypress",
+        "OAuth",
+        "Scikit-learn",
+        "Vue",
+        "Django"
+      ],
+      "experience_years": 1,
+      "availability": "freelance",
+      "rate_range": "junior",
+      "industries": [
+        "DevOps"
+      ],
+      "remote_preference": "hybrid",
+      "hours_per_week": 20,
+      "currently_available": false,
+      "timezone": "MST"
+    },
+    "created_at": "2025-08-10T23:04:16.333299",
+    "last_active": "2025-11-24T23:04:16.333301"
+  },
+  {
+    "user_id": "sim_0081",
+    "email": "simusersim_0081@example.com",
+    "auth_hash": "966317cded7b49cc08c01ce14da0f4c9cd0ee85692d5d0cddf2a322f04b3c5d5",
+    "encrypted_profile": "ENCRYPTED:f83ee11e2af2ef43932c9c82d2cece8db29bb3ec65d69b5838b2a988ec86fcd7:314",
+    "capabilities": {
+      "skills": [
+        "Linux",
+        "Vue",
+        "Matplotlib",
+        "REST APIs",
+        "NumPy",
+        "Cypress",
+        "Agile"
+      ],
+      "experience_years": 3,
+      "availability": "consulting",
+      "rate_range": "mid",
+      "industries": [
+        "Social Media"
+      ],
+      "remote_preference": "flexible",
+      "hours_per_week": 10,
+      "currently_available": false,
+      "timezone": "CST"
+    },
+    "created_at": "2025-08-28T23:04:16.333323",
+    "last_active": "2025-11-24T23:04:16.333326"
+  },
+  {
+    "user_id": "sim_0082",
+    "email": "simusersim_0082@example.com",
+    "auth_hash": "a565dace5e851e8b5ea4ad8e22667cf0acf50c83b4ab918ec15fd81a684d7142",
+    "encrypted_profile": "ENCRYPTED:ef02e61f1ef2943cbc576524bd404522e7aab53c0bfd36feff5135810bc75487:300",
+    "capabilities": {
+      "skills": [
+        "Jest",
+        "Pytest",
+        "CI/CD",
+        "Flask",
+        "TypeScript",
+        "Git",
+        "REST APIs"
+      ],
+      "experience_years": 3,
+      "availability": "contract",
+      "rate_range": "mid",
+      "industries": [
+        "Agency",
+        "Startup"
+      ],
+      "remote_preference": "flexible",
+      "hours_per_week": 40,
+      "currently_available": true,
+      "timezone": "PST"
+    },
+    "created_at": "2025-10-04T23:04:16.333346",
+    "last_active": "2025-11-24T23:04:16.333349"
+  },
+  {
+    "user_id": "sim_0083",
+    "email": "simusersim_0083@example.com",
+    "auth_hash": "576cd21f4db806830e3ac858110b342185a7455ffd0cc3d7df0fed893cf82841",
+    "encrypted_profile": "ENCRYPTED:175d9ed3cf0845a3fec376579a65a31c27e7108336f15cefb41256b8877263b2:304",
+    "capabilities": {
+      "skills": [
+        "Azure",
+        "GCP",
+        "NumPy"
+      ],
+      "experience_years": 1,
+      "availability": "freelance",
+      "rate_range": "junior",
+      "industries": [
+        "SaaS",
+        "FinTech",
+        "DevOps",
+        "E-commerce"
+      ],
+      "remote_preference": "onsite",
+      "hours_per_week": 30,
+      "currently_available": true,
+      "timezone": "GMT"
+    },
+    "created_at": "2025-08-14T23:04:16.333368",
+    "last_active": "2025-11-24T23:04:16.333371"
+  },
+  {
+    "user_id": "sim_0084",
+    "email": "simusersim_0084@example.com",
+    "auth_hash": "a2bdc8000a36e2fc4012df43aa22f24ce386522f658ec75388882226ce8b4ead",
+    "encrypted_profile": "ENCRYPTED:c18a945e210229b2c2b6b541bb80fa326a87e0f5b52c89cefa80b99c37cf7a8d:314",
+    "capabilities": {
+      "skills": [
+        "NestJS",
+        "Pandas",
+        "Sketch",
+        "Linux",
+        "Agile"
+      ],
+      "experience_years": 15,
+      "availability": "consulting",
+      "rate_range": "staff",
+      "industries": [
+        "Startup",
+        "HealthTech",
+        "Enterprise"
+      ],
+      "remote_preference": "flexible",
+      "hours_per_week": 10,
+      "currently_available": false,
+      "timezone": "UTC"
+    },
+    "created_at": "2025-11-04T23:04:16.333392",
+    "last_active": "2025-11-24T23:04:16.333394"
+  },
+  {
+    "user_id": "sim_0085",
+    "email": "simusersim_0085@example.com",
+    "auth_hash": "8b0e6e7b6362db36f80b60142c15de4b6d070a26446a1d3a436ec59fe71d3461",
+    "encrypted_profile": "ENCRYPTED:e3693fa09213239664c849aa53804680efab326a680ca57c4117f577ee572f68:315",
+    "capabilities": {
+      "skills": [
+        "GCP",
+        "PyTorch",
+        "Security",
+        "Adobe XD",
+        "TensorFlow"
+      ],
+      "experience_years": 12,
+      "availability": "part-time",
+      "rate_range": "senior",
+      "industries": [
+        "Gaming",
+        "Analytics",
+        "FinTech",
+        "Agency"
+      ],
+      "remote_preference": "flexible",
+      "hours_per_week": 30,
+      "currently_available": true,
+      "timezone": "EST"
+    },
+    "created_at": "2025-06-22T23:04:16.333415",
+    "last_active": "2025-11-24T23:04:16.333418"
+  },
+  {
+    "user_id": "sim_0086",
+    "email": "simusersim_0086@example.com",
+    "auth_hash": "b74b3cb704d1cb11bc596089ba82e11e9d37e9c3c6f387344e0fb39f2225bacf",
+    "encrypted_profile": "ENCRYPTED:5ef8a4690b5308c1504fef3546217e9231189ee52f5392591547d6f91eb465e2:318",
+    "capabilities": {
+      "skills": [
+        "Vue",
+        "Elasticsearch",
+        "Selenium",
+        "Encryption"
+      ],
+      "experience_years": 12,
+      "availability": "contract",
+      "rate_range": "staff",
+      "industries": [
+        "Social Media",
+        "AI/ML",
+        "FinTech"
+      ],
+      "remote_preference": "hybrid",
+      "hours_per_week": 40,
+      "currently_available": false,
+      "timezone": "CST"
+    },
+    "created_at": "2025-09-05T23:04:16.333437",
+    "last_active": "2025-11-24T23:04:16.333440"
+  },
+  {
+    "user_id": "sim_0087",
+    "email": "simusersim_0087@example.com",
+    "auth_hash": "0536902b04edb5efc9e37835fd3b2a7971c47d2bdf616f0f481d8e1896309e8d",
+    "encrypted_profile": "ENCRYPTED:6e9eed5fba1918055c9ade09efeed8e7b042ded090617a87239da1f89fa773fe:315",
+    "capabilities": {
+      "skills": [
+        "JavaScript",
+        "Jest",
+        "NestJS"
+      ],
+      "experience_years": 8,
+      "availability": "freelance",
+      "rate_range": "senior",
+      "industries": [
+        "Cybersecurity",
+        "HealthTech",
+        "SaaS",
+        "Enterprise"
+      ],
+      "remote_preference": "flexible",
+      "hours_per_week": 20,
+      "currently_available": false,
+      "timezone": "GMT"
+    },
+    "created_at": "2025-08-01T23:04:16.333461",
+    "last_active": "2025-11-24T23:04:16.333463"
+  },
+  {
+    "user_id": "sim_0088",
+    "email": "simusersim_0088@example.com",
+    "auth_hash": "d79360223797e3e16d72dfd4be2519fb60a2dd31ac688f6c1e3eba238d8fdefd",
+    "encrypted_profile": "ENCRYPTED:d21b7e35f8a1e94fddf92edc4ca22cb62296d669188dd2ac35e4ae0b216ed14b:307",
+    "capabilities": {
+      "skills": [
+        "Agile",
+        "Figma",
+        "Jira"
+      ],
+      "experience_years": 6,
+      "availability": "contract",
+      "rate_range": "mid",
+      "industries": [
+        "Enterprise",
+        "HealthTech",
+        "Cybersecurity"
+      ],
+      "remote_preference": "onsite",
+      "hours_per_week": 30,
+      "currently_available": true,
+      "timezone": "GMT"
+    },
+    "created_at": "2025-10-20T23:04:16.333486",
+    "last_active": "2025-11-24T23:04:16.333489"
+  },
+  {
+    "user_id": "sim_0089",
+    "email": "simusersim_0089@example.com",
+    "auth_hash": "1c169e78966acd4a7a5363c06f5766b6bd73180570fadcabe284ac97ae6fcca2",
+    "encrypted_profile": "ENCRYPTED:4ca62f4cccbffc88ff75b029e57f9f89b1b1149e5c5f54e0949d0541829b08d4:321",
+    "capabilities": {
+      "skills": [
+        "Linux",
+        "GraphQL",
+        "WebSockets"
+      ],
+      "experience_years": 6,
+      "availability": "contract",
+      "rate_range": "mid",
+      "industries": [
+        "Startup",
+        "Cybersecurity",
+        "EdTech",
+        "AI/ML"
+      ],
+      "remote_preference": "remote",
+      "hours_per_week": 10,
+      "currently_available": false,
+      "timezone": "MST"
+    },
+    "created_at": "2025-11-06T23:04:16.333512",
+    "last_active": "2025-11-24T23:04:16.333515"
+  },
+  {
+    "user_id": "sim_0090",
+    "email": "simusersim_0090@example.com",
+    "auth_hash": "2e12303d1a36e855d5f534f11162032dc3e891a16f8a48a616945c24d329d503",
+    "encrypted_profile": "ENCRYPTED:3a3e8d73075f98af0dbafa5464c415f9d859c9772217fbe651a44c64739e6d92:315",
+    "capabilities": {
+      "skills": [
+        "Vue",
+        "PyTorch",
+        "Scikit-learn",
+        "Figma",
+        "Matplotlib",
+        "Git",
+        "Flask",
+        "GraphQL"
+      ],
+      "experience_years": 5,
+      "availability": "consulting",
+      "rate_range": "mid",
+      "industries": [
+        "Startup",
+        "EdTech"
+      ],
+      "remote_preference": "flexible",
+      "hours_per_week": 50,
+      "currently_available": true,
+      "timezone": "EST"
+    },
+    "created_at": "2025-09-28T23:04:16.333539",
+    "last_active": "2025-11-24T23:04:16.333542"
+  },
+  {
+    "user_id": "sim_0091",
+    "email": "simusersim_0091@example.com",
+    "auth_hash": "1ff0598ebe625b1a930993793225078f4969c9f82505c429b3ac90a23dbc635c",
+    "encrypted_profile": "ENCRYPTED:cd3b87fc5ade364221ddbb1133f4626350fc4e61080aa4a8b52999ca01d95f51:309",
+    "capabilities": {
+      "skills": [
+        "Jira",
+        "Angular",
+        "Docker",
+        "PostgreSQL",
+        "JWT"
+      ],
+      "experience_years": 11,
+      "availability": "consulting",
+      "rate_range": "senior",
+      "industries": [
+        "EdTech",
+        "DevOps",
+        "SaaS"
+      ],
+      "remote_preference": "remote",
+      "hours_per_week": 50,
+      "currently_available": true,
+      "timezone": "UTC"
+    },
+    "created_at": "2025-11-04T23:04:16.333564",
+    "last_active": "2025-11-24T23:04:16.333567"
+  },
+  {
+    "user_id": "sim_0092",
+    "email": "simusersim_0092@example.com",
+    "auth_hash": "cfb62d2abdc521370300c798df5932d36a58736ef343c8f054c09e8c870a4878",
+    "encrypted_profile": "ENCRYPTED:5e37a16edef958b12f44641973e37f80c04ecd6fb9130d45c5787209727a7ef5:313",
+    "capabilities": {
+      "skills": [
+        "MongoDB",
+        "Selenium",
+        "WebSockets",
+        "AI/ML",
+        "OAuth",
+        "JWT",
+        "JavaScript",
+        "Pandas"
+      ],
+      "experience_years": 2,
+      "availability": "consulting",
+      "rate_range": "junior",
+      "industries": [
+        "DevOps",
+        "SaaS",
+        "Analytics"
+      ],
+      "remote_preference": "hybrid",
+      "hours_per_week": 40,
+      "currently_available": false,
+      "timezone": "MST"
+    },
+    "created_at": "2025-08-10T23:04:16.333590",
+    "last_active": "2025-11-24T23:04:16.333593"
+  },
+  {
+    "user_id": "sim_0093",
+    "email": "simusersim_0093@example.com",
+    "auth_hash": "583a59081b879e27ba7867ed26f0c2c76faaae8e7263929a7f139e4a7b919ddc",
+    "encrypted_profile": "ENCRYPTED:7ec240ac4edc03db86a8f03575d2af5bef00ced377dda033f32d93c73392063a:304",
+    "capabilities": {
+      "skills": [
+        "CI/CD",
+        "Security",
+        "Node.js",
+        "Azure"
+      ],
+      "experience_years": 15,
+      "availability": "contract",
+      "rate_range": "staff",
+      "industries": [
+        "Social Media",
+        "EdTech",
+        "Gaming"
+      ],
+      "remote_preference": "remote",
+      "hours_per_week": 30,
+      "currently_available": true,
+      "timezone": "MST"
+    },
+    "created_at": "2025-10-31T23:04:16.333615",
+    "last_active": "2025-11-24T23:04:16.333619"
+  },
+  {
+    "user_id": "sim_0094",
+    "email": "simusersim_0094@example.com",
+    "auth_hash": "7834d00c802c83df7f9a5f41a804d9e025db5c26bba41ba20fadab14b08b8da0",
+    "encrypted_profile": "ENCRYPTED:199dc7117eae04957c23dec8510e4b5575d37bcbfb7bd9651c0f0b4e22d9f497:312",
+    "capabilities": {
+      "skills": [
+        "Confluence",
+        "OAuth",
+        "AI/ML",
+        "Elasticsearch",
+        "Express",
+        "Azure"
+      ],
+      "experience_years": 2,
+      "availability": "consulting",
+      "rate_range": "junior",
+      "industries": [
+        "E-commerce",
+        "Startup",
+        "EdTech"
+      ],
+      "remote_preference": "flexible",
+      "hours_per_week": 50,
+      "currently_available": false,
+      "timezone": "MST"
+    },
+    "created_at": "2025-07-18T23:04:16.333639",
+    "last_active": "2025-11-24T23:04:16.333641"
+  },
+  {
+    "user_id": "sim_0095",
+    "email": "simusersim_0095@example.com",
+    "auth_hash": "6c0d6f0bf2c431e95a9c079d319d6649104404207f3300e1f300defa7419d72b",
+    "encrypted_profile": "ENCRYPTED:87a52e87d384692009fb576326a907ac45a9bbc9dff1190812a5e3b14a21c299:305",
+    "capabilities": {
+      "skills": [
+        "gRPC",
+        "Git",
+        "React",
+        "AWS"
+      ],
+      "experience_years": 13,
+      "availability": "freelance",
+      "rate_range": "staff",
+      "industries": [
+        "SaaS",
+        "Cybersecurity",
+        "FinTech",
+        "HealthTech"
+      ],
+      "remote_preference": "flexible",
+      "hours_per_week": 20,
+      "currently_available": false,
+      "timezone": "GMT"
+    },
+    "created_at": "2025-11-11T23:04:16.333660",
+    "last_active": "2025-11-24T23:04:16.333662"
+  },
+  {
+    "user_id": "sim_0096",
+    "email": "simusersim_0096@example.com",
+    "auth_hash": "0e20a2942fa640f2e0e53a0e50fc44ef829b9f3588976d2124d1b0a3717b43b9",
+    "encrypted_profile": "ENCRYPTED:b2afd7b78b8a3356f141f6ac92b498bfab65a99fc7a62c19cd89d04887a6d43f:310",
+    "capabilities": {
+      "skills": [
+        "Linux",
+        "GraphQL",
+        "AWS",
+        "Vue"
+      ],
+      "experience_years": 26,
+      "availability": "freelance",
+      "rate_range": "principal",
+      "industries": [
+        "Startup",
+        "Cybersecurity",
+        "SaaS",
+        "AI/ML"
+      ],
+      "remote_preference": "remote",
+      "hours_per_week": 20,
+      "currently_available": true,
+      "timezone": "MST"
+    },
+    "created_at": "2025-06-23T23:04:16.333679",
+    "last_active": "2025-11-24T23:04:16.333681"
+  },
+  {
+    "user_id": "sim_0097",
+    "email": "simusersim_0097@example.com",
+    "auth_hash": "0648bbb37795ecf8828e71e643bd80906309966b71bfdd308d10fa7b57f51232",
+    "encrypted_profile": "ENCRYPTED:e3a54cb9079041780b685275a607b38aa17c8442a0001e334d0cf894fd0bf31b:323",
+    "capabilities": {
+      "skills": [
+        "TypeScript",
+        "Confluence",
+        "Jira",
+        "Flask",
+        "Adobe XD",
+        "CI/CD",
+        "Data Analysis"
+      ],
+      "experience_years": 24,
+      "availability": "consulting",
+      "rate_range": "principal",
+      "industries": [
+        "EdTech",
+        "AI/ML",
+        "Cybersecurity",
+        "Agency"
+      ],
+      "remote_preference": "onsite",
+      "hours_per_week": 50,
+      "currently_available": false,
+      "timezone": "PST"
+    },
+    "created_at": "2025-07-17T23:04:16.333699",
+    "last_active": "2025-11-24T23:04:16.333702"
+  },
+  {
+    "user_id": "sim_0098",
+    "email": "simusersim_0098@example.com",
+    "auth_hash": "abb18bfd52435a3963add30e384c12809a46cf57628799a6d7deb97bbb5af35b",
+    "encrypted_profile": "ENCRYPTED:03f560465db2c5dc1606f075658eae9028f02fe95eafc9b8cceced4abace28ad:325",
+    "capabilities": {
+      "skills": [
+        "WebSockets",
+        "GCP",
+        "Data Analysis",
+        "Scrum",
+        "JavaScript",
+        "Linux",
+        "CI/CD",
+        "Figma"
+      ],
+      "experience_years": 25,
+      "availability": "full-time",
+      "rate_range": "principal",
+      "industries": [
+        "AI/ML",
+        "SaaS",
+        "Enterprise",
+        "DevOps"
+      ],
+      "remote_preference": "remote",
+      "hours_per_week": 50,
+      "currently_available": false,
+      "timezone": "CST"
+    },
+    "created_at": "2025-07-13T23:04:16.333720",
+    "last_active": "2025-11-24T23:04:16.333723"
+  },
+  {
+    "user_id": "sim_0099",
+    "email": "simusersim_0099@example.com",
+    "auth_hash": "0495fa89ad0833523a8ecef904ef1669b008d030781da5688f38517b86fe8020",
+    "encrypted_profile": "ENCRYPTED:5fca7769a31c4ba99526747896f42b89542ee429b09fb9cc27ae68b7f4a1515f:308",
+    "capabilities": {
+      "skills": [
+        "Node.js",
+        "Scrum",
+        "Figma",
+        "Elasticsearch",
+        "TypeScript",
+        "WebSockets"
+      ],
+      "experience_years": 30,
+      "availability": "full-time",
+      "rate_range": "principal",
+      "industries": [
+        "FinTech",
+        "Analytics"
+      ],
+      "remote_preference": "onsite",
+      "hours_per_week": 40,
+      "currently_available": true,
+      "timezone": "MST"
+    },
+    "created_at": "2025-10-20T23:04:16.333742",
+    "last_active": "2025-11-24T23:04:16.333744"
+  }
+]

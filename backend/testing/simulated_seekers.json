@@ -1,0 +1,410 @@
+[
+  {
+    "seeker_id": "seek_0000",
+    "seeking_skills": [
+      "GraphQL",
+      "Azure",
+      "UI/UX",
+      "Data Analysis"
+    ],
+    "experience_level": "principal",
+    "availability_needed": "freelance",
+    "industries": [
+      "EdTech",
+      "Analytics"
+    ],
+    "budget_range": "premium",
+    "project_duration": "ongoing",
+    "start_date": "1-month",
+    "remote_ok": false,
+    "timezone_preference": "any"
+  },
+  {
+    "seeker_id": "seek_0001",
+    "seeking_skills": [
+      "PostgreSQL",
+      "Elasticsearch",
+      "Kubernetes",
+      "GraphQL",
+      "GCP",
+      "Redis"
+    ],
+    "experience_level": "senior",
+    "availability_needed": "contract",
+    "industries": [
+      "E-commerce",
+      "Enterprise",
+      "Startup"
+    ],
+    "budget_range": "negotiable",
+    "project_duration": "3-months",
+    "start_date": "flexible",
+    "remote_ok": false,
+    "timezone_preference": "any"
+  },
+  {
+    "seeker_id": "seek_0002",
+    "seeking_skills": [
+      "AWS",
+      "Django",
+      "WebSockets",
+      "Figma",
+      "REST APIs"
+    ],
+    "experience_level": "staff",
+    "availability_needed": "freelance",
+    "industries": [
+      "Startup",
+      "Agency"
+    ],
+    "budget_range": "mid",
+    "project_duration": "3-months",
+    "start_date": "immediate",
+    "remote_ok": false,
+    "timezone_preference": "EST"
+  },
+  {
+    "seeker_id": "seek_0003",
+    "seeking_skills": [
+      "PyTorch",
+      "Encryption",
+      "Docker",
+      "Jest",
+      "Data Analysis"
+    ],
+    "experience_level": "mid",
+    "availability_needed": "part-time",
+    "industries": [
+      "SaaS",
+      "Cybersecurity",
+      "Enterprise"
+    ],
+    "budget_range": "premium",
+    "project_duration": "1-month",
+    "start_date": "immediate",
+    "remote_ok": true,
+    "timezone_preference": "PST"
+  },
+  {
+    "seeker_id": "seek_0004",
+    "seeking_skills": [
+      "UI/UX",
+      "Matplotlib",
+      "Redis"
+    ],
+    "experience_level": "mid",
+    "availability_needed": "full-time",
+    "industries": [
+      "Social Media"
+    ],
+    "budget_range": "premium",
+    "project_duration": "6-months",
+    "start_date": "immediate",
+    "remote_ok": true,
+    "timezone_preference": "EST"
+  },
+  {
+    "seeker_id": "seek_0005",
+    "seeking_skills": [
+      "AI/ML",
+      "Encryption",
+      "Data Analysis",
+      "PostgreSQL"
+    ],
+    "experience_level": "senior",
+    "availability_needed": "contract",
+    "industries": [
+      "DevOps",
+      "FinTech"
+    ],
+    "budget_range": "budget",
+    "project_duration": "ongoing",
+    "start_date": "2-weeks",
+    "remote_ok": true,
+    "timezone_preference": "PST"
+  },
+  {
+    "seeker_id": "seek_0006",
+    "seeking_skills": [
+      "Kanban",
+      "NestJS",
+      "TypeScript",
+      "PowerShell",
+      "Cypress",
+      "Pandas"
+    ],
+    "experience_level": "mid",
+    "availability_needed": "contract",
+    "industries": [
+      "FinTech"
+    ],
+    "budget_range": "premium",
+    "project_duration": "ongoing",
+    "start_date": "immediate",
+    "remote_ok": false,
+    "timezone_preference": "CST"
+  },
+  {
+    "seeker_id": "seek_0007",
+    "seeking_skills": [
+      "Encryption",
+      "REST APIs",
+      "Matplotlib",
+      "Pandas",
+      "Flask",
+      "NumPy"
+    ],
+    "experience_level": "staff",
+    "availability_needed": "contract",
+    "industries": [
+      "Startup"
+    ],
+    "budget_range": "budget",
+    "project_duration": "3-months",
+    "start_date": "2-weeks",
+    "remote_ok": false,
+    "timezone_preference": "CST"
+  },
+  {
+    "seeker_id": "seek_0008",
+    "seeking_skills": [
+      "Python",
+      "Jest",
+      "CI/CD",
+      "Cypress"
+    ],
+    "experience_level": "senior",
+    "availability_needed": "consulting",
+    "industries": [
+      "Startup",
+      "E-commerce",
+      "EdTech"
+    ],
+    "budget_range": "negotiable",
+    "project_duration": "6-months",
+    "start_date": "1-month",
+    "remote_ok": true,
+    "timezone_preference": "UTC"
+  },
+  {
+    "seeker_id": "seek_0009",
+    "seeking_skills": [
+      "NestJS",
+      "Flask",
+      "Data Analysis"
+    ],
+    "experience_level": "senior",
+    "availability_needed": "part-time",
+    "industries": [
+      "SaaS"
+    ],
+    "budget_range": "negotiable",
+    "project_duration": "1-month",
+    "start_date": "flexible",
+    "remote_ok": false,
+    "timezone_preference": "CST"
+  },
+  {
+    "seeker_id": "seek_0010",
+    "seeking_skills": [
+      "gRPC",
+      "Testing",
+      "WebSockets",
+      "Python",
+      "Docker"
+    ],
+    "experience_level": "senior",
+    "availability_needed": "part-time",
+    "industries": [
+      "DevOps"
+    ],
+    "budget_range": "budget",
+    "project_duration": "6-months",
+    "start_date": "1-month",
+    "remote_ok": true,
+    "timezone_preference": "UTC"
+  },
+  {
+    "seeker_id": "seek_0011",
+    "seeking_skills": [
+      "Sketch",
+      "Django",
+      "JWT",
+      "AWS",
+      "Linux"
+    ],
+    "experience_level": "principal",
+    "availability_needed": "part-time",
+    "industries": [
+      "EdTech"
+    ],
+    "budget_range": "negotiable",
+    "project_duration": "1-month",
+    "start_date": "flexible",
+    "remote_ok": false,
+    "timezone_preference": "UTC"
+  },
+  {
+    "seeker_id": "seek_0012",
+    "seeking_skills": [
+      "Pytest",
+      "REST APIs",
+      "Agile",
+      "UI/UX",
+      "MongoDB",
+      "Confluence"
+    ],
+    "experience_level": "mid",
+    "availability_needed": "consulting",
+    "industries": [
+      "Cybersecurity"
+    ],
+    "budget_range": "negotiable",
+    "project_duration": "ongoing",
+    "start_date": "1-month",
+    "remote_ok": true,
+    "timezone_preference": "any"
+  },
+  {
+    "seeker_id": "seek_0013",
+    "seeking_skills": [
+      "React",
+      "Kanban",
+      "GraphQL"
+    ],
+    "experience_level": "principal",
+    "availability_needed": "part-time",
+    "industries": [
+      "Cybersecurity",
+      "EdTech",
+      "Startup"
+    ],
+    "budget_range": "premium",
+    "project_duration": "ongoing",
+    "start_date": "flexible",
+    "remote_ok": true,
+    "timezone_preference": "PST"
+  },
+  {
+    "seeker_id": "seek_0014",
+    "seeking_skills": [
+      "Angular",
+      "NumPy",
+      "PyTorch",
+      "Agile",
+      "React",
+      "Scikit-learn"
+    ],
+    "experience_level": "mid",
+    "availability_needed": "consulting",
+    "industries": [
+      "Analytics",
+      "AI/ML"
+    ],
+    "budget_range": "budget",
+    "project_duration": "ongoing",
+    "start_date": "flexible",
+    "remote_ok": false,
+    "timezone_preference": "EST"
+  },
+  {
+    "seeker_id": "seek_0015",
+    "seeking_skills": [
+      "Docker",
+      "Scrum",
+      "Python",
+      "Jest",
+      "MongoDB",
+      "gRPC"
+    ],
+    "experience_level": "junior",
+    "availability_needed": "full-time",
+    "industries": [
+      "Gaming",
+      "Enterprise"
+    ],
+    "budget_range": "budget",
+    "project_duration": "ongoing",
+    "start_date": "immediate",
+    "remote_ok": true,
+    "timezone_preference": "UTC"
+  },
+  {
+    "seeker_id": "seek_0016",
+    "seeking_skills": [
+      "AWS",
+      "AI/ML",
+      "NestJS"
+    ],
+    "experience_level": "mid",
+    "availability_needed": "freelance",
+    "industries": [
+      "Social Media",
+      "Analytics"
+    ],
+    "budget_range": "negotiable",
+    "project_duration": "6-months",
+    "start_date": "immediate",
+    "remote_ok": true,
+    "timezone_preference": "CST"
+  },
+  {
+    "seeker_id": "seek_0017",
+    "seeking_skills": [
+      "NestJS",
+      "REST APIs",
+      "PowerShell"
+    ],
+    "experience_level": "principal",
+    "availability_needed": "part-time",
+    "industries": [
+      "E-commerce",
+      "FinTech",
+      "Startup"
+    ],
+    "budget_range": "premium",
+    "project_duration": "6-months",
+    "start_date": "flexible",
+    "remote_ok": false,
+    "timezone_preference": "PST"
+  },
+  {
+    "seeker_id": "seek_0018",
+    "seeking_skills": [
+      "Scikit-learn",
+      "Git",
+      "Node.js",
+      "Kubernetes"
+    ],
+    "experience_level": "mid",
+    "availability_needed": "full-time",
+    "industries": [
+      "Startup"
+    ],
+    "budget_range": "negotiable",
+    "project_duration": "ongoing",
+    "start_date": "immediate",
+    "remote_ok": true,
+    "timezone_preference": "PST"
+  },
+  {
+    "seeker_id": "seek_0019",
+    "seeking_skills": [
+      "FastAPI",
+      "Security",
+      "TypeScript"
+    ],
+    "experience_level": "staff",
+    "availability_needed": "consulting",
+    "industries": [
+      "Enterprise",
+      "FinTech",
+      "E-commerce"
+    ],
+    "budget_range": "budget",
+    "project_duration": "6-months",
+    "start_date": "flexible",
+    "remote_ok": true,
+    "timezone_preference": "any"
+  }
+]
