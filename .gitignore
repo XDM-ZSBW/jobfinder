@@ -50,6 +50,12 @@ api-keys.txt
 .porkbun-credentials
 .porkbun/
 
+# Environment backups and service files with secrets
+**/.env.vm-backup
+**/.env.*backup
+jobmatch-backend.service
+*.service
+
 # ============================================================================
 # Build Outputs
 # ============================================================================
