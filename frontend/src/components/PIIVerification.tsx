@@ -1,7 +1,5 @@
-'use client';
-
-import React from 'react';
-import { Card, Button } from '@/components';
+import React from 'react'
+import { Card, Button } from '@/components'
 
 interface RemovedItem {
   type: string;

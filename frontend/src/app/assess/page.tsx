@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { PIIVerification } from '@/components';
+import { PIIVerification, SkillBubbles } from '@/components';
 
 type Step = 'welcome' | 'skills' | 'portfolio' | 'preferences' | 'pii-check' | 'complete';
 
@@ -16,6 +16,7 @@ export default function AssessPage() {
   const [resumeText, setResumeText] = useState('');
   const [piiData, setPiiData] = useState<any>(null);
   const [showPiiVerification, setShowPiiVerification] = useState(false);
+  const [useCanvasMode, setUseCanvasMode] = useState(true);
 
   useEffect(() => {
     // Generate anonymous ID on start
@@ -29,16 +30,27 @@ export default function AssessPage() {
   }, []);
 
   const skillOptions = [
-    'Python', 'JavaScript', 'TypeScript', 'FastAPI', 'Next.js', 'React',
-    'AI/ML', 'Data Analysis', 'API Design', 'Database Design',
-    'UI/UX', 'Problem Solving', 'Communication', 'Teaching'
+    { id: '1', name: 'Python', category: 'Programming Languages' },
+    { id: '2', name: 'JavaScript', category: 'Programming Languages' },
+    { id: '3', name: 'TypeScript', category: 'Programming Languages' },
+    { id: '4', name: 'FastAPI', category: 'Frameworks' },
+    { id: '5', name: 'Next.js', category: 'Frameworks' },
+    { id: '6', name: 'React', category: 'Frameworks' },
+    { id: '7', name: 'AI/ML', category: 'Technical Skills' },
+    { id: '8', name: 'Data Analysis', category: 'Technical Skills' },
+    { id: '9', name: 'API Design', category: 'Technical Skills' },
+    { id: '10', name: 'Database Design', category: 'Technical Skills' },
+    { id: '11', name: 'UI/UX', category: 'Design' },
+    { id: '12', name: 'Problem Solving', category: 'Soft Skills' },
+    { id: '13', name: 'Communication', category: 'Soft Skills' },
+    { id: '14', name: 'Teaching', category: 'Soft Skills' },
   ];
 
-  const toggleSkill = (skill: string) => {
+  const toggleSkill = (skillName: string) => {
     setSkills(prev => 
-      prev.includes(skill) 
-        ? prev.filter(s => s !== skill)
-        : [...prev, skill]
+      prev.includes(skillName) 
+        ? prev.filter(s => s !== skillName)
+        : [...prev, skillName]
     );
   };
 
@@ -145,31 +157,55 @@ export default function AssessPage() {
         {/* Skills Step */}
         {step === 'skills' && (
           <div>
-            <div className="mb-12">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="text-5xl">💪</div>
-                <div>
-                  <h2 className="text-5xl font-bold text-gray-900">What can you do?</h2>
-                  <p className="text-xl text-gray-500 mt-2">Select all that apply</p>
+            <div className="mb-8">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-4">
+                  <div className="text-5xl">💪</div>
+                  <div>
+                    <h2 className="text-5xl font-bold text-gray-900">What can you do?</h2>
+                    <p className="text-xl text-gray-500 mt-2">Select all that apply</p>
+                  </div>
                 </div>
+                
+                {/* Mode Toggle */}
+                <button
+                  onClick={() => setUseCanvasMode(!useCanvasMode)}
+                  className="px-8 py-4 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-lg font-semibold transition-all border-2 border-gray-300"
+                >
+                  {useCanvasMode ? '📋 Switch to List Mode' : '🎨 Switch to Canvas Mode'}
+                </button>
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-6 mb-12">
-              {skillOptions.map(skill => (
-                <button
-                  key={skill}
-                  onClick={() => toggleSkill(skill)}
-                  className={`p-8 rounded-2xl text-2xl font-semibold transition-all transform hover:scale-105 ${
-                    skills.includes(skill)
-                      ? 'bg-blue-600 text-white shadow-xl'
-                      : 'bg-white text-gray-700 border-4 border-gray-200 hover:border-blue-300'
-                  }`}
-                >
-                  {skills.includes(skill) && '✓ '}{skill}
-                </button>
-              ))}
-            </div>
+            {/* Canvas Mode */}
+            {useCanvasMode ? (
+              <SkillBubbles
+                availableSkills={skillOptions}
+                selectedSkills={skillOptions.filter(s => skills.includes(s.name))}
+                onSkillsChange={(selectedSkills) => {
+                  setSkills(selectedSkills.map(s => s.name));
+                }}
+                canvasMode={true}
+                className="mb-12"
+              />
+            ) : (
+              /* Traditional Grid Mode */
+              <div className="grid grid-cols-2 gap-6 mb-12">
+                {skillOptions.map(skill => (
+                  <button
+                    key={skill.id}
+                    onClick={() => toggleSkill(skill.name)}
+                    className={`p-8 rounded-2xl text-2xl font-semibold transition-all transform hover:scale-105 ${
+                      skills.includes(skill.name)
+                        ? 'bg-blue-600 text-white shadow-xl'
+                        : 'bg-white text-gray-700 border-4 border-gray-200 hover:border-blue-300'
+                    }`}
+                  >
+                    {skills.includes(skill.name) && '✓ '}{skill.name}
+                  </button>
+                ))}
+              </div>
+            )}
 
             {/* Resume/Experience Paste Field */}
             <div className="bg-white rounded-3xl p-12 shadow-lg mb-12">

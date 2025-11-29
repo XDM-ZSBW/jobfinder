@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Header, Card, Button } from '@/components';
+import { Header, Card, Button, SwipeCards } from '@/components';
+import type { JobCard } from '@/components/SwipeCards';
 
 interface Match {
   id: string;
@@ -53,6 +54,9 @@ export default function MatchesPage() {
   const [matches, setMatches] = useState<Match[]>(mockMatches);
   const [remoteOnly, setRemoteOnly] = useState(false);
   const [minScore, setMinScore] = useState(0);
+  const [viewMode, setViewMode] = useState<'list' | 'swipe'>('list');
+  const [savedMatches, setSavedMatches] = useState<string[]>([]);
+  const [passedMatches, setPassedMatches] = useState<string[]>([]);
 
   useEffect(() => {
     // Generate or retrieve anonymous ID
@@ -65,8 +69,24 @@ export default function MatchesPage() {
   const filteredMatches = matches.filter(match => {
     if (remoteOnly && !match.isRemote) return false;
     if (match.matchScore < minScore) return false;
+    // Filter out already swiped cards in swipe mode
+    if (viewMode === 'swipe' && (savedMatches.includes(match.id) || passedMatches.includes(match.id))) {
+      return false;
+    }
     return true;
   });
+
+  // Convert matches to job cards for swipe view
+  const jobCards: JobCard[] = filteredMatches.map(match => ({
+    id: match.id,
+    title: match.title,
+    company: match.company,
+    description: match.description,
+    skills: match.requiredCapabilities,
+    matchScore: match.matchScore,
+    location: match.location,
+    remote: match.isRemote,
+  }));
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
@@ -81,6 +101,30 @@ export default function MatchesPage() {
           <p className="text-2xl text-gray-600">
             Opportunities that match your capabilities
           </p>
+        </div>
+
+        {/* View Mode Toggle */}
+        <div className="flex justify-center gap-4 mb-8">
+          <button
+            onClick={() => setViewMode('list')}
+            className={`px-12 py-6 rounded-2xl text-2xl font-bold transition-all ${
+              viewMode === 'list'
+                ? 'bg-blue-600 text-white shadow-xl'
+                : 'bg-white text-gray-700 border-4 border-gray-300 hover:border-blue-400'
+            }`}
+          >
+            📋 List View
+          </button>
+          <button
+            onClick={() => setViewMode('swipe')}
+            className={`px-12 py-6 rounded-2xl text-2xl font-bold transition-all ${
+              viewMode === 'swipe'
+                ? 'bg-blue-600 text-white shadow-xl'
+                : 'bg-white text-gray-700 border-4 border-gray-300 hover:border-blue-400'
+            }`}
+          >
+            👆 Swipe View
+          </button>
         </div>
 
         {/* Filters */}
@@ -137,9 +181,29 @@ export default function MatchesPage() {
           </Card>
         )}
 
-        {/* Matches Grid */}
-        <div className="space-y-8">
-          {filteredMatches.map(match => (
+        {/* Swipe View */}
+        {viewMode === 'swipe' && filteredMatches.length > 0 && (
+          <SwipeCards
+            cards={jobCards}
+            onSwipeLeft={(card) => {
+              setPassedMatches(prev => [...prev, card.id]);
+              console.log('Passed:', card.title);
+            }}
+            onSwipeRight={(card) => {
+              setSavedMatches(prev => [...prev, card.id]);
+              console.log('Saved:', card.title);
+            }}
+            onCardTap={(card) => {
+              console.log('View details:', card.title);
+              // Could open a modal with full details
+            }}
+          />
+        )}
+
+        {/* List View - Matches Grid */}
+        {viewMode === 'list' && (
+          <div className="space-y-8">
+            {filteredMatches.map(match => (
             <Card key={match.id}>
               <div className="flex flex-col md:flex-row justify-between gap-8">
                 <div className="flex-1">
@@ -196,8 +260,9 @@ export default function MatchesPage() {
                 </div>
               </div>
             </Card>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
 
         {/* Empty state for new users */}
         {matches.length === 0 && (

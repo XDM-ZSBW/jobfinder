@@ -4,3 +4,8 @@ export { Input } from './Input';
 export { TextArea } from './TextArea';
 export { Header } from './Header';
 export { PIIVerification } from './PIIVerification';
+export { default as CanvasFormField } from './CanvasFormField';
+export { default as SwipeCards } from './SwipeCards';
+export { default as SkillBubbles } from './SkillBubbles';
+export { default as RadialMenu } from './RadialMenu';
+export { default as JobMatchChat } from './JobMatchChat';

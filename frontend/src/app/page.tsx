@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import LiveChatDemo from '@/components/LiveChatDemo';
 
 export default function Home() {
   const [isVR, setIsVR] = useState(false);
@@ -57,18 +58,18 @@ export default function Home() {
           </p>
           
           {/* Large CTA Buttons for VR controllers/hand tracking */}
-          <div className="flex flex-col sm:flex-row gap-8 justify-center mb-20">
+          <div className="flex flex-col sm:flex-row gap-8 justify-center mb-12">
+            <a 
+              href="#live-demo"
+              className="px-16 py-8 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-2xl text-3xl font-bold hover:shadow-3xl hover:scale-105 transform transition-all"
+            >
+              💬 Try Live Demo Below
+            </a>
             <a 
               href="#get-started"
               className="px-16 py-8 bg-blue-600 text-white rounded-2xl text-3xl font-bold hover:bg-blue-700 active:bg-blue-800 transition-all shadow-2xl hover:shadow-3xl hover:scale-105 transform"
             >
               Get started (it's free)
-            </a>
-            <a 
-              href="#how-it-works"
-              className="px-16 py-8 bg-white text-gray-700 rounded-2xl text-3xl font-bold hover:bg-gray-50 active:bg-gray-100 transition-all border-4 border-gray-200 shadow-lg"
-            >
-              See how it works
             </a>
           </div>
 
@@ -76,6 +77,44 @@ export default function Home() {
           <p className="text-2xl text-gray-500 font-medium">
             🔒 100% anonymous · 🎯 Capability-focused · 💰 Free forever
           </p>
+        </div>
+
+        {/* LIVE INTERACTIVE DEMO */}
+        <div className="mt-40 max-w-7xl mx-auto" id="live-demo">
+          <div className="text-center mb-16">
+            <div className="inline-block bg-gradient-to-r from-green-500 to-blue-500 text-white px-8 py-3 rounded-full text-xl font-bold mb-6 animate-pulse">
+              🔴 LIVE DEMO · Try It Now!
+            </div>
+            <h3 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
+              Experience AI Job Matching
+            </h3>
+            <p className="text-2xl text-gray-600 max-w-3xl mx-auto">
+              This isn't a screenshot or video—it's the actual AI chat in action. 
+              <span className="font-bold text-blue-600"> Try it right now, no sign-up needed!</span>
+            </p>
+          </div>
+          
+          <LiveChatDemo />
+          
+          <div className="mt-12 text-center">
+            <div className="bg-gradient-to-r from-blue-50 to-purple-50 border-4 border-blue-200 rounded-3xl p-10 max-w-4xl mx-auto">
+              <h4 className="text-3xl font-bold text-gray-900 mb-4">🎯 What You Just Experienced</h4>
+              <div className="text-left text-xl text-gray-700 space-y-3 leading-relaxed">
+                <p>✅ <strong>Real AI responses</strong> - Not scripted, powered by Claude 3.5 Sonnet</p>
+                <p>✅ <strong>Personalized matching</strong> - Based on your actual skills and preferences</p>
+                <p>✅ <strong>Job-focused only</strong> - No resume writing, no interview prep, just matching</p>
+                <p>✅ <strong>Always available</strong> - 24/7 access from anywhere, any device</p>
+              </div>
+              <div className="mt-8">
+                <a 
+                  href="#get-started"
+                  className="inline-block px-12 py-6 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-2xl text-2xl font-bold hover:shadow-2xl hover:scale-105 transform transition-all"
+                >
+                  Start Finding Your Perfect Match →
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Features Grid - Larger cards for VR */}
