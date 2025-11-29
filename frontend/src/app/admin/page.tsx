@@ -57,24 +57,120 @@ export default function AdminPage() {
     }
   ]);
 
-  const handleApproveAssessment = (id: string) => {
-    // TODO: Call API to approve
-    console.log('Approve assessment:', id);
+  const handleApproveAssessment = async (id: string) => {
+    try {
+      const response = await fetch(`/api/assessment/${id}/review`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          reviewer_id: 'admin_001', // TODO: Get from auth context
+          review_decision: 'approved',
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to approve assessment');
+      }
+
+      const result = await response.json();
+      console.log('Assessment approved:', result);
+      
+      // TODO: Update UI to remove approved assessment or show success message
+      // For now, reload the page
+      window.location.reload();
+    } catch (error) {
+      console.error('Error approving assessment:', error);
+      alert('Failed to approve assessment. Please try again.');
+    }
   };
 
-  const handleRejectAssessment = (id: string) => {
-    // TODO: Call API to reject
-    console.log('Reject assessment:', id);
+  const handleRejectAssessment = async (id: string) => {
+    try {
+      const response = await fetch(`/api/assessment/${id}/review`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          reviewer_id: 'admin_001', // TODO: Get from auth context
+          review_decision: 'rejected',
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to reject assessment');
+      }
+
+      const result = await response.json();
+      console.log('Assessment rejected:', result);
+      
+      // TODO: Update UI to remove rejected assessment or show success message
+      // For now, reload the page
+      window.location.reload();
+    } catch (error) {
+      console.error('Error rejecting assessment:', error);
+      alert('Failed to reject assessment. Please try again.');
+    }
   };
 
-  const handleApproveMatch = (id: string) => {
-    // TODO: Call API to approve
-    console.log('Approve match:', id);
+  const handleApproveMatch = async (id: string) => {
+    try {
+      const response = await fetch(`/api/matching/${id}/review`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          reviewer_id: 'admin_001', // TODO: Get from auth context
+          decision: 'approved',
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to approve match');
+      }
+
+      const result = await response.json();
+      console.log('Match approved:', result);
+      
+      // TODO: Update UI to remove approved match or show success message
+      // For now, reload the page
+      window.location.reload();
+    } catch (error) {
+      console.error('Error approving match:', error);
+      alert('Failed to approve match. Please try again.');
+    }
   };
 
-  const handleRejectMatch = (id: string) => {
-    // TODO: Call API to reject
-    console.log('Reject match:', id);
+  const handleRejectMatch = async (id: string) => {
+    try {
+      const response = await fetch(`/api/matching/${id}/review`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          reviewer_id: 'admin_001', // TODO: Get from auth context
+          decision: 'rejected',
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to reject match');
+      }
+
+      const result = await response.json();
+      console.log('Match rejected:', result);
+      
+      // TODO: Update UI to remove rejected match or show success message
+      // For now, reload the page
+      window.location.reload();
+    } catch (error) {
+      console.error('Error rejecting match:', error);
+      alert('Failed to reject match. Please try again.');
+    }
   };
 
   return (
