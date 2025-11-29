@@ -15,6 +15,7 @@ from sqlalchemy.orm import Session
 from database.connection import get_db
 from database.models import AnonymousUser, Subscription, CreditRequest
 from auth.session_manager import create_session_manager
+from auth.email_provider import create_email_manager
 
 router = APIRouter(prefix="/api/subscription", tags=["subscription"])
 
@@ -378,8 +379,24 @@ async def request_credits(request: CreditRequest, db: Session = Depends(get_db))
             db.add(credit_request)
             db.commit()
             
-            # TODO: Send email to support team
-            # Email functionality can be added here using SES or SMTP
+            # Send email to support team
+            try:
+                email_manager = create_email_manager()
+                support_email = os.getenv("SUPPORT_EMAIL", "support@jobmatch.zip")
+                
+                subject = f"Credit Request - Subscription {request.subscription_id[:8]}..."
+                html_body = generate_credit_request_email_html(credit_request, request)
+                text_body = generate_credit_request_email_text(credit_request, request)
+                
+                result = await email_manager.send_email(support_email, subject, html_body, text_body)
+                if result.get("success"):
+                    print(f"Credit request notification sent to support team: {support_email}")
+                else:
+                    print(f"Failed to send credit request email: {result.get('error')}")
+            except Exception as e:
+                print(f"Error sending credit request email: {e}")
+                # Don't fail the request if email fails
+            
             print(f"Credit request created: ID {credit_request.id}, Subscription: {request.subscription_id}")
             
             return {
@@ -572,26 +589,303 @@ async def stripe_webhook(
 
         elif event_type == "invoice.payment_succeeded":
             print(f"Payment succeeded: {data['id']}")
-            # TODO: Send receipt email
-            # For now, log the invoice details
             customer_email = data.get("customer_email")
             amount_paid = data.get("amount_paid", 0) / 100  # Convert from cents
-            print(f"Invoice paid: ${amount_paid:.2f} for customer: {customer_email}")
-            # Email functionality can be added here using SES or SMTP
+            invoice_url = data.get("hosted_invoice_url", "")
+            subscription_id = data.get("subscription")
+            
+            if customer_email:
+                try:
+                    email_manager = create_email_manager()
+                    
+                    # Get subscription details for email
+                    subscription_info = None
+                    if subscription_id:
+                        db_subscription = db.query(Subscription).filter(
+                            Subscription.stripe_subscription_id == subscription_id
+                        ).first()
+                        if db_subscription:
+                            subscription_info = {
+                                "current_period_end": db_subscription.current_period_end.isoformat() if db_subscription.current_period_end else None,
+                                "status": db_subscription.status
+                            }
+                    
+                    subject = f"Payment Receipt - ${amount_paid:.2f} - JobMatch.zip"
+                    html_body = generate_receipt_email_html(amount_paid, invoice_url, subscription_info)
+                    text_body = generate_receipt_email_text(amount_paid, invoice_url, subscription_info)
+                    
+                    result = await email_manager.send_email(customer_email, subject, html_body, text_body)
+                    if result.get("success"):
+                        print(f"Receipt email sent to {customer_email}")
+                    else:
+                        print(f"Failed to send receipt email: {result.get('error')}")
+                except Exception as e:
+                    print(f"Error sending receipt email: {e}")
 
         elif event_type == "invoice.payment_failed":
             print(f"Payment failed: {data['id']}")
-            # TODO: Send payment failure notification
-            # For now, log the failure
             customer_email = data.get("customer_email")
             subscription_id = data.get("subscription")
-            print(f"Payment failed for subscription: {subscription_id}, customer: {customer_email}")
-            # Email functionality can be added here using SES or SMTP
+            amount_due = data.get("amount_due", 0) / 100  # Convert from cents
+            invoice_url = data.get("hosted_invoice_url", "")
+            attempt_count = data.get("attempt_count", 1)
+            
+            if customer_email:
+                try:
+                    email_manager = create_email_manager()
+                    
+                    subject = f"Payment Failed - Action Required - JobMatch.zip"
+                    html_body = generate_payment_failed_email_html(amount_due, invoice_url, attempt_count)
+                    text_body = generate_payment_failed_email_text(amount_due, invoice_url, attempt_count)
+                    
+                    result = await email_manager.send_email(customer_email, subject, html_body, text_body)
+                    if result.get("success"):
+                        print(f"Payment failure notification sent to {customer_email}")
+                    else:
+                        print(f"Failed to send payment failure email: {result.get('error')}")
+                except Exception as e:
+                    print(f"Error sending payment failure email: {e}")
 
-    else:
-        print(f"Unhandled event type: {event_type}")
+        else:
+            print(f"Unhandled event type: {event_type}")
+    
+    except Exception as e:
+        print(f"Error processing webhook event: {e}")
+        db.rollback()
+        raise HTTPException(status_code=500, detail={"error": f"Webhook processing failed: {str(e)}"})
 
     return {"received": True}
+
+
+# Email template functions
+def generate_receipt_email_html(amount: float, invoice_url: str = "", subscription_info: Optional[dict] = None) -> str:
+    """Generate HTML receipt email."""
+    period_end = ""
+    if subscription_info and subscription_info.get("current_period_end"):
+        from datetime import datetime
+        try:
+            end_date = datetime.fromisoformat(subscription_info["current_period_end"].replace('Z', '+00:00'))
+            period_end = f"<p><strong>Next billing date:</strong> {end_date.strftime('%B %d, %Y')}</p>"
+        except:
+            pass
+    
+    invoice_link = f'<p><a href="{invoice_url}" style="color: #667eea; text-decoration: none;">View Invoice</a></p>' if invoice_url else ""
+    
+    return f"""
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Payment Receipt - JobMatch.zip</title>
+        <style>
+            body {{ font-family: Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; }}
+            .container {{ max-width: 600px; margin: 0 auto; padding: 20px; }}
+            .header {{ background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }}
+            .content {{ background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px; }}
+            .amount {{ font-size: 48px; font-weight: bold; color: #28a745; text-align: center; margin: 20px 0; }}
+            .footer {{ text-align: center; margin-top: 20px; color: #666; font-size: 14px; }}
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>✅ Payment Received</h1>
+                <p>Thank you for your subscription!</p>
+            </div>
+            <div class="content">
+                <div class="amount">${amount:.2f}</div>
+                <p style="text-align: center; font-size: 18px;">Your payment has been successfully processed.</p>
+                {period_end}
+                {invoice_link}
+                <p style="margin-top: 30px;">Thank you for being a JobMatch.zip subscriber!</p>
+            </div>
+            <div class="footer">
+                <p>JobMatch.zip - Making job matching smarter</p>
+                <p>This is an automated message, please do not reply.</p>
+            </div>
+        </div>
+    </body>
+    </html>
+    """
+
+
+def generate_receipt_email_text(amount: float, invoice_url: str = "", subscription_info: Optional[dict] = None) -> str:
+    """Generate plain text receipt email."""
+    period_end = ""
+    if subscription_info and subscription_info.get("current_period_end"):
+        from datetime import datetime
+        try:
+            end_date = datetime.fromisoformat(subscription_info["current_period_end"].replace('Z', '+00:00'))
+            period_end = f"\nNext billing date: {end_date.strftime('%B %d, %Y')}\n"
+        except:
+            pass
+    
+    invoice_text = f"\nView invoice: {invoice_url}\n" if invoice_url else ""
+    
+    return f"""
+Payment Receipt - JobMatch.zip
+
+✅ Payment Received
+
+Amount: ${amount:.2f}
+
+Your payment has been successfully processed.
+{period_end}{invoice_text}
+Thank you for being a JobMatch.zip subscriber!
+
+---
+JobMatch.zip - Making job matching smarter
+This is an automated message, please do not reply.
+    """
+
+
+def generate_payment_failed_email_html(amount: float, invoice_url: str = "", attempt_count: int = 1) -> str:
+    """Generate HTML payment failure email."""
+    invoice_link = f'<p><a href="{invoice_url}" style="display: inline-block; background: #dc3545; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; margin: 20px 0;">Update Payment Method</a></p>' if invoice_url else ""
+    attempt_text = f"<p><strong>Attempt #{attempt_count}</strong> - " if attempt_count > 1 else ""
+    
+    return f"""
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Payment Failed - JobMatch.zip</title>
+        <style>
+            body {{ font-family: Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; }}
+            .container {{ max-width: 600px; margin: 0 auto; padding: 20px; }}
+            .header {{ background: linear-gradient(135deg, #dc3545 0%, #c82333 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }}
+            .content {{ background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px; }}
+            .amount {{ font-size: 36px; font-weight: bold; color: #dc3545; text-align: center; margin: 20px 0; }}
+            .warning-box {{ background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin: 20px 0; }}
+            .footer {{ text-align: center; margin-top: 20px; color: #666; font-size: 14px; }}
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>⚠️ Payment Failed</h1>
+                <p>Action Required</p>
+            </div>
+            <div class="content">
+                <div class="amount">${amount:.2f}</div>
+                <p style="text-align: center; font-size: 18px;">We were unable to process your payment.</p>
+                {attempt_text}
+                <div class="warning-box">
+                    <p><strong>What to do:</strong></p>
+                    <ol>
+                        <li>Update your payment method</li>
+                        <li>Ensure sufficient funds are available</li>
+                        <li>Contact your bank if the issue persists</li>
+                    </ol>
+                </div>
+                {invoice_link}
+                <p style="margin-top: 30px;">Your subscription will remain active for a few more days. Please update your payment method to avoid service interruption.</p>
+            </div>
+            <div class="footer">
+                <p>JobMatch.zip - Making job matching smarter</p>
+                <p>This is an automated message, please do not reply.</p>
+            </div>
+        </div>
+    </body>
+    </html>
+    """
+
+
+def generate_payment_failed_email_text(amount: float, invoice_url: str = "", attempt_count: int = 1) -> str:
+    """Generate plain text payment failure email."""
+    attempt_text = f"Attempt #{attempt_count} - " if attempt_count > 1 else ""
+    invoice_text = f"\nUpdate payment method: {invoice_url}\n" if invoice_url else ""
+    
+    return f"""
+Payment Failed - JobMatch.zip
+
+⚠️ Payment Failed - Action Required
+
+Amount: ${amount:.2f}
+
+{attempt_text}We were unable to process your payment.
+
+What to do:
+1. Update your payment method
+2. Ensure sufficient funds are available
+3. Contact your bank if the issue persists
+{invoice_text}
+Your subscription will remain active for a few more days. Please update your payment method to avoid service interruption.
+
+---
+JobMatch.zip - Making job matching smarter
+This is an automated message, please do not reply.
+    """
+
+
+def generate_credit_request_email_html(credit_request: CreditRequest, request: CreditRequest) -> str:
+    """Generate HTML credit request notification email for support team."""
+    return f"""
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Credit Request - JobMatch.zip</title>
+        <style>
+            body {{ font-family: Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; }}
+            .container {{ max-width: 600px; margin: 0 auto; padding: 20px; }}
+            .header {{ background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }}
+            .content {{ background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px; }}
+            .info-box {{ background: #e7f3ff; border-left: 4px solid #667eea; padding: 15px; margin: 20px 0; }}
+            .footer {{ text-align: center; margin-top: 20px; color: #666; font-size: 14px; }}
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>💳 Credit Request</h1>
+                <p>New Request Received</p>
+            </div>
+            <div class="content">
+                <div class="info-box">
+                    <p><strong>Request ID:</strong> {credit_request.id}</p>
+                    <p><strong>Subscription ID:</strong> {request.subscription_id}</p>
+                    <p><strong>Customer Email:</strong> {request.email}</p>
+                    <p><strong>Days Since Start:</strong> {request.days_since_start}</p>
+                    <p><strong>Status:</strong> {credit_request.status}</p>
+                </div>
+                <h3>Reason:</h3>
+                <p style="background: white; padding: 15px; border-radius: 5px;">{request.reason}</p>
+                <p style="margin-top: 30px;"><strong>Action Required:</strong> Review and respond within 2 business days.</p>
+            </div>
+            <div class="footer">
+                <p>JobMatch.zip Support Team</p>
+            </div>
+        </div>
+    </body>
+    </html>
+    """
+
+
+def generate_credit_request_email_text(credit_request: CreditRequest, request: CreditRequest) -> str:
+    """Generate plain text credit request notification email for support team."""
+    return f"""
+Credit Request - JobMatch.zip
+
+💳 New Credit Request Received
+
+Request ID: {credit_request.id}
+Subscription ID: {request.subscription_id}
+Customer Email: {request.email}
+Days Since Start: {request.days_since_start}
+Status: {credit_request.status}
+
+Reason:
+{request.reason}
+
+Action Required: Review and respond within 2 business days.
+
+---
+JobMatch.zip Support Team
+    """
 
 
 # Helper functions
