@@ -19,7 +19,7 @@ export default function QuickAuth({ onAuthComplete }: QuickAuthProps) {
   const [code, setCode] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [codeSent, setCodeSent] = useState(false);
+  const [, setCodeSent] = useState(false);
 
   const handleMethodSelect = (method: 'email' | 'sms') => {
     setAuthMethod(method);
@@ -90,7 +90,9 @@ export default function QuickAuth({ onAuthComplete }: QuickAuthProps) {
 
       // Code verified - now show Google login option
       setStep('google');
-      onAuthComplete(authMethod === 'email' ? email : phoneNumber, authMethod);
+      if (authMethod) {
+        onAuthComplete(authMethod === 'email' ? email : phoneNumber, authMethod);
+      }
     } catch (err: any) {
       setError(err.message || 'Invalid verification code');
     } finally {
