@@ -10,7 +10,8 @@ export default function DashboardPage() {
     preferences: 'Remote positions preferred',
     location: 'San Francisco, CA',
   });
-  const [isSubscribed, setIsSubscribed] = useState(true); // TODO: Check actual subscription status
+  const [isSubscribed, setIsSubscribed] = useState<boolean | null>(null); // null = loading
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     // Generate or retrieve anonymous ID
@@ -19,7 +20,28 @@ export default function DashboardPage() {
       .join('');
     setAnonymousId(id);
 
-    // TODO: Fetch user profile and subscription status from backend
+    // Fetch subscription status from backend
+    const fetchSubscriptionStatus = async () => {
+      try {
+        const response = await fetch(`/api/subscription/status/${id}`);
+        if (response.ok) {
+          const data = await response.json();
+          setIsSubscribed(data.status === 'active' || data.status === 'trialing');
+        } else {
+          // No subscription found or error
+          setIsSubscribed(false);
+        }
+      } catch (error) {
+        console.error('Error fetching subscription status:', error);
+        setIsSubscribed(false);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchSubscriptionStatus();
+
+    // TODO: Fetch user profile from backend
   }, []);
 
   const handleJobMatch = (jobId: string) => {
@@ -27,7 +49,18 @@ export default function DashboardPage() {
     // TODO: Navigate to job details or save to favorites
   };
 
-  if (!isSubscribed) {
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-4xl mb-4">⏳</div>
+          <p className="text-xl text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (isSubscribed === false) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center">
         <div className="max-w-2xl mx-auto text-center px-8">
