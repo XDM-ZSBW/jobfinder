@@ -295,3 +295,51 @@ class Conversation(Base):
     )
 
 
+class Subscription(Base):
+    """Stripe subscription tracking for anonymous users."""
+    __tablename__ = "subscriptions"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    anonymous_id = Column(String(255), ForeignKey("anonymous_users.id"), nullable=True, index=True)
+    stripe_subscription_id = Column(String(255), unique=True, nullable=False, index=True)
+    stripe_customer_id = Column(String(255), nullable=True, index=True)
+    stripe_checkout_session_id = Column(String(255), nullable=True, index=True)
+    status = Column(String(50), nullable=False, default="active", index=True)  # active, canceled, past_due, unpaid, trialing
+    current_period_start = Column(DateTime, nullable=True)
+    current_period_end = Column(DateTime, nullable=True)
+    cancel_at_period_end = Column(Boolean, default=False, nullable=False)
+    canceled_at = Column(DateTime, nullable=True)
+    email = Column(String(255), nullable=True, index=True)
+    meta_data = Column("metadata", JSON, nullable=True)  # Store additional Stripe metadata
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False, index=True)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
+    
+    # Relationships
+    user = relationship("AnonymousUser", foreign_keys=[anonymous_id])
+    
+    __table_args__ = (
+        Index('idx_subscriptions_anonymous_id', 'anonymous_id'),
+        Index('idx_subscriptions_status', 'status'),
+        Index('idx_subscriptions_stripe_id', 'stripe_subscription_id'),
+    )
+
+
+class CreditRequest(Base):
+    """Credit/refund requests for subscriptions."""
+    __tablename__ = "credit_requests"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    subscription_id = Column(String(255), nullable=False, index=True)
+    anonymous_id = Column(String(255), ForeignKey("anonymous_users.id"), nullable=True, index=True)
+    email = Column(String(255), nullable=False, index=True)
+    reason = Column(Text, nullable=False)
+    status = Column(String(50), nullable=False, default="pending", index=True)  # pending, approved, rejected, processed
+    days_since_start = Column(Integer, nullable=True)
+    admin_notes = Column(Text, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False, index=True)
+    processed_at = Column(DateTime, nullable=True)
+    
+    # Relationships
+    user = relationship("AnonymousUser", foreign_keys=[anonymous_id])
+
+

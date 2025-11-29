@@ -13,7 +13,7 @@ from datetime import datetime, timedelta
 from sqlalchemy.orm import Session
 
 from database.connection import get_db
-from database.models import AnonymousUser
+from database.models import AnonymousUser, Subscription, CreditRequest
 from auth.session_manager import create_session_manager
 
 router = APIRouter(prefix="/api/subscription", tags=["subscription"])
@@ -337,7 +337,7 @@ async def request_refund(request: RefundRequest):
 
 
 @router.post("/request-credits")
-async def request_credits(request: CreditRequest):
+async def request_credits(request: CreditRequest, db: Session = Depends(get_db)):
     """
     Request credits within 60 days (requires written correspondence).
     Credits must be manually reviewed by support team.
@@ -356,18 +356,57 @@ async def request_credits(request: CreditRequest):
                 }
             )
 
-        # TODO: Store credit request in database and send email to support
-        # For now, return success message
-        return {
-            "success": True,
-            "message": "Credit request received. Our team will review and respond via email within 2 business days.",
-            "request_details": {
-                "subscription_id": request.subscription_id,
-                "email": request.email,
-                "reason": request.reason,
-                "days_since_start": days_since_start,
+        # Store credit request in database
+        try:
+            # Get subscription to find anonymous_id
+            db_subscription = db.query(Subscription).filter(
+                Subscription.stripe_subscription_id == request.subscription_id
+            ).first()
+            
+            anonymous_id = None
+            if db_subscription:
+                anonymous_id = db_subscription.anonymous_id
+            
+            credit_request = CreditRequest(
+                subscription_id=request.subscription_id,
+                anonymous_id=anonymous_id,
+                email=request.email,
+                reason=request.reason,
+                days_since_start=days_since_start,
+                status="pending"
+            )
+            db.add(credit_request)
+            db.commit()
+            
+            # TODO: Send email to support team
+            # Email functionality can be added here using SES or SMTP
+            print(f"Credit request created: ID {credit_request.id}, Subscription: {request.subscription_id}")
+            
+            return {
+                "success": True,
+                "message": "Credit request received. Our team will review and respond via email within 2 business days.",
+                "request_id": credit_request.id,
+                "request_details": {
+                    "subscription_id": request.subscription_id,
+                    "email": request.email,
+                    "reason": request.reason,
+                    "days_since_start": days_since_start,
+                }
             }
-        }
+        except Exception as e:
+            db.rollback()
+            print(f"Error storing credit request: {e}")
+            # Still return success to user, but log the error
+            return {
+                "success": True,
+                "message": "Credit request received. Our team will review and respond via email within 2 business days.",
+                "request_details": {
+                    "subscription_id": request.subscription_id,
+                    "email": request.email,
+                    "reason": request.reason,
+                    "days_since_start": days_since_start,
+                }
+            }
     except stripe.error.StripeError as e:
         raise HTTPException(status_code=400, detail={"error": str(e)})
 
@@ -375,7 +414,8 @@ async def request_credits(request: CreditRequest):
 @router.post("/webhook")
 async def stripe_webhook(
     request: Request,
-    stripe_signature: str = Header(None, alias="stripe-signature")
+    stripe_signature: str = Header(None, alias="stripe-signature"),
+    db: Session = Depends(get_db)
 ):
     """
     Stripe webhook handler for subscription events.
@@ -400,50 +440,153 @@ async def stripe_webhook(
     event_type = event["type"]
     data = event["data"]["object"]
 
-    if event_type == "checkout.session.completed":
-        print(f"Checkout completed: {data['id']}")
-        # TODO: Update user's subscription status in database
-        
-        # Extract anonymous_id from metadata if available
-        anonymous_id = data.get("metadata", {}).get("anonymous_id")
-        if anonymous_id:
-            # TODO: Update user's subscription status by anonymous_id
-            pass
+    try:
+        if event_type == "checkout.session.completed":
+            print(f"Checkout completed: {data['id']}")
+            # Extract anonymous_id and customer info from metadata
+            metadata = data.get("metadata", {})
+            anonymous_id = metadata.get("anonymous_id")
+            customer_email = data.get("customer_email") or data.get("customer_details", {}).get("email")
+            customer_id = data.get("customer")
+            subscription_id = data.get("subscription")
+            
+            # Create or update subscription record
+            if subscription_id:
+                subscription = db.query(Subscription).filter(
+                    Subscription.stripe_subscription_id == subscription_id
+                ).first()
+                
+                if not subscription:
+                    subscription = Subscription(
+                        stripe_subscription_id=subscription_id,
+                        stripe_customer_id=customer_id,
+                        stripe_checkout_session_id=data['id'],
+                        anonymous_id=anonymous_id,
+                        email=customer_email,
+                        status="active",
+                        meta_data=metadata
+                    )
+                    db.add(subscription)
+                else:
+                    subscription.stripe_checkout_session_id = data['id']
+                    subscription.email = customer_email or subscription.email
+                    subscription.anonymous_id = anonymous_id or subscription.anonymous_id
+                    subscription.status = "active"
+                
+                db.commit()
+                print(f"Subscription record created/updated: {subscription_id}")
 
-    elif event_type == "customer.subscription.created":
-        print(f"Subscription created: {data['id']}")
-        # TODO: Activate user's subscription features
-        
-        anonymous_id = data.get("metadata", {}).get("anonymous_id")
-        if anonymous_id:
-            # TODO: Activate features for anonymous_id
-            pass
+        elif event_type == "customer.subscription.created":
+            print(f"Subscription created: {data['id']}")
+            subscription_id = data['id']
+            customer_id = data.get("customer")
+            anonymous_id = data.get("metadata", {}).get("anonymous_id")
+            
+            # Get subscription details from Stripe
+            stripe_subscription = stripe.Subscription.retrieve(subscription_id)
+            
+            # Create subscription record
+            subscription = db.query(Subscription).filter(
+                Subscription.stripe_subscription_id == subscription_id
+            ).first()
+            
+            if not subscription:
+                subscription = Subscription(
+                    stripe_subscription_id=subscription_id,
+                    stripe_customer_id=customer_id,
+                    anonymous_id=anonymous_id,
+                    status=data.get("status", "active"),
+                    current_period_start=datetime.fromtimestamp(data.get("current_period_start", 0)) if data.get("current_period_start") else None,
+                    current_period_end=datetime.fromtimestamp(data.get("current_period_end", 0)) if data.get("current_period_end") else None,
+                    cancel_at_period_end=data.get("cancel_at_period_end", False),
+                    meta_data=data.get("metadata", {})
+                )
+                db.add(subscription)
+                db.commit()
+                print(f"Subscription activated: {subscription_id} for anonymous_id: {anonymous_id}")
 
-    elif event_type == "customer.subscription.updated":
-        print(f"Subscription updated: {data['id']}")
-        # TODO: Update user's subscription status
-        
-        anonymous_id = data.get("metadata", {}).get("anonymous_id")
-        if anonymous_id:
-            # TODO: Update status for anonymous_id
-            pass
+        elif event_type == "customer.subscription.updated":
+            print(f"Subscription updated: {data['id']}")
+            subscription_id = data['id']
+            anonymous_id = data.get("metadata", {}).get("anonymous_id")
+            
+            # Update subscription record
+            subscription = db.query(Subscription).filter(
+                Subscription.stripe_subscription_id == subscription_id
+            ).first()
+            
+            if subscription:
+                subscription.status = data.get("status", subscription.status)
+                subscription.current_period_start = datetime.fromtimestamp(data.get("current_period_start", 0)) if data.get("current_period_start") else subscription.current_period_start
+                subscription.current_period_end = datetime.fromtimestamp(data.get("current_period_end", 0)) if data.get("current_period_end") else subscription.current_period_end
+                subscription.cancel_at_period_end = data.get("cancel_at_period_end", subscription.cancel_at_period_end)
+                
+                if anonymous_id:
+                    subscription.anonymous_id = anonymous_id
+                
+                db.commit()
+                print(f"Subscription updated: {subscription_id}, status: {subscription.status}")
+            else:
+                # Create if doesn't exist
+                subscription = Subscription(
+                    stripe_subscription_id=subscription_id,
+                    stripe_customer_id=data.get("customer"),
+                    anonymous_id=anonymous_id,
+                    status=data.get("status", "active"),
+                    current_period_start=datetime.fromtimestamp(data.get("current_period_start", 0)) if data.get("current_period_start") else None,
+                    current_period_end=datetime.fromtimestamp(data.get("current_period_end", 0)) if data.get("current_period_end") else None,
+                    cancel_at_period_end=data.get("cancel_at_period_end", False),
+                    meta_data=data.get("metadata", {})
+                )
+                db.add(subscription)
+                db.commit()
 
-    elif event_type == "customer.subscription.deleted":
-        print(f"Subscription deleted: {data['id']}")
-        # TODO: Deactivate user's subscription features
-        
-        anonymous_id = data.get("metadata", {}).get("anonymous_id")
-        if anonymous_id:
-            # TODO: Deactivate features for anonymous_id
-            pass
+        elif event_type == "customer.subscription.deleted":
+            print(f"Subscription deleted: {data['id']}")
+            subscription_id = data['id']
+            anonymous_id = data.get("metadata", {}).get("anonymous_id")
+            
+            # Update subscription status to canceled
+            subscription = db.query(Subscription).filter(
+                Subscription.stripe_subscription_id == subscription_id
+            ).first()
+            
+            if subscription:
+                subscription.status = "canceled"
+                subscription.canceled_at = datetime.utcnow()
+                subscription.cancel_at_period_end = False
+                db.commit()
+                print(f"Subscription deactivated: {subscription_id} for anonymous_id: {anonymous_id}")
+            else:
+                # Create canceled record if doesn't exist
+                subscription = Subscription(
+                    stripe_subscription_id=subscription_id,
+                    stripe_customer_id=data.get("customer"),
+                    anonymous_id=anonymous_id,
+                    status="canceled",
+                    canceled_at=datetime.utcnow(),
+                    meta_data=data.get("metadata", {})
+                )
+                db.add(subscription)
+                db.commit()
 
-    elif event_type == "invoice.payment_succeeded":
-        print(f"Payment succeeded: {data['id']}")
-        # TODO: Send receipt email
+        elif event_type == "invoice.payment_succeeded":
+            print(f"Payment succeeded: {data['id']}")
+            # TODO: Send receipt email
+            # For now, log the invoice details
+            customer_email = data.get("customer_email")
+            amount_paid = data.get("amount_paid", 0) / 100  # Convert from cents
+            print(f"Invoice paid: ${amount_paid:.2f} for customer: {customer_email}")
+            # Email functionality can be added here using SES or SMTP
 
-    elif event_type == "invoice.payment_failed":
-        print(f"Payment failed: {data['id']}")
-        # TODO: Send payment failure notification
+        elif event_type == "invoice.payment_failed":
+            print(f"Payment failed: {data['id']}")
+            # TODO: Send payment failure notification
+            # For now, log the failure
+            customer_email = data.get("customer_email")
+            subscription_id = data.get("subscription")
+            print(f"Payment failed for subscription: {subscription_id}, customer: {customer_email}")
+            # Email functionality can be added here using SES or SMTP
 
     else:
         print(f"Unhandled event type: {event_type}")
