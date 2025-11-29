@@ -15,7 +15,8 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
-$ProjectRoot = "E:\JobFinder"
+# Auto-detect project root from script location (context inheritance)
+$ProjectRoot = (Get-Item $PSScriptRoot).Parent.FullName
 
 # Color output functions
 function Write-Success { Write-Host "✓ $args" -ForegroundColor Green }

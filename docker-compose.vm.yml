@@ -15,7 +15,6 @@ services:
   postgres_data:
   redis_data:
   elasticsearch_data:
-  ollama_data:
   checkpoints_data:
   logs:
 

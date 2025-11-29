@@ -32,6 +32,10 @@ env:
   PROJECT_ROOT: "${PWD}"
   PYTHONPATH: "${PROJECT_ROOT}/backend"
   NODE_ENV: "development"
+  # MyKeys.zip credentials for secure credential management
+  MYKEYS_URL: "https://mykeys.zip"
+  MYKEYS_USER: "admin"
+  MYKEYS_PASS: "XRi6TgSrwfeuK8taYzhknoJc"
 
 # Aliases
 aliases:

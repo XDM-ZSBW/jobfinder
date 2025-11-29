@@ -1,4 +1,7 @@
 # Deploy JobMatch with Ollama Chat Backend
+# ⚠️ DEVELOPMENT ONLY - This script uses Ollama (not for production)
+# Production deployments should use OpenRouter API instead
+# See: scripts/deploy-to-vm.sh for production deployment
 # Direct PowerShell script (no WARP needed)
 
 $ErrorActionPreference = "Stop"

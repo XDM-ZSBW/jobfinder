@@ -54,28 +54,6 @@ services:
       retries: 5
     restart: unless-stopped
 
-  # Ollama (Local LLM - llama3.2)
-  ollama:
-    image: ollama/ollama:latest
-    container_name: jobmatch-ollama
-    ports:
-      - "11434:11434"
-    volumes:
-      - ollama_data:/root/.ollama
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:11434/api/tags"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-    restart: unless-stopped
-    entrypoint: ["/bin/sh", "-c"]
-    command:
-      - |
-        ollama serve &
-        sleep 5
-        ollama pull llama3.2
-        wait
-
   # Backend (FastAPI)
   backend:
     build:
@@ -88,9 +66,10 @@ services:
       - DATABASE_URL=postgresql://${POSTGRES_USER:-jobmatch}:${POSTGRES_PASSWORD:-jobmatch}@postgres:5432/${POSTGRES_DB:-jobmatch}
       - REDIS_URL=redis://redis:6379
       - ELASTICSEARCH_URL=http://elasticsearch:9200
-      - OLLAMA_BASE_URL=http://ollama:11434
-      - OLLAMA_MODEL=llama3.2
-      - USE_OLLAMA=true
+      # LLM Configuration (OpenRouter primary)
+      - LLM_PROVIDER=openrouter
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY:-}
+      - LLM_MODEL=${LLM_MODEL:-anthropic/claude-3.5-sonnet}
       - SECRET_KEY=${SECRET_KEY:-change-me-in-production}
       - ENVIRONMENT=production
     depends_on:
@@ -99,8 +78,6 @@ services:
       redis:
         condition: service_healthy
       elasticsearch:
-        condition: service_healthy
-      ollama:
         condition: service_healthy
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000
     restart: unless-stopped
@@ -115,6 +92,7 @@ services:
       - "3000:3000"
     environment:
       - NEXT_PUBLIC_API_URL=http://136.115.106.188:8000
+      - NEXT_PUBLIC_GTM_ID=GTM-KQV9THQ6
       - NODE_ENV=production
     depends_on:
       - backend
@@ -146,7 +124,6 @@ volumes:
   postgres_data:
   redis_data:
   elasticsearch_data:
-  ollama_data:
   checkpoints_data:
   logs:
 

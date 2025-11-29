@@ -21,17 +21,8 @@ echo "📦 Installing Docker Compose..."
 curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
 
-# Install Ollama
-echo "🤖 Installing Ollama..."
-curl -fsSL https://ollama.com/install.sh | sh
-
-# Create swap file for Ollama (2GB) - helps with memory constraints
-echo "💾 Creating swap file..."
-fallocate -l 2G /swapfile || dd if=/dev/zero of=/swapfile bs=1M count=2048
-chmod 600 /swapfile
-mkswap /swapfile
-swapon /swapfile
-echo '/swapfile none swap sw 0 0' >> /etc/fstab
+# Note: Ollama removed from production deployment
+# Using OpenRouter API instead (configured via environment variables)
 
 # Install Node.js 18+
 echo "📦 Installing Node.js..."
@@ -92,9 +83,7 @@ rm -f /etc/nginx/sites-enabled/default
 nginx -t && systemctl restart nginx
 systemctl enable nginx
 
-# Pull Ollama model (in background)
-echo "🤖 Pulling Ollama model (llama3.2)..."
-ollama pull llama3.2 &
+# Note: Ollama model pulling removed - using OpenRouter API instead
 
 # Create systemd service for app
 cat > /etc/systemd/system/jobmatch.service <<EOF

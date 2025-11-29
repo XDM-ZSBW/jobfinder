@@ -24,7 +24,12 @@ zip -r "releases/${RELEASE_NAME}.zip" . \
     -x "*dist*" \
     -x "*.DS_Store*" \
     -x "releases/*" \
-    -x "*.log"
+    -x "*.log" \
+    -x "**/.ollama/*" \
+    -x "**/ollama/*" \
+    -x "*.gguf" \
+    -x "*.ggml" \
+    -x "**/models/*"
 
 # Create release notes
 cat > "releases/${RELEASE_NAME}-NOTES.md" <<EOF
@@ -38,7 +43,7 @@ $(date)
 - Duolingo-style interactive form filling
 - AI training integration
 - GCP VM deployment ready
-- Ollama support for local AI
+- OpenRouter API integration (Claude 3.5 Sonnet)
 
 ## Deployment
 1. Upload \`${RELEASE_NAME}.zip\` to GCP VM

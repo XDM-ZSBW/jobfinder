@@ -27,7 +27,12 @@ zip -r jobmatch.zip . \
     -x "*dist*" \
     -x "*.DS_Store*" \
     -x "*warp-workflows*" \
-    -x "*.claude-code*"
+    -x "*.claude-code*" \
+    -x "**/.ollama/*" \
+    -x "**/ollama/*" \
+    -x "*.gguf" \
+    -x "*.ggml" \
+    -x "**/models/*"
 
 echo "📤 Uploading to VM..."
 gcloud compute scp jobmatch.zip $VM_NAME:/opt/jobmatch/ --zone=$ZONE
@@ -44,13 +49,15 @@ gcloud compute ssh $VM_NAME --zone=$ZONE --command="
 DATABASE_URL=postgresql://jobfinder:jobfinder@postgres:5432/jobfinder
 REDIS_URL=redis://redis:6379
 ELASTICSEARCH_URL=http://elasticsearch:9200
-OPENAI_API_KEY=
-OLLAMA_BASE_URL=http://localhost:11434
-OLLAMA_MODEL=llama3.2
+# LLM Configuration (OpenRouter primary)
+LLM_PROVIDER=openrouter
+OPENROUTER_API_KEY=
+LLM_MODEL=anthropic/claude-3.5-sonnet
 SECRET_KEY=$(openssl rand -hex 32)
 ENVIRONMENT=production
 CORS_ORIGINS=http://$VM_IP,https://jobmatch.zip,https://www.jobmatch.zip,http://localhost:3000,http://localhost:8000
 NEXT_PUBLIC_API_URL=https://jobmatch.zip/api
+NEXT_PUBLIC_GTM_ID=GTM-KQV9THQ6
 GOOGLE_SEARCH_CONSOLE_SITE_URL=https://jobmatch.zip
 ENVEOF
     fi
