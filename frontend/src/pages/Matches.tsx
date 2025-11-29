@@ -16,7 +16,7 @@ interface Match {
 
 export default function MatchesPage() {
   const navigate = useNavigate()
-  const [anonymousId, setAnonymousId] = useState<string>('')
+  const [anonymousId] = useState<string>('')
   const [matches, setMatches] = useState<Match[]>([])
   const [viewMode, setViewMode] = useState<'list' | 'swipe'>('list')
   const [filteredMatches, setFilteredMatches] = useState<Match[]>([])

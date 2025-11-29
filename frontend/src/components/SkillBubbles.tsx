@@ -50,7 +50,7 @@ export default function SkillBubbles({
     onTap: () => {
       // Handle canvas tap if needed
     },
-    onLongPress: (event) => {
+    onLongPress: (_event) => {
       // Could show skill categories or filters on long press
       console.log('Long press detected for context menu');
     },

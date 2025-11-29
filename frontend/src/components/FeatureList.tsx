@@ -1,4 +1,4 @@
-import React from 'react';
+// React import not needed
 import StatusIcon from '@/components/StatusIcon';
 import type { Feature } from '@/lib/features';
 

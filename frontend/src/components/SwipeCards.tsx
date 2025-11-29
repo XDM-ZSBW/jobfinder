@@ -69,7 +69,7 @@ export default function SwipeCards({
         onCardTap(currentCard);
       }
     },
-    onSwipe: (event, direction) => {
+    onSwipe: (_event, direction) => {
       if (direction === 'left') {
         handleSwipe('left');
       } else if (direction === 'right') {

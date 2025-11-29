@@ -5,7 +5,7 @@
  * Provides clear separation between agent logic and presentation.
  */
 
-import React, { Suspense } from 'react';
+// React imports removed - not needed for this component
 import { AgentUISchema, Component } from '@/schemas/ui-schema';
 
 interface AgentUIRendererProps {
@@ -210,7 +210,7 @@ function BadgeComponent({
   );
 }
 
-function SpinnerComponent({ component }: { component: Component }) {
+function SpinnerComponent({ component: _component }: { component: Component }) {
   return (
     <div className="spinner">
       <div className="spinner-circle" />
@@ -231,7 +231,7 @@ function TableComponent({
     <table className="component-table">
       <thead>
         <tr>
-          {columns.map(col => (
+          {columns.map((col: any) => (
             <th key={col.key}>{col.label}</th>
           ))}
         </tr>
@@ -239,7 +239,7 @@ function TableComponent({
       <tbody>
         {data.map((row, idx) => (
           <tr key={idx}>
-            {columns.map(col => (
+            {columns.map((col: any) => (
               <td key={col.key}>
                 {col.render ? col.render(row[col.key]) : row[col.key]}
               </td>
@@ -253,7 +253,7 @@ function TableComponent({
 
 function ChartComponent({
   component,
-  data,
+  data: _data,
 }: {
   component: Component;
   data: any[];

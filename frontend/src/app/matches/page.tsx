@@ -51,7 +51,7 @@ const mockMatches: Match[] = [
 
 export default function MatchesPage() {
   const [anonymousId, setAnonymousId] = useState<string>('');
-  const [matches, setMatches] = useState<Match[]>(mockMatches);
+  const [matches] = useState<Match[]>(mockMatches);
   const [remoteOnly, setRemoteOnly] = useState(false);
   const [minScore, setMinScore] = useState(0);
   const [viewMode, setViewMode] = useState<'list' | 'swipe'>('list');

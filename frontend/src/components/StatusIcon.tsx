@@ -1,4 +1,4 @@
-import React from 'react';
+// React import not needed
 import type { FeatureStatus } from '@/lib/features';
 
 export default function StatusIcon({ status }: { status: FeatureStatus }) {

@@ -88,7 +88,7 @@ export default function ProfilePage() {
         throw new Error('Failed to save profile');
       }
 
-      const data = await response.json();
+      await response.json();
       
       // Update original values to current values
       setOriginalSkills(skills);

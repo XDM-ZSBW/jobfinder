@@ -5,7 +5,7 @@ import { JobMatchChat } from '@/components';
 
 export default function DashboardPage() {
   const [anonymousId, setAnonymousId] = useState<string>('');
-  const [userProfile, setUserProfile] = useState({
+  const [userProfile] = useState({
     skills: ['Python', 'FastAPI', 'React', 'TypeScript'],
     preferences: 'Remote positions preferred',
     location: 'San Francisco, CA',

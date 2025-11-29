@@ -4,6 +4,13 @@ import { PIIVerification, SkillBubbles } from '@/components'
 
 type Step = 'welcome' | 'field' | 'industry' | 'skills' | 'portfolio' | 'preferences' | 'pii-check' | 'complete'
 
+interface Industry {
+  id: string
+  name: string
+  icon: string
+  description: string
+}
+
 export default function AssessmentPage() {
   const [step, setStep] = useState<Step>('welcome')
   const [anonymousId, setAnonymousId] = useState<string>('')
@@ -14,11 +21,11 @@ export default function AssessmentPage() {
   const [portfolioUrl, setPortfolioUrl] = useState('')
   const [preference, setPreference] = useState('')
   const [preferenceReason, setPreferenceReason] = useState('')
-  const [isVR, setIsVR] = useState(false)
+  const [, setIsVR] = useState(false)
   const [resumeText, setResumeText] = useState('')
   const [piiData, setPiiData] = useState<any>(null)
   const [showPiiVerification, setShowPiiVerification] = useState(false)
-  const [useCanvasMode, setUseCanvasMode] = useState(true)
+  const [, setUseCanvasMode] = useState(true)
 
   useEffect(() => {
     // Generate anonymous ID on start

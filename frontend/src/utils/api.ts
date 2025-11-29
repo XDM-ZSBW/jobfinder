@@ -76,7 +76,7 @@ export async function fetchWithRetry(
 export async function apiRequest<T>(
   url: string,
   options: RequestInit = {},
-  retryOptions?: RetryOptions
+  _retryOptions?: RetryOptions
 ): Promise<T> {
   try {
     const response = await fetchWithRetry(url, {

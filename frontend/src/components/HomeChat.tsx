@@ -25,7 +25,7 @@ export default function HomeChat({ anonymousId: propAnonymousId, authenticated: 
   const [messages, setMessages] = useState<Message[]>([])
   const [inputValue, setInputValue] = useState('')
   const [loading, setLoading] = useState(false)
-  const [sessionId, setSessionId] = useState<string | null>(null)
+  const [sessionId] = useState<string | null>(null)
   
   // Check localStorage immediately for anonymous_id
   const initialAnonymousId = propAnonymousId || (typeof window !== 'undefined' ? localStorage.getItem('anonymous_id') : null)

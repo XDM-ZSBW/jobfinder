@@ -19,7 +19,7 @@ interface JobDetails {
 
 export default function JobDetailsPage() {
   const { jobId } = useParams<{ jobId: string }>()
-  const navigate = useNavigate()
+  const _navigate = useNavigate()
   const [job, setJob] = useState<JobDetails | null>(null)
   const [loading, setLoading] = useState(true)
 
