@@ -1,15 +1,42 @@
 {
-  "version": "1.0",
+  "version": "1.1",
   "project": "AI-Enabled LLC Matching Platform",
-  "description": "Hooks for optimizing Claude Code prompt architecture",
+  "description": "Hooks for optimizing Claude Code prompt architecture with credit-saving practices",
+  "credit_saving": {
+    "max_tokens_per_context": 8000,
+    "max_file_size_kb": 100,
+    "use_line_ranges": true,
+    "cache_context": true,
+    "selective_loading": true,
+    "prefer_prompt_files": true
+  },
   "hooks": {
     "before_generate": {
       "context_files": [
-        "backend/main.py",
-        "backend/config.py",
-        "README.md",
-        "docs/DEVELOPMENT_WORKFLOW.md",
-        "warp.config.yaml"
+        {
+          "path": "backend/main.py",
+          "lines": "1-50",
+          "max_size_kb": 10
+        },
+        {
+          "path": "backend/config.py",
+          "lines": "1-100",
+          "max_size_kb": 10
+        },
+        {
+          "path": "README.md",
+          "lines": "1-100",
+          "max_size_kb": 15
+        },
+        {
+          "path": "docs/DEVELOPMENT_WORKFLOW.md",
+          "lines": "1-150",
+          "max_size_kb": 20
+        },
+        {
+          "path": "warp.config.yaml",
+          "max_size_kb": 5
+        }
       ],
       "prompt_prefix": "You are working on an AI-Enabled LLC Matching Platform. Key principles:\n1. Human-in-the-loop always more beneficial\n2. Anonymous identity system\n3. XDMIQ credentialing integration\n4. Capability over credentials\n\nDevelopment Tools: Warp (terminal), Claude Code (AI assistance), Cursor (IDE)\nPieces MCP Integration: Synced with Warp activities for context-aware assistance\n\n",
       "patterns": [
@@ -30,80 +57,174 @@
     "api_endpoint": {
       "template": "Create FastAPI endpoint following existing patterns:\n- Use Pydantic models for request/response\n- Include proper error handling\n- Maintain anonymous identity\n- Add to appropriate router\n- Include human-in-the-loop where applicable",
       "example_files": [
-        "backend/api/auth.py",
-        "backend/api/xdmiq.py",
-        "backend/api/social_auth.py"
-      ]
+        {
+          "path": "backend/api/auth.py",
+          "lines": "1-80",
+          "max_size_kb": 15
+        },
+        {
+          "path": "backend/api/xdmiq.py",
+          "lines": "1-80",
+          "max_size_kb": 15
+        },
+        {
+          "path": "backend/api/social_auth.py",
+          "lines": "1-80",
+          "max_size_kb": 15
+        }
+      ],
+      "prompt_file": ".claude-code/prompts/api_endpoint.md",
+      "max_context_tokens": 4000
     },
     "database_model": {
       "template": "Create SQLAlchemy model:\n- Inherit from Base\n- Use proper column types\n- Include relationships\n- Add indexes for performance\n- Support anonymous identity",
       "example_files": [
-        "backend/database/models.py"
-      ]
+        {
+          "path": "backend/database/models.py",
+          "lines": "1-150",
+          "max_size_kb": 20
+        }
+      ],
+      "prompt_file": ".claude-code/prompts/database_model.md",
+      "max_context_tokens": 3000
     },
     "frontend_component": {
       "template": "Create Next.js component:\n- Use TypeScript\n- Follow capability-first design principles\n- Maintain accessibility (WCAG AAA)\n- Use existing design tokens\n- Support anonymous user flow",
       "example_files": [
-        "frontend/components/CapabilityDesign.tsx",
-        "frontend/app/xdmiq/page.tsx"
-      ]
+        {
+          "path": "frontend/components/CapabilityDesign.tsx",
+          "lines": "1-100",
+          "max_size_kb": 15
+        },
+        {
+          "path": "frontend/app/xdmiq/page.tsx",
+          "lines": "1-100",
+          "max_size_kb": 15
+        }
+      ],
+      "prompt_file": ".claude-code/prompts/frontend_component.md",
+      "max_context_tokens": 4000
     },
     "ai_integration": {
       "template": "When integrating AI features:\n- Always include human-in-the-loop\n- Create state checkpoints\n- Support rollback/recovery\n- Use Ollama (llama3.2) for local development\n- Log AI decisions for review",
       "example_files": [
-        "backend/ai/matching_engine.py",
-        "backend/assessment/xdmiq_assessment.py"
-      ]
+        {
+          "path": "backend/ai/matching_engine.py",
+          "lines": "1-100",
+          "max_size_kb": 20
+        },
+        {
+          "path": "backend/assessment/xdmiq_assessment.py",
+          "lines": "1-100",
+          "max_size_kb": 20
+        }
+      ],
+      "prompt_file": ".claude-code/prompts/ai_integration.md",
+      "max_context_tokens": 5000
     },
     "generate_capability_flow": {
       "template": "Create capability-first assessment flow:\n- Focus on what users CAN DO, not credentials\n- Portfolio-based evaluation\n- Practical challenges\n- Human-in-the-loop validation\n- State checkpoints for results",
       "example_files": [
-        "backend/assessment/capability_assessment.py",
-        "frontend/app/assessment/page.tsx",
-        "business/nouns/capabilities/"
+        {
+          "path": "backend/assessment/capability_assessment.py",
+          "lines": "1-100",
+          "max_size_kb": 20
+        },
+        {
+          "path": "frontend/app/assessment/page.tsx",
+          "lines": "1-100",
+          "max_size_kb": 15
+        }
       ],
-      "prompt_file": ".claude-code/prompts/capability_assessment.md"
+      "prompt_file": ".claude-code/prompts/capability_assessment.md",
+      "max_context_tokens": 5000
     },
     "generate_xdmiq_questions": {
       "template": "Generate XDMIQ preference-based questions:\n- Format: 'Which do you prefer?' + 'Why?'\n- Assess capability preferences, NOT identity\n- Scoring: 0-100 scale\n- Store in business/xdmiq/questions.yaml",
       "example_files": [
-        "backend/assessment/xdmiq_assessment.py",
-        "business/xdmiq/questions.yaml"
+        {
+          "path": "backend/assessment/xdmiq_assessment.py",
+          "lines": "1-80",
+          "max_size_kb": 15
+        },
+        {
+          "path": "business/xdmiq/questions.yaml",
+          "max_size_kb": 10
+        }
       ],
-      "prompt_file": ".claude-code/prompts/xdmiq_questions.md"
+      "prompt_file": ".claude-code/prompts/xdmiq_questions.md",
+      "max_context_tokens": 3000
     },
     "generate_identity_proxy": {
       "template": "Create anonymous identity proxy flow:\n- Zero-knowledge architecture\n- Anonymous-first (all features work without identity)\n- Voluntary identification (opt-in only)\n- Multiple personas supported\n- User-controlled identity linking",
       "example_files": [
-        "backend/auth/anonymous_identity.py",
-        "business/identity-proxy/flows.yaml"
+        {
+          "path": "backend/auth/anonymous_identity.py",
+          "lines": "1-100",
+          "max_size_kb": 20
+        },
+        {
+          "path": "business/identity-proxy/flows.yaml",
+          "max_size_kb": 10
+        }
       ],
-      "prompt_file": ".claude-code/prompts/identity_proxy.md"
+      "prompt_file": ".claude-code/prompts/identity_proxy.md",
+      "max_context_tokens": 4000
     },
     "generate_platform_health": {
       "template": "Create platform health check or monitoring:\n- Privacy-preserving metrics (aggregate only)\n- System health (DB, Redis, ES, Ollama)\n- Business metrics (counts, percentages)\n- Runbook integration\n- Dashboard at /admin/health",
       "example_files": [
-        "business/health/checks.yaml",
-        "scripts/health-check.ps1"
+        {
+          "path": "business/health/checks.yaml",
+          "max_size_kb": 10
+        },
+        {
+          "path": "scripts/health-check.ps1",
+          "lines": "1-50",
+          "max_size_kb": 10
+        }
       ],
-      "prompt_file": ".claude-code/prompts/platform_health.md"
+      "prompt_file": ".claude-code/prompts/platform_health.md",
+      "max_context_tokens": 3000
     },
     "migrate_to_ollama_llama32": {
       "template": "Migrate OpenAI usage to Ollama (llama3.2):\n- Replace OpenAI client with Ollama client\n- Update config: OLLAMA_BASE_URL, OLLAMA_MODEL\n- Docker Compose integration\n- Offline-first (no external API calls)\n- Maintain same API interface",
       "example_files": [
-        "backend/llm/ollama_client.py",
-        "docker-compose.yml"
+        {
+          "path": "backend/llm/ollama_client.py",
+          "lines": "1-100",
+          "max_size_kb": 20
+        },
+        {
+          "path": "docker-compose.yml",
+          "lines": "1-50",
+          "max_size_kb": 10
+        }
       ],
-      "prompt_file": ".claude-code/prompts/ollama_migration.md"
+      "prompt_file": ".claude-code/prompts/ollama_migration.md",
+      "max_context_tokens": 4000
     },
     "create_checkpoint_workflow": {
       "template": "Create checkpoint or recovery workflow:\n- Checkpoint: pg_dump + Redis RDB + ES snapshot\n- Recovery: restore all components\n- Last-known-good pattern\n- Scheduled checkpoints (every 30 min)\n- Verify health after restore",
       "example_files": [
-        "backend/resilience/state_management.py",
-        "scripts/checkpoint.ps1",
-        "scripts/recover.ps1"
+        {
+          "path": "backend/resilience/state_management.py",
+          "lines": "1-100",
+          "max_size_kb": 20
+        },
+        {
+          "path": "scripts/checkpoint.ps1",
+          "lines": "1-50",
+          "max_size_kb": 10
+        },
+        {
+          "path": "scripts/recover.ps1",
+          "lines": "1-50",
+          "max_size_kb": 10
+        }
       ],
-      "prompt_file": ".claude-code/prompts/checkpoint_workflows.md"
+      "prompt_file": ".claude-code/prompts/checkpoint_workflows.md",
+      "max_context_tokens": 4000
     }
   },
   "context": {
@@ -141,6 +262,14 @@
       "documentation": "Include docstrings",
       "error_handling": "Comprehensive error handling",
       "testing": "Consider testability"
+    },
+    "credit_saving": {
+      "use_line_ranges": "Load only relevant lines from files",
+      "limit_file_sizes": "Skip files larger than max_size_kb",
+      "prefer_prompt_files": "Use external prompt files instead of inline templates",
+      "cache_context": "Cache frequently used context to avoid reloading",
+      "selective_loading": "Load only files relevant to current task type",
+      "token_limits": "Enforce max_context_tokens per hook to prevent excessive context"
     }
   }
 }

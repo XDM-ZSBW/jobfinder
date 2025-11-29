@@ -80,3 +80,11 @@ kubernetes/
 tmp/
 temp/
 
+# Ollama models and data (not used in production)
+**/.ollama/
+**/ollama/
+*.gguf
+*.ggml
+**/models/
+data/ollama/
+

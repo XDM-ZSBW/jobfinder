@@ -82,6 +82,7 @@ jobs:
             ENVIRONMENT=production
             CORS_ORIGINS=https://jobmatch.zip,https://www.jobmatch.zip,http://localhost:3000,http://localhost:8000
             NEXT_PUBLIC_API_URL=https://jobmatch.zip/api
+            NEXT_PUBLIC_GTM_ID=GTM-KQV9THQ6
             ENVEOF
             fi
             

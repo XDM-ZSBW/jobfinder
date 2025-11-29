@@ -1,10 +1,11 @@
 # Development Dockerfile with hot reload
 FROM python:3.11-slim
 
-# Install Node.js
+# Install Node.js and system dependencies
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
-    apt-get install -y nodejs && \
-    apt-get update && apt-get install -y \
+    apt-get update && \
+    apt-get install -y \
+    nodejs \
     gcc \
     postgresql-client \
     curl \
