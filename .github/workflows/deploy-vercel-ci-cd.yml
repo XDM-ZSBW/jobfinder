@@ -177,6 +177,21 @@ jobs:
         working-directory: ./backend
         run: npm run build
 
+      - name: Verify API function exists
+        run: |
+          echo "Checking for API function..."
+          if [ ! -f "api/index.js" ]; then
+            echo "❌ ERROR: api/index.js not found!"
+            echo "Current directory: $(pwd)"
+            echo "Files in api/:"
+            ls -la api/ 2>/dev/null || echo "api/ directory does not exist"
+            exit 1
+          fi
+          echo "✅ api/index.js found"
+          echo "File size: $(stat -f%z api/index.js 2>/dev/null || stat -c%s api/index.js 2>/dev/null || echo 'unknown') bytes"
+          echo "First few lines:"
+          head -5 api/index.js
+
       - name: Deploy to Vercel
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
@@ -190,6 +205,12 @@ jobs:
             echo "🚀 Deploying to production..."
           else
             echo "🔍 Deploying preview..."
+          fi
+          
+          # Verify api/index.js exists before deployment
+          if [ ! -f "api/index.js" ]; then
+            echo "❌ ERROR: api/index.js not found before deployment!"
+            exit 1
           fi
           
           # Deploy using npx vercel (simpler approach)
