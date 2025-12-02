@@ -9,6 +9,9 @@ const backendApp = require('../backend/dist/index.js');
 const app = backendApp.app || backendApp.default || backendApp;
 
 // Vercel serverless function handler
-// Express app can be exported directly
-module.exports = app;
+// Export as a handler function that receives (req, res)
+module.exports = (req, res) => {
+  // Delegate to Express app
+  return app(req, res);
+};
 
