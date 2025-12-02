@@ -137,11 +137,12 @@ jobs:
           echo "✅ All builds successful"
 
   # Deploy to Vercel (unified frontend + backend)
+  # Only runs if Vercel token is available (optional deployment)
   deploy:
     name: Deploy to Vercel
     runs-on: ubuntu-latest
     needs: checks
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push' && secrets.VERCEL_TOKEN != ''
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -190,10 +191,12 @@ jobs:
           
           # Check VERCEL_TOKEN
           if [ -z "$VERCEL_TOKEN" ]; then
-            echo "❌ VERCEL_TOKEN is not set"
-            echo "   → Go to: Settings → Secrets and variables → Actions"
+            echo "⚠️  VERCEL_TOKEN is not set - deployment will be skipped"
+            echo "   → To enable deployment, go to: Settings → Secrets and variables → Actions"
             echo "   → Add secret named exactly: VERCEL_TOKEN"
-            exit 1
+            echo ""
+            echo "✅ Code quality checks passed - deployment skipped (no token)"
+            exit 0  # Exit successfully, just skip deployment
           else
             TOKEN_LENGTH=${#VERCEL_TOKEN}
             echo "✅ VERCEL_TOKEN is set (length: $TOKEN_LENGTH)"
@@ -201,17 +204,19 @@ jobs:
           
           # Check VERCEL_ORG_ID
           if [ -z "$VERCEL_ORG_ID" ]; then
-            echo "❌ VERCEL_ORG_ID is not set"
-            echo "   → Go to: Settings → Secrets and variables → Actions"
+            echo "⚠️  VERCEL_ORG_ID is not set - deployment will be skipped"
+            echo "   → To enable deployment, go to: Settings → Secrets and variables → Actions"
             echo "   → Add secret named exactly: VERCEL_ORG_ID"
-            exit 1
+            echo ""
+            echo "✅ Code quality checks passed - deployment skipped (no org ID)"
+            exit 0  # Exit successfully, just skip deployment
           else
             echo "✅ VERCEL_ORG_ID is set: $VERCEL_ORG_ID"
           fi
           
           # Check VERCEL_PROJECT_ID
           if [ -z "$VERCEL_PROJECT_ID" ]; then
-            echo "❌ VERCEL_PROJECT_ID is not set or is empty"
+            echo "⚠️  VERCEL_PROJECT_ID is not set - deployment will be skipped"
             echo ""
             echo "Troubleshooting steps:"
             echo "1. Go to: Settings → Secrets and variables → Actions"
@@ -223,7 +228,9 @@ jobs:
             echo "To find your Project ID:"
             echo "  - Vercel Dashboard → Your Project → Settings → General → Project ID"
             echo "  - Or run locally: vercel link && cat .vercel/project.json"
-            exit 1
+            echo ""
+            echo "✅ Code quality checks passed - deployment skipped (no project ID)"
+            exit 0  # Exit successfully, just skip deployment
           else
             echo "✅ VERCEL_PROJECT_ID is set: $VERCEL_PROJECT_ID"
           fi
