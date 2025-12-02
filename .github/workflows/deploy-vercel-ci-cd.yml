@@ -37,6 +37,10 @@ jobs:
           if grep -q "playwright" install.log; then
             echo "⚠️ Playwright installation skipped (not required for deployment)"
           fi
+          # Verify React and types are installed
+          echo "Checking React installation..."
+          ls -la node_modules/react 2>/dev/null || ls -la frontend/node_modules/react 2>/dev/null || echo "⚠️ React not found in expected locations"
+          ls -la node_modules/@types/react 2>/dev/null || ls -la frontend/node_modules/@types/react 2>/dev/null || echo "⚠️ React types not found"
 
       - name: Lint frontend
         working-directory: ./frontend
