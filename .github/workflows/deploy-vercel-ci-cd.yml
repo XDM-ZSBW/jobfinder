@@ -310,18 +310,21 @@ jobs:
           
           echo ""
           echo "Deploying to Vercel production..."
-          # Capture deployment output for better error messages
-          DEPLOY_OUTPUT=$(vercel --prod --yes 2>&1)
-          DEPLOY_EXIT=$?
+          # Run vercel deployment and capture output
+          # Use || true to prevent immediate exit, then check exit code
+          set +e  # Temporarily disable exit on error to capture output
+          vercel --prod --yes 2>&1 | tee /tmp/vercel-deploy.log
+          DEPLOY_EXIT=${PIPESTATUS[0]}
+          set -e  # Re-enable exit on error
           
           if [ $DEPLOY_EXIT -eq 0 ]; then
             echo "✅ Deployment successful!"
-            echo "$DEPLOY_OUTPUT"
+            cat /tmp/vercel-deploy.log
           else
             echo "❌ Deployment failed with exit code $DEPLOY_EXIT"
             echo ""
             echo "Full deployment output:"
-            echo "$DEPLOY_OUTPUT"
+            cat /tmp/vercel-deploy.log
             echo ""
             echo "Troubleshooting:"
             echo "1. Check Vercel token is valid and has Full Account scope"
