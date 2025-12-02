@@ -1,9 +1,14 @@
 name: Deploy to Production
 
+# DISABLED: Using Vercel-only deployment via deploy-vercel-ci-cd.yml
+# This workflow is kept for reference but will not run
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+    inputs:
+      disabled:
+        description: 'This workflow is disabled. Use deploy-vercel-ci-cd.yml instead.'
+        required: false
+        default: 'VM deployment disabled - Vercel only'
 
 jobs:
   deploy:

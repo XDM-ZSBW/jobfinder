@@ -10,6 +10,7 @@ import { logger } from './utils/logger';
 import authRoutes from './routes/auth';
 import usersRoutes from './routes/users';
 import jobsRoutes from './routes/jobs';
+import voiceRoutes from './routes/voice';
 
 // Load environment variables
 dotenv.config();
@@ -52,6 +53,7 @@ app.get('/health', (req: Request, res: Response) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/users', usersRoutes);
 app.use('/api/jobs', jobsRoutes);
+app.use('/api/voice', voiceRoutes);
 
 // API routes info
 app.get('/api/v1', (req: Request, res: Response) => {
@@ -63,6 +65,7 @@ app.get('/api/v1', (req: Request, res: Response) => {
       auth: '/api/auth',
       users: '/api/users',
       jobs: '/api/jobs',
+      voice: '/api/voice',
       applications: '/api/v1/applications',
       matches: '/api/v1/matches',
       messages: '/api/v1/messages',
