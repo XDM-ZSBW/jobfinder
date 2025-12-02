@@ -89,6 +89,10 @@ jobs:
           # Run typecheck
           npm run typecheck
 
+      - name: Generate Prisma Client
+        working-directory: ./backend
+        run: npm run generate
+
       - name: Type check backend
         working-directory: ./backend
         run: npm run typecheck
