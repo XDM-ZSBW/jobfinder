@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { AgentUIRenderer } from '@/components/agent/AgentUIRenderer'
 import { AgentUISchema } from '@/schemas/ui-schema'
@@ -150,4 +150,5 @@ export default function AgentPage() {
     </div>
   )
 }
+
 

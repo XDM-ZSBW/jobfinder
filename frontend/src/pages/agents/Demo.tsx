@@ -5,6 +5,7 @@
  * Uses mock data so it works without backend.
  */
 
+import React from 'react'
 import { AgentUIRenderer } from '@/components/agent/AgentUIRenderer'
 import { AgentUISchema } from '@/schemas/ui-schema'
 
@@ -340,4 +341,5 @@ export default function AgentsDemoPage() {
     </div>
   )
 }
+
 
