@@ -1,13 +1,22 @@
 name: CI/CD Pipeline
 
+# DISABLED: Using Vercel-only deployment via deploy-vercel-ci-cd.yml
+# This workflow is kept for reference but will not run automatically
+# Use deploy-vercel-ci-cd.yml for production deployments
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
   workflow_dispatch:
+    inputs:
+      disabled:
+        description: 'This workflow is disabled. Use deploy-vercel-ci-cd.yml instead.'
+        required: false
+        default: 'CI/CD Pipeline disabled - Vercel only'
+  # Disabled automatic triggers - use deploy-vercel-ci-cd.yml instead
+  # push:
+  #   branches:
+  #     - main
+  # pull_request:
+  #   branches:
+  #     - main
 
 env:
   NODE_VERSION: '20'
