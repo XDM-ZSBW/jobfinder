@@ -282,16 +282,33 @@ jobs:
           echo "Project ID: ${VERCEL_PROJECT_ID}"
           echo "Org ID: ${VERCEL_ORG_ID}"
           
+          # Ensure api/ folder is explicitly included (not ignored)
+          echo "Verifying api/ folder will be included in deployment..."
+          if [ -d "api" ]; then
+            echo "✅ api/ directory exists"
+            echo "Contents:"
+            ls -la api/
+            echo ""
+            echo "File count: $(find api -type f | wc -l)"
+          else
+            echo "❌ api/ directory not found!"
+            exit 1
+          fi
+          
           # Deploy using vercel deploy with project context
-          npx vercel deploy --token ${VERCEL_TOKEN} --yes $prodRun --scope=${VERCEL_ORG_ID} 2>&1 | tee vercel-deploy.log
+          # Use --force to ensure all files are included
+          npx vercel deploy --token ${VERCEL_TOKEN} --yes $prodRun --scope=${VERCEL_ORG_ID} --force 2>&1 | tee vercel-deploy.log
           
           # Check deployment output for function detection
-          echo "Checking deployment log for API functions..."
+          echo ""
+          echo "=== Checking deployment log for API functions ==="
           if grep -qi "api" vercel-deploy.log; then
             echo "✅ 'api' mentioned in deployment log"
             grep -i "api" vercel-deploy.log | head -10
           else
             echo "⚠️ 'api' not mentioned in deployment log"
+            echo "Full deployment log:"
+            cat vercel-deploy.log
           fi
           
           if grep -qi "function\|serverless" vercel-deploy.log; then
@@ -299,6 +316,14 @@ jobs:
             grep -i "function\|serverless" vercel-deploy.log | head -10
           else
             echo "⚠️ No serverless functions mentioned"
+            echo "This might indicate Vercel is not detecting the api/ folder"
+          fi
+          
+          # Check if vercel.json was included
+          if grep -qi "vercel.json" vercel-deploy.log; then
+            echo "✅ vercel.json detected in deployment"
+          else
+            echo "⚠️ vercel.json not mentioned in deployment log"
           fi
 
       - name: Deployment Summary
