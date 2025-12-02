@@ -238,13 +238,29 @@ jobs:
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
         run: |
           echo "Verifying Vercel authentication..."
+          TOKEN_LENGTH=${#VERCEL_TOKEN}
+          echo "Token length: $TOKEN_LENGTH"
+          
+          # Check token length first
+          if [ "$TOKEN_LENGTH" -lt 30 ]; then
+            echo "❌ Token appears to be truncated (length: $TOKEN_LENGTH)"
+            echo "Vercel tokens are typically 40+ characters"
+            echo ""
+            echo "Please check GitHub Secrets:"
+            echo "1. Go to: Settings → Secrets and variables → Actions"
+            echo "2. Find VERCEL_TOKEN"
+            echo "3. Verify the entire token was copied (no truncation)"
+            echo "4. Delete and recreate if needed"
+            exit 1
+          fi
+          
           # Test token validity by checking whoami (without exposing token)
           if vercel whoami > /dev/null 2>&1; then
             echo "✅ Vercel token is valid"
             vercel whoami
           else
             echo "❌ Vercel token authentication failed"
-            echo "Token length: ${#VERCEL_TOKEN}"
+            echo "Token length: $TOKEN_LENGTH"
             echo "Token starts with: ${VERCEL_TOKEN:0:10}..."
             echo ""
             echo "Troubleshooting:"
