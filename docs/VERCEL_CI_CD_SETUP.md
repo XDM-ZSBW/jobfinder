@@ -45,9 +45,15 @@ Add these secrets:
   - Find it in: Vercel Dashboard → Settings → General
   - Or run: `vercel whoami` and check your account settings
 
-- **`VERCEL_PROJECT_ID`**: Your Vercel Project ID
-  - Find it in: Vercel Dashboard → Your Project → Settings → General
-  - Or run: `vercel link` and check `.vercel/project.json`
+- **`VERCEL_FRONTEND_PROJECT_ID`**: Your Frontend Vercel Project ID
+  - Find it in: Vercel Dashboard → Frontend Project → Settings → General
+  - Or run: `cd frontend && vercel link` and check `.vercel/project.json`
+
+- **`VERCEL_BACKEND_PROJECT_ID`**: Your Backend Vercel Project ID
+  - Find it in: Vercel Dashboard → Backend Project → Settings → General
+  - Or run: `cd backend && vercel link` and check `.vercel/project.json`
+  
+**Note**: Frontend and backend should be separate Vercel projects for better isolation and independent scaling.
 
 ### 2. Enable Branch Protection
 
@@ -171,8 +177,9 @@ cd backend && npm run build
 - Check token has correct permissions
 
 **Project Configuration:**
-- Verify `VERCEL_ORG_ID` and `VERCEL_PROJECT_ID` are correct
-- Check projects exist in Vercel dashboard
+- Verify `VERCEL_ORG_ID`, `VERCEL_FRONTEND_PROJECT_ID`, and `VERCEL_BACKEND_PROJECT_ID` are correct
+- Check both projects exist in Vercel dashboard
+- Ensure frontend and backend are separate projects (recommended)
 
 ### Workflow Not Running
 
