@@ -223,6 +223,18 @@ jobs:
           mkdir -p .vercel
           echo "{\"projectId\":\"${VERCEL_PROJECT_ID}\",\"orgId\":\"${VERCEL_ORG_ID}\"}" > .vercel/project.json
           
+          # Verify .vercel directory was created
+          echo "Verifying .vercel directory:"
+          ls -la .vercel/ || echo ".vercel directory not found!"
+          cat .vercel/project.json || echo ".vercel/project.json not found!"
+          
+          # Link project explicitly using vercel link (non-interactive)
+          echo "Linking project to Vercel..."
+          echo "${VERCEL_PROJECT_ID}" | npx vercel link --yes --token ${VERCEL_TOKEN} 2>&1 || {
+            echo "⚠️ vercel link failed, but continuing with deployment..."
+            echo "Project might already be linked via .vercel/project.json"
+          }
+          
           # List files to verify api/ folder is present
           echo "Files in api/ directory:"
           ls -la api/ || echo "api/ directory not found!"
