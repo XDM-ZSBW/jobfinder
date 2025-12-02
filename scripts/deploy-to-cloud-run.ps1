@@ -91,17 +91,22 @@ Write-Success "✅ Image pushed successfully"
 Write-Info "🚀 Deploying to Cloud Run..."
 Write-Warning "This may take a few minutes..."
 
+# Get domain from environment or use default
+$Domain = if ($env:DOMAIN) { $env:DOMAIN } else { "jobmatch.zip" }
+$WebSocketUrl = "wss://$Domain/api/voice/websocket"
+
 gcloud run deploy $ServiceName `
     --image $ImageName `
     --platform managed `
     --region $Region `
     --port 8080 `
-    --memory 512Mi `
-    --cpu 1 `
-    --min-instances 0 `
+    --memory 1Gi `
+    --cpu 2 `
+    --min-instances 1 `
     --max-instances 10 `
     --timeout 300 `
     --allow-unauthenticated `
+    --set-env-vars "TWILIO_WEBSOCKET_URL=$WebSocketUrl" `
     --quiet
 
 if ($LASTEXITCODE -ne 0) {
@@ -124,4 +129,6 @@ Write-Info "  Update service: gcloud run services update $ServiceName --region $
 Write-Info "  View service: gcloud run services describe $ServiceName --region $Region"
 Write-Info ""
 Write-Success "🎉 Deployment complete!"
+
+
 

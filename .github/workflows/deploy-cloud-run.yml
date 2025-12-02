@@ -1,14 +1,14 @@
 name: Deploy to Cloud Run
 
+# DISABLED: Using Vercel-only deployment
+# This workflow is kept for reference but will not run
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - 'backend/**'
-      - 'Dockerfile'
-      - '.github/workflows/deploy-cloud-run.yml'
   workflow_dispatch:
+    inputs:
+      disabled:
+        description: 'This workflow is disabled. Use deploy-vercel-ci-cd.yml instead.'
+        required: false
+        default: 'Cloud Run deployment disabled - Vercel only'
 
 env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
@@ -39,25 +39,31 @@ jobs:
 
       - name: Build and Push Container Image
         run: |
-          docker build -t gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA -f Dockerfile .
+          echo "Building Docker image with WebSocket support..."
+          docker build -t gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA -f Dockerfile.cloudrun .
           docker tag gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA \
               gcr.io/$PROJECT_ID/$SERVICE_NAME:latest
           docker push gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA
           docker push gcr.io/$PROJECT_ID/$SERVICE_NAME:latest
+          echo "✅ Docker image built and pushed"
 
       - name: Deploy to Cloud Run
+        env:
+          TWILIO_WEBSOCKET_URL: ${{ secrets.TWILIO_WEBSOCKET_URL || 'wss://jobmatch.zip/api/voice/websocket' }}
         run: |
+          echo "Deploying to Cloud Run with WebSocket support..."
           gcloud run deploy $SERVICE_NAME \
             --image gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA \
             --platform managed \
             --region $REGION \
             --port 8080 \
-            --memory 512Mi \
-            --cpu 1 \
-            --min-instances 0 \
+            --memory 1Gi \
+            --cpu 2 \
+            --min-instances 1 \
             --max-instances 10 \
             --timeout 300 \
             --allow-unauthenticated \
+            --set-env-vars "TWILIO_WEBSOCKET_URL=$TWILIO_WEBSOCKET_URL" \
             --quiet
 
       - name: Get Service URL
@@ -71,5 +77,9 @@ jobs:
       - name: Output Service URL
         run: |
           echo "✅ Deployment successful!"
-          echo "Service URL: ${{ steps.service-url.outputs.url }}"
+          echo "🌐 Service URL: ${{ steps.service-url.outputs.url }}"
+          echo "🔌 WebSocket URL: wss://jobmatch.zip/api/voice/websocket"
+          echo "📞 Twilio ConversationRelay configured with ElevenLabs voice"
+
+
 

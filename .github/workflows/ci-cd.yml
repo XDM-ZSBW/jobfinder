@@ -122,11 +122,12 @@ jobs:
         run: npm run test || echo "Tests failed but continuing..."
 
   # Deploy Backend to Cloud Run
+  # DISABLED: Using Vercel-only deployment via deploy-vercel-ci-cd.yml
   deploy-backend:
-    name: Deploy Backend
+    name: Deploy Backend (DISABLED - Vercel Only)
     runs-on: ubuntu-latest
     needs: [lint-and-typecheck, build]
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    if: false  # Disabled - always false
     permissions:
       contents: read
       id-token: write
@@ -155,7 +156,7 @@ jobs:
       - name: Build and Push Container Image
         run: |
           docker build -t gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA \
-            -f Dockerfile.cloudrun.backend \
+            -f Dockerfile.cloudrun \
             --build-arg BUILDKIT_INLINE_CACHE=1 .
           docker tag gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA \
             gcr.io/$PROJECT_ID/$SERVICE_NAME:latest
@@ -163,18 +164,22 @@ jobs:
           docker push gcr.io/$PROJECT_ID/$SERVICE_NAME:latest
 
       - name: Deploy to Cloud Run
+        env:
+          TWILIO_WEBSOCKET_URL: ${{ secrets.TWILIO_WEBSOCKET_URL || 'wss://jobmatch.zip/api/voice/websocket' }}
         run: |
+          echo "Deploying to Cloud Run with WebSocket support..."
           gcloud run deploy $SERVICE_NAME \
             --image gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA \
             --platform managed \
             --region $REGION \
-            --port 4000 \
-            --memory 512Mi \
-            --cpu 1 \
-            --min-instances 0 \
+            --port 8080 \
+            --memory 1Gi \
+            --cpu 2 \
+            --min-instances 1 \
             --max-instances 10 \
             --timeout 300 \
             --allow-unauthenticated \
+            --set-env-vars "TWILIO_WEBSOCKET_URL=$TWILIO_WEBSOCKET_URL" \
             --quiet
 
       - name: Get Service URL
@@ -188,7 +193,9 @@ jobs:
       - name: Output Service URL
         run: |
           echo "✅ Backend deployment successful!"
-          echo "Service URL: ${{ steps.service-url.outputs.url }}"
+          echo "🌐 Service URL: ${{ steps.service-url.outputs.url }}"
+          echo "🔌 WebSocket URL: wss://jobmatch.zip/api/voice/websocket"
+          echo "📞 Twilio ConversationRelay configured with ElevenLabs voice"
 
   # Deploy Frontend to VM (jobmatch.zip)
   deploy-frontend:
