@@ -1,5 +1,9 @@
 name: Deploy Frontend to Vercel
 
+# NOTE: This workflow is deprecated in favor of deploy-vercel-ci-cd.yml
+# which includes checks before deployment. This workflow is kept for
+# backward compatibility but will be removed in the future.
+
 on:
   push:
     branches: [main, master]
@@ -9,18 +13,19 @@ on:
     branches: [main, master]
     paths:
       - 'frontend/**'
+  workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
 
       - name: Install dependencies
         working-directory: ./frontend
@@ -50,5 +55,13 @@ jobs:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
         run: vercel --prod --yes
+
+
+
+
+
+
+
+
 
 
