@@ -258,20 +258,37 @@ jobs:
             cat .vercel/project.json
           fi
           
-          # Test token validity
+          # Test token validity with verbose error output
           echo "Testing Vercel authentication..."
-          if vercel whoami > /dev/null 2>&1; then
+          echo "Token length: $TOKEN_LENGTH"
+          echo "Token prefix: ${VERCEL_TOKEN:0:10}..."
+          echo "ORG_ID: $VERCEL_ORG_ID"
+          echo "PROJECT_ID: $VERCEL_PROJECT_ID"
+          
+          # Capture both stdout and stderr
+          WHOAMI_OUTPUT=$(vercel whoami 2>&1)
+          WHOAMI_EXIT=$?
+          
+          if [ $WHOAMI_EXIT -eq 0 ]; then
             echo "✅ Vercel token is valid"
-            vercel whoami
+            echo "$WHOAMI_OUTPUT"
           else
             echo "❌ Vercel token authentication failed"
-            echo "Token length: $TOKEN_LENGTH"
             echo ""
-            echo "The token may have expired or been revoked."
-            echo "Please regenerate the token:"
-            echo "1. Go to: https://vercel.com/account/tokens"
-            echo "2. Create a new token with 'Full Account' scope"
-            echo "3. Update the VERCEL_TOKEN secret in GitHub"
+            echo "Error output:"
+            echo "$WHOAMI_OUTPUT"
+            echo ""
+            echo "Debugging info:"
+            echo "- Token length: $TOKEN_LENGTH"
+            echo "- Token prefix: ${VERCEL_TOKEN:0:10}..."
+            echo "- ORG_ID set: $([ -n "$VERCEL_ORG_ID" ] && echo 'yes' || echo 'no')"
+            echo "- PROJECT_ID set: $([ -n "$VERCEL_PROJECT_ID" ] && echo 'yes' || echo 'no')"
+            echo ""
+            echo "Troubleshooting:"
+            echo "1. Verify token at: https://vercel.com/account/tokens"
+            echo "2. Ensure token has 'Full Account' scope"
+            echo "3. Check VERCEL_ORG_ID matches your team/org ID"
+            echo "4. Check VERCEL_PROJECT_ID matches your project ID"
             exit 1
           fi
           
