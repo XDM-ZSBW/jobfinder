@@ -236,7 +236,27 @@ jobs:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-        run: vercel --prod --yes
+        run: |
+          echo "Verifying Vercel authentication..."
+          # Test token validity by checking whoami (without exposing token)
+          if vercel whoami > /dev/null 2>&1; then
+            echo "✅ Vercel token is valid"
+            vercel whoami
+          else
+            echo "❌ Vercel token authentication failed"
+            echo "Token length: ${#VERCEL_TOKEN}"
+            echo "Token starts with: ${VERCEL_TOKEN:0:10}..."
+            echo ""
+            echo "Troubleshooting:"
+            echo "1. Verify token was copied completely (should be 40+ characters)"
+            echo "2. Check for leading/trailing spaces or quotes"
+            echo "3. Ensure token has 'Full Account' scope"
+            echo "4. Try regenerating the token"
+            exit 1
+          fi
+          echo ""
+          echo "Deploying to Vercel production..."
+          vercel --prod --yes
 
       - name: Deployment Summary
         run: |
