@@ -28,7 +28,7 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies (workspace)
-        run: npm ci
+        run: npm ci --ignore-scripts || npm install --ignore-scripts
 
       - name: Lint frontend
         working-directory: ./frontend
@@ -83,7 +83,7 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies (workspace)
-        run: npm ci
+        run: npm ci --ignore-scripts || npm install --ignore-scripts
 
       - name: Build
         working-directory: ./frontend
@@ -122,7 +122,7 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies (workspace)
-        run: npm ci
+        run: npm ci --ignore-scripts || npm install --ignore-scripts
 
       - name: Build
         working-directory: ./backend
