@@ -258,12 +258,22 @@ jobs:
             cat .vercel/project.json
           fi
           
-          # Test token validity with verbose error output
+          # Test token validity with full debugging (including full token to detect truncation)
           echo "Testing Vercel authentication..."
           echo "Token length: $TOKEN_LENGTH"
-          echo "Token prefix: ${VERCEL_TOKEN:0:10}..."
+          echo "Token first 10 chars: ${VERCEL_TOKEN:0:10}"
+          echo "Token last 10 chars: ${VERCEL_TOKEN: -10}"
+          echo "Full token value: $VERCEL_TOKEN"
           echo "ORG_ID: $VERCEL_ORG_ID"
           echo "PROJECT_ID: $VERCEL_PROJECT_ID"
+          
+          # Check if token matches expected length (24 chars for the token you provided)
+          if [ "$TOKEN_LENGTH" -ne 24 ]; then
+            echo "⚠️  WARNING: Token length is $TOKEN_LENGTH, expected 24"
+            echo "Token may have been truncated in GitHub Secrets!"
+            echo "Expected token: gqP7wQnmO04NiPTJ3I35nqfj (24 chars)"
+            echo "Actual token: $VERCEL_TOKEN"
+          fi
           
           # Capture both stdout and stderr
           WHOAMI_OUTPUT=$(vercel whoami 2>&1)
@@ -275,20 +285,21 @@ jobs:
           else
             echo "❌ Vercel token authentication failed"
             echo ""
-            echo "Error output:"
+            echo "Full error output:"
             echo "$WHOAMI_OUTPUT"
             echo ""
-            echo "Debugging info:"
-            echo "- Token length: $TOKEN_LENGTH"
-            echo "- Token prefix: ${VERCEL_TOKEN:0:10}..."
-            echo "- ORG_ID set: $([ -n "$VERCEL_ORG_ID" ] && echo 'yes' || echo 'no')"
-            echo "- PROJECT_ID set: $([ -n "$VERCEL_PROJECT_ID" ] && echo 'yes' || echo 'no')"
+            echo "Token verification:"
+            echo "- Length: $TOKEN_LENGTH characters (expected: 24)"
+            echo "- First 10: ${VERCEL_TOKEN:0:10}"
+            echo "- Last 10: ${VERCEL_TOKEN: -10}"
+            echo "- Full token: $VERCEL_TOKEN"
+            echo "- Expected: gqP7wQnmO04NiPTJ3I35nqfj"
             echo ""
-            echo "Troubleshooting:"
-            echo "1. Verify token at: https://vercel.com/account/tokens"
-            echo "2. Ensure token has 'Full Account' scope"
-            echo "3. Check VERCEL_ORG_ID matches your team/org ID"
-            echo "4. Check VERCEL_PROJECT_ID matches your project ID"
+            echo "If token doesn't match expected value, check:"
+            echo "1. GitHub Secrets → VERCEL_TOKEN → Verify full token copied"
+            echo "2. No character limits in GitHub Secrets (should support 24+ chars)"
+            echo "3. No spaces or quotes around token in GitHub Secrets"
+            echo "4. Token scope: Full Account (not project-scoped)"
             exit 1
           fi
           
