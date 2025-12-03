@@ -218,6 +218,10 @@ jobs:
           }
           echo "✅ Prisma client generated"
 
+      - name: Install frontend dependencies
+        working-directory: ./frontend
+        run: npm install --legacy-peer-deps
+
       - name: Build frontend
         working-directory: ./frontend
         run: npm run build
