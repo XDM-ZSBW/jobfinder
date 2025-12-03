@@ -15,6 +15,18 @@ from datetime import datetime
 from typing import Dict, List, Any, Optional
 import logging
 
+# Windows-specific flag for hiding console windows
+if sys.platform == "win32":
+    # CREATE_NO_WINDOW constant (0x08000000) - prevents window creation on Windows
+    CREATE_NO_WINDOW = 0x08000000
+    # Create STARTUPINFO to hide windows
+    STARTUPINFO = subprocess.STARTUPINFO()
+    STARTUPINFO.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+    STARTUPINFO.wShowWindow = subprocess.SW_HIDE
+else:
+    CREATE_NO_WINDOW = 0
+    STARTUPINFO = None
+
 # Setup logging
 logging.basicConfig(
     level=logging.INFO,
@@ -323,7 +335,9 @@ def invoke_agent_command(agent_name: str, command: str, agent_path: Path, projec
                     text=True,
                     timeout=300,
                     encoding='utf-8',
-                    errors='replace'
+                    errors='replace',
+                    creationflags=CREATE_NO_WINDOW if sys.platform == "win32" else 0,
+                    startupinfo=STARTUPINFO if sys.platform == "win32" else None
                 )
             else:
                 result = subprocess.run(
@@ -333,57 +347,81 @@ def invoke_agent_command(agent_name: str, command: str, agent_path: Path, projec
                     text=True,
                     timeout=300,
                     encoding='utf-8',
-                    errors='replace'
+                    errors='replace',
+                    creationflags=CREATE_NO_WINDOW if sys.platform == "win32" else 0,
+                    startupinfo=STARTUPINFO if sys.platform == "win32" else None
                 )
         elif script.startswith("pwsh") or script.startswith("powershell") or "Write-Host" in script or "Write-Output" in script:
             # PowerShell script - detect PowerShell commands
             parts = script.split(" ", 1)
             if len(parts) > 1 and parts[1].endswith(".ps1"):
-                # PowerShell file
+                # PowerShell file - hide window on Windows
                 result = subprocess.run(
-                    ["pwsh", "-File", parts[1]],
+                    ["pwsh", "-NoProfile", "-NonInteractive", "-WindowStyle", "Hidden", "-File", parts[1]],
                     cwd=agent_path,
                     capture_output=True,
                     text=True,
                     timeout=300,
                     encoding='utf-8',
-                    errors='replace'
+                    errors='replace',
+                    creationflags=CREATE_NO_WINDOW if sys.platform == "win32" else 0,
+                    startupinfo=STARTUPINFO if sys.platform == "win32" else None
                 )
             else:
-                # PowerShell command
+                # PowerShell command - hide window on Windows
                 cmd = parts[1] if len(parts) > 1 else script
                 result = subprocess.run(
-                    ["pwsh", "-Command", cmd],
+                    ["pwsh", "-NoProfile", "-NonInteractive", "-WindowStyle", "Hidden", "-Command", cmd],
                     cwd=agent_path,
                     capture_output=True,
                     text=True,
                     timeout=300,
                     encoding='utf-8',
-                    errors='replace'
+                    errors='replace',
+                    creationflags=CREATE_NO_WINDOW if sys.platform == "win32" else 0,
+                    startupinfo=STARTUPINFO if sys.platform == "win32" else None
                 )
         else:
             # Generic command - try PowerShell first if it looks like PowerShell
             if "Write-Host" in script or "Write-Output" in script or script.endswith(".ps1"):
                 result = subprocess.run(
-                    ["pwsh", "-Command", script],
+                    ["pwsh", "-NoProfile", "-NonInteractive", "-WindowStyle", "Hidden", "-Command", script],
                     cwd=agent_path,
                     capture_output=True,
                     text=True,
                     timeout=300,
                     encoding='utf-8',
-                    errors='replace'
+                    errors='replace',
+                    creationflags=CREATE_NO_WINDOW if sys.platform == "win32" else 0,
+                    startupinfo=STARTUPINFO if sys.platform == "win32" else None
                 )
             else:
-                result = subprocess.run(
-                    script,
-                    shell=True,
-                    cwd=agent_path,
-                    capture_output=True,
-                    text=True,
-                    timeout=300,
-                    encoding='utf-8',
-                    errors='replace'
-                )
+                # Generic shell command - use cmd.exe on Windows with hidden window
+                if sys.platform == "win32":
+                    # On Windows, use cmd.exe explicitly with /c to avoid PowerShell windows
+                    result = subprocess.run(
+                        ["cmd.exe", "/c", script],
+                        cwd=agent_path,
+                        capture_output=True,
+                        text=True,
+                        timeout=300,
+                        encoding='utf-8',
+                        errors='replace',
+                        creationflags=CREATE_NO_WINDOW,
+                        startupinfo=STARTUPINFO
+                    )
+                else:
+                    # On Unix-like systems, use shell normally
+                    result = subprocess.run(
+                        script,
+                        shell=True,
+                        cwd=agent_path,
+                        capture_output=True,
+                        text=True,
+                        timeout=300,
+                        encoding='utf-8',
+                        errors='replace'
+                    )
         
         if result.returncode == 0:
             logger.info(f"  ✓ {agent_name}.{command} completed successfully")
