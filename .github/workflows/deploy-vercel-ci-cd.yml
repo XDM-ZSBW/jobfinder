@@ -321,6 +321,37 @@ jobs:
             echo "✅ node_modules copied to backend/"
           fi
 
+      - name: Commit backend build artifacts to git for Vercel deployment
+        run: |
+          echo "📦 Committing backend build artifacts to git..."
+          echo "Vercel only includes files committed to git, so we need to commit these"
+          
+          # Configure git
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Add api/backend-dist/ and api/backend-index.js
+          git add api/backend-dist/ api/backend-index.js 2>/dev/null || {
+            echo "⚠️ Failed to add files to git, checking what exists..."
+            ls -la api/ | head -20
+            exit 1
+          }
+          
+          # Check if there are changes to commit
+          if git diff --staged --quiet; then
+            echo "ℹ️ No changes to commit (files already committed)"
+          else
+            echo "📝 Committing backend build artifacts..."
+            git commit -m "Add backend build artifacts for Vercel deployment" || {
+              echo "⚠️ Failed to commit, but continuing..."
+            }
+            echo "✅ Backend build artifacts committed"
+          fi
+          
+          echo ""
+          echo "Verifying committed files:"
+          git ls-files api/backend-dist/ api/backend-index.js | head -10 || echo "Files not in git"
+          
       - name: Verify API function and backend files exist
         run: |
           echo "Checking for API function..."
@@ -344,6 +375,7 @@ jobs:
           if [ -f "api/backend-index.js" ]; then
             echo "✅ api/backend-index.js found"
             echo "File size: $(stat -f%z api/backend-index.js 2>/dev/null || stat -c%s api/backend-index.js 2>/dev/null || echo 'unknown') bytes"
+            echo "In git? $(git ls-files --error-unmatch api/backend-index.js >/dev/null 2>&1 && echo 'yes' || echo 'no')"
           else
             echo "❌ api/backend-index.js NOT found!"
           fi
@@ -356,6 +388,7 @@ jobs:
             ls -la api/backend-dist/ | head -10
             if [ -f "api/backend-dist/index.js" ]; then
               echo "✅ api/backend-dist/index.js found"
+              echo "In git? $(git ls-files --error-unmatch api/backend-dist/index.js >/dev/null 2>&1 && echo 'yes' || echo 'no')"
             else
               echo "❌ api/backend-dist/index.js NOT found!"
             fi
@@ -469,6 +502,13 @@ jobs:
             echo "❌ api/ directory not found!"
             exit 1
           fi
+          
+          # Push committed backend build artifacts before deployment
+          echo "📤 Pushing backend build artifacts to git..."
+          git push origin HEAD:${GITHUB_REF#refs/heads/} || {
+            echo "⚠️ Failed to push to git, but continuing with deployment..."
+            echo "Files might not be included in Vercel deployment"
+          }
           
           # Deploy using vercel deploy with project context
           # Use --force to ensure all files are included
