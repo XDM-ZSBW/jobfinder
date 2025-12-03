@@ -11,10 +11,16 @@
     {
       "source": "/health",
       "destination": "/api/index.js"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/index.js"
     },
     {
-      "source": "/((?!api).*)",
-      "destination": "/frontend/dist/$1"
+      "src": "/(.*)",
+      "dest": "/frontend/dist/$1"
     }
   ],
   "functions": {
