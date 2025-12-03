@@ -18,8 +18,13 @@ try {
   if (!app) {
     throw new Error('Express app not found in backend/dist/index.js');
   }
+  
+  console.log('✅ Express app loaded successfully');
+  console.log('App type:', typeof app);
 } catch (error) {
-  console.error('Error loading Express app:', error);
+  console.error('❌ Error loading Express app:', error);
+  console.error('Error stack:', error.stack);
+  console.error('Error message:', error.message);
   // Fallback handler that returns error TwiML
   app = (req, res) => {
     if (req.path && req.path.startsWith('/api/voice')) {
