@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "cd frontend && npm install && npm run build && cd ../backend && npm install && npx prisma generate && npm run build && cd .. && cp -r backend/dist api/backend-dist && cp backend/dist/index.js api/backend-index.js && mkdir -p api/node_modules/.prisma && cp -r backend/node_modules/.prisma/* api/node_modules/.prisma/ 2>/dev/null || true",
+  "buildCommand": "bash vercel-build.sh",
   "installCommand": "npm install --production && cd backend && npm install && npx prisma generate",
   "outputDirectory": "frontend/dist",
   "env": {
