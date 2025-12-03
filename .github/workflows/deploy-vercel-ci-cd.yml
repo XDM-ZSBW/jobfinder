@@ -194,14 +194,30 @@ jobs:
             ls -la backend/dist/ | head -10 || echo "backend/dist not found"
           }
           
-          # Copy Prisma generated client to api/backend-dist/ if it exists
+          # Copy Prisma generated client to multiple locations
           if [ -d "backend/node_modules/.prisma" ]; then
+            # Copy to api/backend-dist/node_modules/.prisma/ (for backend/dist/index.js)
             echo "Copying Prisma client to api/backend-dist/node_modules/.prisma..."
             mkdir -p api/backend-dist/node_modules/.prisma
             cp -r backend/node_modules/.prisma/* api/backend-dist/node_modules/.prisma/ || {
-              echo "⚠️ Failed to copy Prisma client, but continuing..."
+              echo "⚠️ Failed to copy Prisma client to api/backend-dist/, but continuing..."
             }
-            echo "✅ Prisma client copied"
+            
+            # Also copy to api/node_modules/.prisma/ (where @prisma/client expects it)
+            echo "Copying Prisma client to api/node_modules/.prisma..."
+            mkdir -p api/node_modules/.prisma
+            cp -r backend/node_modules/.prisma/* api/node_modules/.prisma/ || {
+              echo "⚠️ Failed to copy Prisma client to api/node_modules/, but continuing..."
+            }
+            
+            # Also copy to root node_modules/.prisma/ (fallback)
+            echo "Copying Prisma client to node_modules/.prisma..."
+            mkdir -p node_modules/.prisma
+            cp -r backend/node_modules/.prisma/* node_modules/.prisma/ || {
+              echo "⚠️ Failed to copy Prisma client to root node_modules/, but continuing..."
+            }
+            
+            echo "✅ Prisma client copied to all locations"
           fi
           
           # Also copy Prisma schema files if they exist
