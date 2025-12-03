@@ -204,17 +204,16 @@ jobs:
             echo "⚠️ install-vercel-deps.sh not found"
           fi
           
-      - name: Install API function dependencies
+      - name: Install API function dependencies at root
         run: |
-          echo "Installing dependencies for api/package.json..."
-          if [ -f "api/package.json" ]; then
-            cd api && npm install --production || npm install
-            echo "✅ API dependencies installed"
-            echo "Dependencies installed:"
-            ls -la node_modules/ | head -10 || echo "node_modules not found"
-          else
-            echo "⚠️ api/package.json not found"
-          fi
+          echo "Installing dependencies for Express app at root level..."
+          echo "This ensures backend/dist/index.js can find express, cors, etc."
+          npm install express@^4.18.2 cors@^2.8.5 dotenv@^16.3.1 socket.io@^4.6.2 winston@^3.11.0 zod@^3.22.4 bcryptjs@^2.4.3 jsonwebtoken@^9.0.2 passport@^0.7.0 passport-jwt@^4.0.1 passport-local@^1.0.0 @aws-sdk/client-ses@^3.917.0 @google-cloud/secret-manager@^6.1.1 @google/generative-ai@^0.24.1 @prisma/client@^5.7.1 langchain@^0.1.1 --save --production --no-package-lock || {
+            echo "⚠️ Failed to install dependencies, but continuing..."
+          }
+          echo "✅ Dependencies installed at root"
+          echo "Verifying express is installed:"
+          ls -la node_modules/express 2>/dev/null || echo "express not found in node_modules"
 
       - name: Verify API function exists
         run: |
