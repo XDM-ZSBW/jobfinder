@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "cd frontend && npm install && npm run build && cd ../backend && npm install && npm run build && cd .. && cp -r backend/dist api/backend-dist && cp backend/dist/index.js api/backend-index.js",
+  "buildCommand": "cd api && npm install && cd ../frontend && npm install && npm run build && cd ../backend && npm install && npm run build && cd .. && cp -r backend/dist api/backend-dist && cp backend/dist/index.js api/backend-index.js",
   "installCommand": "cd api && npm install && cd ../backend && npm install && npx prisma generate",
   "outputDirectory": "frontend/dist",
   "env": {
