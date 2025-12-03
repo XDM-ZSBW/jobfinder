@@ -93,7 +93,7 @@ jobs:
 
       - name: Install backend devDependencies
         working-directory: ./backend
-        run: npm install --include=dev
+        run: npm install
 
       - name: Lint backend
         working-directory: ./backend
