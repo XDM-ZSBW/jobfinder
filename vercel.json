@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "installCommand": "cd backend && npm install && npm run build && cd .. && cp api/package.json . && npm install --production && rm package.json",
+  "installCommand": "cd backend && npm install && npm run build && cd .. && node -e \"const api=require('./api/package.json');const root=require('./package.json');root.dependencies={...root.dependencies,...api.dependencies};require('fs').writeFileSync('package.json',JSON.stringify(root,null,2))\" && npm install --production",
   "builds": [
     {
       "src": "api/**/*.js",
