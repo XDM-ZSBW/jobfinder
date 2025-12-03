@@ -187,6 +187,15 @@ jobs:
           echo "Contents of api/ folder:"
           ls -la api/ || echo "api/ folder not found"
           
+      - name: Make install script executable
+        run: |
+          if [ -f "scripts/install-vercel-deps.sh" ]; then
+            chmod +x scripts/install-vercel-deps.sh
+            echo "✅ Made install script executable"
+          else
+            echo "⚠️ install-vercel-deps.sh not found"
+          fi
+          
       - name: Install API function dependencies
         run: |
           echo "Installing dependencies for api/package.json..."
