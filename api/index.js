@@ -11,17 +11,29 @@ console.log('  Module paths:', require.resolve.paths('express') || 'cannot resol
 let app;
 try {
   // Import the Express app from the built backend
-  // Try api/backend-dist first (copied during deployment), then ../backend/dist
+  // Try multiple paths in order of preference
   let backendApp;
-  try {
-    console.log('📦 Attempting to require ./backend-dist/index.js');
-    backendApp = require('./backend-dist/index.js');
-    console.log('✅ Successfully loaded from ./backend-dist/index.js');
-  } catch (e) {
-    console.log('⚠️ Failed to load from ./backend-dist/index.js:', e.message);
-    console.log('📦 Attempting to require ../backend/dist/index.js');
-    backendApp = require('../backend/dist/index.js');
-    console.log('✅ Successfully loaded from ../backend/dist/index.js');
+  const paths = [
+    './backend-index.js',           // Direct copy in api/ (most reliable)
+    './backend-dist/index.js',      // Copied directory
+    '../backend/dist/index.js'      // Original location (fallback)
+  ];
+  
+  let loaded = false;
+  for (const path of paths) {
+    try {
+      console.log(`📦 Attempting to require ${path}`);
+      backendApp = require(path);
+      console.log(`✅ Successfully loaded from ${path}`);
+      loaded = true;
+      break;
+    } catch (e) {
+      console.log(`⚠️ Failed to load from ${path}:`, e.message);
+    }
+  }
+  
+  if (!loaded) {
+    throw new Error('Could not load backend/dist/index.js from any path');
   }
   
   // Get the Express app (it's exported as .app in CommonJS)

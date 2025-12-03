@@ -187,6 +187,18 @@ jobs:
           echo "Contents of api/ folder:"
           ls -la api/ || echo "api/ folder not found"
           
+          # Also copy backend/dist/index.js directly to api/backend-index.js as fallback
+          # This ensures it's included in Vercel's function bundle
+          if [ -f "backend/dist/index.js" ]; then
+            echo "Copying backend/dist/index.js to api/backend-index.js as fallback..."
+            cp backend/dist/index.js api/backend-index.js || {
+              echo "⚠️ Failed to copy backend/dist/index.js, but continuing..."
+            }
+            echo "✅ backend/dist/index.js copied to api/backend-index.js"
+          else
+            echo "❌ backend/dist/index.js not found!"
+          fi
+          
           # Also copy node_modules to api/backend-dist/ if they exist in backend/dist/
           if [ -d "backend/dist/node_modules" ] && [ -d "api/backend-dist" ]; then
             echo "Copying node_modules to api/backend-dist/ for runtime..."
