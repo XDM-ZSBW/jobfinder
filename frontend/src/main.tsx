@@ -7,12 +7,17 @@ import './index.css'
 
 // Don't initialize React Router for API routes
 const pathname = window.location.pathname
-if (pathname.startsWith('/api') || pathname.startsWith('/health')) {
+const isApiRoute = pathname.startsWith('/api') || pathname.startsWith('/health')
+
+if (isApiRoute) {
   // For API routes, don't render React app at all
-  // Let Vercel handle these routes
-  ReactDOM.createRoot(document.getElementById('root')!).render(
-    <div style={{ display: 'none' }} />
-  )
+  // Let Vercel handle these routes - return early to prevent any React Router initialization
+  const root = document.getElementById('root')
+  if (root) {
+    root.innerHTML = '' // Clear any existing content
+    // Don't initialize React Router at all for API routes
+    // The API function should handle these routes, not React
+  }
 } else {
   ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>

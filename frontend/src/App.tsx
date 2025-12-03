@@ -15,8 +15,10 @@ export default function App() {
   const location = useLocation()
   
   // Don't render React Router for API routes - let them go to backend/Vercel
+  // This is a safety check in case React Router still initializes
   if (location.pathname.startsWith('/api') || location.pathname.startsWith('/health')) {
-    return null
+    // Return empty fragment - React Router should not have initialized for these routes
+    return <></>
   }
 
   return (
