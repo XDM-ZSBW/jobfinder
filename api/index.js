@@ -8,24 +8,41 @@ console.log('  process.cwd():', process.cwd());
 console.log('  NODE_PATH:', process.env.NODE_PATH || 'not set');
 console.log('  Module paths:', require.resolve.paths('express') || 'cannot resolve');
 
-// Pre-load express and cors to ensure they're available for backend/dist/index.js
+// Pre-load all backend dependencies to ensure they're available for backend/dist/index.js
 // This helps Node.js resolve modules when backend/dist/index.js requires them
-try {
-  console.log('🔍 Pre-loading express to ensure it is available...');
-  const expressPath = require.resolve('express');
-  console.log('✅ Express found at:', expressPath);
-} catch (e) {
-  console.log('⚠️ Could not pre-load express:', e.message);
-  console.log('This might cause issues when backend/dist/index.js requires it');
+const dependenciesToPreload = [
+  'express',
+  'cors',
+  'dotenv',
+  'winston',
+  'zod',
+  'bcryptjs',
+  'jsonwebtoken',
+  'passport',
+  'passport-jwt',
+  'passport-local',
+  '@prisma/client',
+  'socket.io'
+];
+
+console.log('🔍 Pre-loading backend dependencies...');
+const loadedModules = {};
+const failedModules = {};
+
+for (const dep of dependenciesToPreload) {
+  try {
+    const modulePath = require.resolve(dep);
+    loadedModules[dep] = modulePath;
+    console.log(`✅ ${dep} found at:`, modulePath);
+  } catch (e) {
+    failedModules[dep] = e.message;
+    console.log(`⚠️ Could not pre-load ${dep}:`, e.message);
+  }
 }
 
-try {
-  console.log('🔍 Pre-loading cors to ensure it is available...');
-  const corsPath = require.resolve('cors');
-  console.log('✅ CORS found at:', corsPath);
-} catch (e) {
-  console.log('⚠️ Could not pre-load cors:', e.message);
-  console.log('This might cause issues when backend/dist/index.js requires it');
+console.log(`📊 Pre-loading summary: ${Object.keys(loadedModules).length} loaded, ${Object.keys(failedModules).length} failed`);
+if (Object.keys(failedModules).length > 0) {
+  console.log('❌ Failed modules:', Object.keys(failedModules).join(', '));
 }
 
 let app;
