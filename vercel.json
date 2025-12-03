@@ -1,20 +1,10 @@
 {
   "version": 2,
-  "installCommand": "bash scripts/install-vercel-deps.sh",
+  "buildCommand": "cd backend && npm install && npm run build && cd .. && cp -r backend/dist api/backend-dist && cp backend/dist/index.js api/backend-index.js",
+  "installCommand": "cd backend && npm install && npx prisma generate",
   "env": {
     "NODE_PATH": "/var/task/node_modules:/var/task/api/node_modules"
   },
-  "builds": [
-    {
-      "src": "api/**/*.js",
-      "use": "@vercel/node",
-      "config": {
-        "includeFiles": [
-          "api/backend-dist/**"
-        ]
-      }
-    }
-  ],
   "routes": [
     {
       "src": "/api/test",
