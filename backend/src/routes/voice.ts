@@ -31,7 +31,8 @@ function generateTwiMLResponse(
     twiml += '  </Connect>\n';
   } else {
     // Fallback to Say with Polly (works on Vercel)
-    const voiceAttrs = 'language="en-US" voice="Polly.Joanna-Neural"';
+    // Using Salli for Alexa-like voice (most similar to Amazon Alexa)
+    const voiceAttrs = 'language="en-US" voice="Polly.Salli"';
     twiml += `  <Say ${voiceAttrs}>${escapeXml(message)}</Say>\n`;
   }
   
@@ -85,7 +86,7 @@ router.post('/incoming', (req: Request, res: Response) => {
   } catch (error) {
     console.error('Error in /api/voice/incoming:', error);
     // Return error TwiML so Twilio doesn't show "application error"
-    const errorTwiml = '<?xml version="1.0" encoding="UTF-8"?>\n<Response>\n  <Say language="en-US" voice="Polly.Joanna-Neural">We apologize, but we are experiencing technical difficulties. Please try again later.</Say>\n</Response>';
+    const errorTwiml = '<?xml version="1.0" encoding="UTF-8"?>\n<Response>\n  <Say language="en-US" voice="Polly.Salli">We apologize, but we are experiencing technical difficulties. Please try again later.</Say>\n</Response>';
     res.set('Content-Type', 'application/xml; charset=utf-8');
     res.status(200).send(errorTwiml);
   }
@@ -120,7 +121,7 @@ router.get('/incoming', (req: Request, res: Response) => {
     res.status(200).send(twiml);
   } catch (error) {
     console.error('Error in /api/voice/incoming (GET):', error);
-    const errorTwiml = '<?xml version="1.0" encoding="UTF-8"?>\n<Response>\n  <Say language="en-US" voice="Polly.Joanna-Neural">We apologize, but we are experiencing technical difficulties. Please try again later.</Say>\n</Response>';
+    const errorTwiml = '<?xml version="1.0" encoding="UTF-8"?>\n<Response>\n  <Say language="en-US" voice="Polly.Salli">We apologize, but we are experiencing technical difficulties. Please try again later.</Say>\n</Response>';
     res.set('Content-Type', 'application/xml; charset=utf-8');
     res.status(200).send(errorTwiml);
   }
@@ -182,7 +183,7 @@ router.post('/menu', (req: Request, res: Response) => {
     res.status(200).send(twiml);
   } catch (error) {
     console.error('Error in /api/voice/menu:', error);
-    const errorTwiml = '<?xml version="1.0" encoding="UTF-8"?>\n<Response>\n  <Say language="en-US" voice="Polly.Joanna-Neural">We apologize, but we are experiencing technical difficulties. Please try again later.</Say>\n</Response>';
+    const errorTwiml = '<?xml version="1.0" encoding="UTF-8"?>\n<Response>\n  <Say language="en-US" voice="Polly.Salli">We apologize, but we are experiencing technical difficulties. Please try again later.</Say>\n</Response>';
     res.set('Content-Type', 'application/xml; charset=utf-8');
     res.status(200).send(errorTwiml);
   }
