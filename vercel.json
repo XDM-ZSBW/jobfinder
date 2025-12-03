@@ -6,6 +6,11 @@
   "env": {
     "NODE_PATH": "/var/task/node_modules:/var/task/api/node_modules"
   },
+  "functions": {
+    "api/**/*.js": {
+      "includeFiles": "api/**"
+    }
+  },
   "routes": [
     {
       "src": "/api/test",
