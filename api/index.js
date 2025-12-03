@@ -4,8 +4,13 @@
 let app;
 try {
   // Import the Express app from the built backend
-  // The compiled JS uses CommonJS exports, so we use .app
-  const backendApp = require('../backend/dist/index.js');
+  // Try api/backend-dist first (copied during deployment), then ../backend/dist
+  let backendApp;
+  try {
+    backendApp = require('./backend-dist/index.js');
+  } catch (e) {
+    backendApp = require('../backend/dist/index.js');
+  }
   
   // Get the Express app (it's exported as .app in CommonJS)
   app = backendApp.app || backendApp.default || backendApp;

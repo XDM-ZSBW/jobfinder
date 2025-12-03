@@ -177,6 +177,16 @@ jobs:
         working-directory: ./backend
         run: npm run build
 
+      - name: Copy backend/dist to api folder for Vercel functions
+        run: |
+          echo "Copying backend/dist to api/backend-dist for function access..."
+          cp -r backend/dist api/backend-dist || {
+            echo "⚠️ Failed to copy backend/dist, but continuing..."
+            ls -la backend/dist/ | head -10 || echo "backend/dist not found"
+          }
+          echo "Contents of api/ folder:"
+          ls -la api/ || echo "api/ folder not found"
+
       - name: Verify API function exists
         run: |
           echo "Checking for API function..."
