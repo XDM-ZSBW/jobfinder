@@ -45,6 +45,9 @@ try {
   
   console.log('✅ Express app loaded successfully');
   console.log('App type:', typeof app);
+  console.log('App is function?', typeof app === 'function');
+  console.log('App has use method?', typeof app.use === 'function');
+  console.log('App has listen method?', typeof app.listen === 'function');
 } catch (error) {
   console.error('❌ Error loading Express app:', error);
   console.error('Error stack:', error.stack);
@@ -72,7 +75,18 @@ try {
 // Vercel serverless function handler
 // Export as a handler function that receives (req, res)
 module.exports = (req, res) => {
+  console.log('🚀 API handler called');
+  console.log('Request URL:', req.url);
+  console.log('Request method:', req.method);
+  console.log('App loaded?', !!app);
+  console.log('App type:', typeof app);
+  
   try {
+    // Check if app is loaded
+    if (!app) {
+      throw new Error('Express app not loaded');
+    }
+    
     // Vercel provides the URL in req.url, but Express needs req.path
     // Extract path from URL if not already set
     if (!req.path && req.url) {
@@ -87,10 +101,13 @@ module.exports = (req, res) => {
       req.path = req.url || '/';
     }
     
+    console.log('Delegating to Express app with path:', req.path);
+    
     // Delegate to Express app
     return app(req, res);
   } catch (error) {
-    console.error('Error in API handler:', error);
+    console.error('❌ Error in API handler:', error);
+    console.error('Error stack:', error.stack);
     console.error('Request URL:', req.url);
     console.error('Request path:', req.path);
     console.error('Request method:', req.method);
