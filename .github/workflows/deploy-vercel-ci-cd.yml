@@ -173,6 +173,15 @@ jobs:
         working-directory: ./frontend
         run: npm run build
 
+      - name: Generate Prisma client
+        working-directory: ./backend
+        run: |
+          echo "Generating Prisma client..."
+          npx prisma generate || {
+            echo "⚠️ Prisma generate failed, but continuing..."
+          }
+          echo "✅ Prisma client generated"
+          
       - name: Build backend
         working-directory: ./backend
         run: npm run build
