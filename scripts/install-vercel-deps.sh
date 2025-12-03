@@ -17,3 +17,12 @@ if [ -d "node_modules" ] && [ -d "backend/dist" ]; then
   }
 fi
 
+# Also copy node_modules to api/backend-dist/ if it exists (runtime location)
+# This ensures api/backend-dist/index.js can require('express') etc.
+if [ -d "node_modules" ] && [ -d "api/backend-dist" ]; then
+  echo "Copying node_modules to api/backend-dist/ for runtime module resolution..."
+  cp -r node_modules api/backend-dist/ || {
+    echo "⚠️ Failed to copy node_modules to api/backend-dist/, but continuing..."
+  }
+fi
+
