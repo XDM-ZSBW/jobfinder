@@ -11,7 +11,7 @@ console.log('  Module paths:', require.resolve.paths('express') || 'cannot resol
 // Pre-load express to ensure it's available for backend/dist/index.js
 // This helps Node.js resolve express when backend/dist/index.js requires it
 try {
-  console.log('🔍 Pre-loading express to ensure it's available...');
+  console.log('🔍 Pre-loading express to ensure it is available...');
   const expressPath = require.resolve('express');
   console.log('✅ Express found at:', expressPath);
 } catch (e) {
