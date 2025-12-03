@@ -99,6 +99,10 @@ jobs:
         working-directory: ./backend
         run: npm run lint
 
+      - name: Install frontend dependencies
+        working-directory: ./frontend
+        run: npm install
+
       - name: Type check frontend
         working-directory: ./frontend
         run: |
@@ -117,10 +121,6 @@ jobs:
       - name: Type check backend
         working-directory: ./backend
         run: npm run typecheck
-
-      - name: Install frontend dependencies
-        working-directory: ./frontend
-        run: npm install
 
       - name: Build frontend
         working-directory: ./frontend
