@@ -1,8 +1,5 @@
 {
   "version": 2,
-  "buildCommand": "npm run build",
-  "installCommand": "npm ci --ignore-scripts || npm install --ignore-scripts --legacy-peer-deps",
-  "framework": null,
   "builds": [
     {
       "src": "api/**/*.js",
