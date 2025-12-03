@@ -102,8 +102,15 @@ jobs:
       - name: Install frontend dependencies
         working-directory: ./frontend
         run: |
-          echo "Installing frontend dependencies..."
-          npm install --legacy-peer-deps
+          echo "Installing frontend dependencies locally (not hoisted)..."
+          # Force local installation by using --no-workspaces or installing directly
+          # First, ensure we're not in workspace mode for this install
+          npm install --legacy-peer-deps --no-workspaces 2>&1 || {
+            echo "⚠️ --no-workspaces failed, trying direct install..."
+            # Install key dependencies directly
+            npm install react@^18.2.0 react-dom@^18.2.0 react-router-dom@^7.9.6 --legacy-peer-deps --save
+            npm install @types/react@^18.2.46 @types/react-dom@^18.2.18 @types/node@^20.10.6 --legacy-peer-deps --save-dev
+          }
           echo "Verifying installation..."
           if [ -d "node_modules/react" ]; then
             echo "✅ React found in frontend/node_modules"
@@ -111,8 +118,7 @@ jobs:
             echo "❌ React NOT found in frontend/node_modules"
             echo "Checking root node_modules..."
             if [ -d "../node_modules/react" ]; then
-              echo "⚠️ React found in root, but not in frontend/"
-              echo "Creating symlink or copying..."
+              echo "⚠️ React found in root, copying to frontend..."
               mkdir -p node_modules
               cp -r ../node_modules/react node_modules/ 2>/dev/null || true
               cp -r ../node_modules/react-dom node_modules/ 2>/dev/null || true
@@ -127,8 +133,14 @@ jobs:
               mkdir -p node_modules/@types
               cp -r ../node_modules/@types/react node_modules/@types/ 2>/dev/null || true
               cp -r ../node_modules/@types/react-dom node_modules/@types/ 2>/dev/null || true
+              cp -r ../node_modules/@types/node node_modules/@types/ 2>/dev/null || true
             fi
           fi
+          # Final verification
+          echo "Final verification:"
+          ls -la node_modules/react/package.json 2>/dev/null && echo "✅ React package.json" || echo "❌ React package.json missing"
+          ls -la node_modules/react-router-dom/package.json 2>/dev/null && echo "✅ react-router-dom package.json" || echo "❌ react-router-dom missing"
+          ls -la node_modules/@types/node/package.json 2>/dev/null && echo "✅ @types/node package.json" || echo "❌ @types/node missing"
 
       - name: Type check frontend
         working-directory: ./frontend
