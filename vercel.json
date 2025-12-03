@@ -3,14 +3,20 @@
   "buildCommand": "npm run build",
   "installCommand": "npm ci --ignore-scripts || npm install --ignore-scripts --legacy-peer-deps",
   "framework": null,
-  "rewrites": [
+  "builds": [
     {
-      "source": "/api/(.*)",
-      "destination": "/api/index"
+      "src": "api/**/*.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/index.js"
     },
     {
-      "source": "/((?!api).*)",
-      "destination": "/frontend/dist/$1"
+      "src": "/((?!api).*)",
+      "dest": "/frontend/dist/$1"
     }
   ]
 }
